@@ -1,0 +1,948 @@
+<!DOCTYPE HTML>
+<html xmlns:tei="http://www.tei-c.org/ns/1.0" lang="fr">
+   <head>
+      <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+      <title>Traductions comparées</title>
+      <style type="text/css">
+                    body {
+                        font-family: serif;
+                        margin: 30px;
+                    }
+                    
+                    /* ===================== */
+                    /* Style commun boutons */
+                    /* ===================== */
+                    button {
+                        padding: 6px 12px;
+                        font-size: 14px;
+                        cursor: pointer;
+                        border: 1px solid #888;
+                        border-radius: 4px;
+                        font-family: serif;
+                        transition: all 0.3s;
+                    }
+                    
+                    button:hover {
+                        filter: brightness(90%);
+                    }
+                    
+                    /* Boutons Sources / Orig-Trad neutres */
+                    button#sources-btn,
+                    button#orig-trad-btn {
+                        background-color: #f8f8f8;
+                        margin-right: 10px;
+                    }
+                    
+                    button#sources-btn:hover,
+                    button#orig-trad-btn:hover {
+                        background-color: #e0e0e0;
+                    }
+                    
+                    /* Boutons thématiques verticaux + Citation */
+                    button.theme-btn {
+                        margin-bottom: 8px;
+                        color: #000;
+                        border: 1px solid #888;
+                        border-radius: 4px;
+                        padding: 6px 10px;
+                        font-family: serif;
+                    }
+                    
+                    /* Tableau */
+                    table {
+                        width: calc(100% - 1cm);
+                        margin-right: 1cm;
+                        margin-left: 0;
+                        border-collapse: collapse;
+                        table-layout: fixed;
+                    }
+                    th,
+                    td {
+                        border: 1px solid #999;
+                        vertical-align: top;
+                    }
+                    td {
+                        padding: 8px 10px;
+                        text-align: justify;
+                        word-wrap: break-word;
+                        hyphens: auto;
+                    }
+                    th {
+                        background-color: #f0f0f0;
+                        text-align: center;
+                    }
+                    
+                    /* Sources */
+                    .source {
+                        background-color: transparent;
+                        transition: background-color 0.3s;
+                    }
+                    .highlight {
+                        background-color: #ffe066;
+                    }
+                    
+                    /* Orig / Trad */
+                    .orig {
+                        display: none;
+                    }
+                    body.show-orig .trad {
+                        display: none;
+                    }
+                    body.show-orig .orig {
+                        display: block;
+                    }
+                    
+                    /* Zone thématiques */
+                    #theme-buttons {
+                        display: flex;
+                        flex-direction: column;
+                        margin-right: 20px;
+                        min-width: 120px;
+                        /* décaler le titre et boutons plus bas */
+                        margin-top: 30px;
+                    }
+                    
+                    #theme-buttons > div:first-child {
+                        font-weight: bold;
+                        margin-bottom: 12px;
+                    }
+                    
+                    /* Toolbar horizontal boutons */
+                    .toolbar {
+                        display: flex;
+                        justify-content: space-between;
+                        align-items: center;
+                        margin-bottom: 15px;
+                    }
+                    
+                    .toolbar div > button {
+                        margin-right: 10px;
+                    }
+                    
+                    .citation-vers {
+                        display: block;
+                        margin: 8px 0 8px 10px;
+                    }</style><script type="text/javascript">
+                    
+                    function toggleSources() {
+                        var sources = document.getElementsByClassName("source");
+                        for (var i = 0; i < sources.length; i++) {
+                            sources[i].classList.toggle("highlight");
+                        }
+                    }
+                    
+                    function toggleOrigTrad() {
+                        document.body.classList.toggle("show-orig");
+                    }
+                    
+                    function toggleTheme(themeId, color) {
+                        var segs = document.querySelectorAll("seg.theme-" + themeId);
+                        for (var i = 0; i < segs.length; i++) {
+                            if (segs[i].getAttribute("data-highlight") === "on") {
+                                segs[i].style.backgroundColor = "";
+                                segs[i].setAttribute("data-highlight", "off");
+                            } else {
+                                segs[i].style.backgroundColor = color;
+                                segs[i].setAttribute("data-highlight", "on");
+                            }
+                        }
+                    }
+                    
+                    function toggleCitation(color) {
+                        var elems = document.querySelectorAll("q, .citation-vers");
+                        for (var i = 0; i < elems.length; i++) {
+                            if (elems[i].getAttribute("data-highlight") === "on") {
+                                elems[i].style.backgroundColor = "";
+                                elems[i].setAttribute("data-highlight", "off");
+                            } else {
+                                elems[i].style.backgroundColor = color;
+                                elems[i].setAttribute("data-highlight", "on");
+                            }
+                        }
+                    }//
+                </script></head>
+   <body>
+      <div style="display:flex; align-items:flex-start;">
+         <div id="theme-buttons">
+            <div>Rubriques</div><button class="theme-btn" style="background-color:#ff9999" onclick="toggleTheme('naissance','#ff9999')">Naissance</button><button class="theme-btn" style="background-color:#99ff99" onclick="toggleTheme('formation','#99ff99')">Formation</button><button class="theme-btn" style="background-color:#9999ff" onclick="toggleTheme('condition','#9999ff')">Condition</button><button class="theme-btn" style="background-color:#ffcc99" onclick="toggleTheme('vie','#ffcc99')">Mode de vie</button><button class="theme-btn" style="background-color:#cc99ff" onclick="toggleTheme('oeuvre','#cc99ff')">Œuvre</button><button class="theme-btn" style="background-color:#66cccc" onclick="toggleTheme('mort','#66cccc')">Mort</button><button class="theme-btn" style="background-color:#ff99cc" onclick="toggleTheme('réception','#ff99cc')">Réception</button></div>
+         <div style="flex:1">
+            <div class="toolbar">
+               <div><button id="sources-btn" onclick="toggleSources()">Sources</button><button class="theme-btn" onclick="toggleCitation('#ffd699')">Citation</button></div><button id="orig-trad-btn" onclick="toggleOrigTrad()">Original /
+                  Traduction</button></div>
+            <table>
+               <thead>
+                  <tr>
+                     <th>Polenton</th>
+                     <th>Crinitus</th>
+                     <th>Giraldi</th>
+                  </tr>
+               </thead>
+               <tbody>
+                  <tr>
+                     <td>
+                        <div class="ab orig">Hunc vero ducem secutus est Ennius Tarentinus.
+                           Annum iste, uti Gellio et Ciceroni placet, posteaquam Livius fabulas edidit, natus
+                           est, Q.
+                           Valerio et G. Manilio consulibus, Tarentino in agro. Oppidum incolae Rudias vocant
+                           ; tali
+                           enim cive nobiles esse Rudias Pomponius Mella scribit. Anno quidem altero pax
+                           Carthaginensibus bello primo victis data erat. Tarenti autem puer educatus Ennius
+                           primas
+                           litteras didicit. Romam vero annos iam septem supra XXX natus venit consilio et adhortatione
+                           Catonis, qui eo anno quaestor esset, M. Cornelio Cethego et P. Tuditano consulibus.
+                           Annus
+                           belli secundi Punici iam XV erat. Romae autem in praeceptis eloquentiae audivit quem
+                           nominavi, M. Cornelium Cethegum, qui Romanorum primus fuit, ut memorat Cicero, qui
+                           esset
+                           orator ac eloquens haberetur. Studuit quoque Athenis Ennius. Denique linguarum trium
+                           noticiam assecutus tria se corda habere saepenumero gloriatus est. Romae habitavit
+                           Ennius,
+                           sed in monte aliqui Caelio, quidam in Aventino dicunt. Civitate quidem ob virtutem
+                           poetandi
+                           donatus est. Frugi autem vixit et habere cum plures posset, una modo ancilla contentus
+                           fuit.
+                           Dedit litteris omne tempus vitae suae nec scripsit pauca. Tragoediam quidem Euripidis,
+                           poetae splendidissimi Graeci, in Latinum vertit. Latinis vero ipse litterīs comoedias,
+                           tragoedias, Satyras, Annales scripsit. Vexabatur podagris saepe, sed tum maxime poesi
+                           ac
+                           metris faciendis instabat cum oppressus podagra iacebat. Doloris quidem acerbitatem
+                           poetandi
+                           remedio mitigabat. Dictum enim ab eo memoratur saepe: 
+                           <div class="citation-vers" data-highlight="off">
+                              <lg xmlns="http://www.tei-c.org/ns/1.0">
+                                 Nunquam poetor nisi podager.<br xmlns="">
+                                 </lg>
+                           </div> Familiaritatem habuit M. Catonis superioris ; habuit M. Fulvii ; habuit
+                           Scipionum, Africani superioris et Asiatici. Ipsum vero M. Fulvius Aetholicum ad bellum
+                           duxit, non quidem arma tractandi causa, quod illi rei non assuetus esset, sed videndi
+                           oculis
+                           quae agerentur, ut Romae, posteaquam reversus esset, quae vidisset belli consilia,
+                           pugnas,
+                           eventus describeret. Id namque bellum in Aetholos (Graeciae populi sunt) Punico mox
+                           bello
+                           secundo finito coeptum est. Mentium enim adversarum populus Romanus memor bellum uno
+                           prope
+                           decreto Macedoniae, Aetholiae, Asiae (quod Punico bello secundo se Hannibal foedere
+                           colligassent) indixit. Aliis quidem alia bella, sed quod in Aetholos esset gerendum
+                           bellum
+                           M. Fulvio populus Romanus dedit. Victor autem Fulvius domum reversus quas habuit manubias
+                           summo pro honore Musis Ennii consecravit. Manubias tum appellabant Romae partem illam
+                           praedae quae hostibus devictis aut colendos ad deos aut exornandam ad urbem imperatoris
+                           arbitrio deberetur. Catonem vero, Sardiniae praetorem ac prope iam senem, Latinas
+                           litteras
+                           docuit. Litterarum denique studia summe coluit Ennius. Annum quidem agebat, ut tradit
+                           Varro,
+                           VII ac LX cum librum qui est Annalium duodecimus scriberet. Vixit annos LXX. Mortem
+                           autem
+                           obiit Romae articulari morbo Caepione et Philippo iterum consulibus. Sepultum ipsum
+                           Appia
+                           via intra primum ab urbe miliarium in monumentis Scipionum affirmant quidam. Nonnulli
+                           delata
+                           ossa eius ex Ianiculo Rudias atque cum paternis collocata dicunt. Epigramma suum hoc
+                           esse
+                           fertur: 
+                           <div class="citation-vers" data-highlight="off">
+                              <lg xmlns="http://www.tei-c.org/ns/1.0">
+                                 Nemo me lacrimis decoret neque fletu funera faciat.<br xmlns="">
+                                 </lg>
+                           </div> Id constat, statuam sibi inter imagines Cornellias magnis et marmoratis cum
+                           laudibus erectam esse. Doctum ipsum poetam ac longe supra quam esset excellentem et
+                           ipsa
+                           urbs Roma et omnis Italia reputavit. Sed plus ingenii quam artis ad poesim peritorum
+                           sententia habuit. Excitabantur quidem ingenia aetate illa (sic auguror tunc volentibus
+                           caelis) ad litteras et studia poetarum, sed artis erat parum, quod illo studiorum
+                           principio
+                           Roma, ut dixi, doctrinas nullas satis expurgatas haberet. Ennium quidem rudem fuisse
+                           Cicero
+                           tradit plane in ea ipsa oratione quam pro A. Licinio Archia poeta ad iudices habuit.
+                           Rudem
+                           quoque arte fuisse ipsum sed ingenio maximum scribit Naso. Adorandum eum uti sacros
+                           vetustate lucos, in quibus grandia et antiqua sunt robora, quae non tantam habent
+                           speciem
+                           quantam religionem, Quintiliani et sententia et verba sunt. Libros autem poetae huius
+                           cum
+                           lectitaret Maro et quid ageret rogaretur, respondit, 
+                           <div class="citation-vers" data-highlight="off">
+                              <lg xmlns="http://www.tei-c.org/ns/1.0">
+                                 Aurum e stercore colligo,<br xmlns="">
+                                 </lg>
+                           </div> significans quod sententias poeta Ennius graves ac optimas, ornatum vero nullum
+                           haberet. Nigidius vero Figulus, vir memoria sua doctissimus atque M. Varroni multorum
+                           iudicio adaequandus, in eo libro quem de poetis scripsit, Ennium poetam hunc comicos
+                           inter
+                           poetas ultimum nec quidem dignitatis causa sed antiquitatis annumerat. Illo nanque
+                           in libro
+                           poetas comicos recenset iure suo Nigidius. Locum autem pro dignitate dat primum Caecilio
+                           Statio ; Plautum nominat secundum ; ordine tertium numerat Nevium ; Licinius est quartus
+                           ;
+                           locus Attilio datur quintus ; Terentio sextus ; Turpilius habet septimum ; Trabea
+                           octavus
+                           venit ; nonus est Lucretius ; Ennium vero, qui vetustate omnes excelleret, ultimum
+                           dignitate
+                           constituit.</div>
+                        <div class="ab trad">
+                           <seg class="theme-naissance" ana="#naissance" data-highlight="off">
+                              <persName xmlns="http://www.tei-c.org/ns/1.0">Ennius de
+                                 Tarente</persName> suivit ce guide. Il naquit, comme le rapportent <span class="source">Aulu-Gelle</span> et <span class="source">Cicéron</span>, un an
+                              après la mise en scène des pièces de Livius, sous les consuls Quintus Valerius et
+                              Gaius
+                              Manilius, dans le territoire de Tarente. Ses habitants appellent cette ville Rudies
+                              ; en
+                              effet, <span class="source">Pomponius Méla</span> écrit que Rudies est célèbre d'un
+                              tel citoyen. C’est en effet l’année suivante que la paix fut accordée, après la défaite
+                              des Carthaginois lors de la première guerre punique.</seg>
+                           <seg class="theme-formation" ana="#formation" data-highlight="off">Enfant
+                              éduqué à Tarente, 
+                              <persName xmlns="http://www.tei-c.org/ns/1.0">Ennius</persName> en apprit d'abord la langue. Il vint à Rome
+                              à plus de trente-sept ans, sur le conseil et à l’incitation de Caton, questeur cette
+                              année-là, sous le consulat de Marcus Cornelius Cethegus et Publius Tuditanus. C'était
+                              alors la quinzième année de la deuxième guerre punique. À Rome, pour apprendre
+                              l’éloquence, il suivit les leçons de Marcus Cornelius Cethegus, que j'ai mentionné,
+                              qui
+                              fut le premier des Romains, comme le rappelle <span class="source">Cicéron</span>,
+                              à être tenu pour un orateur et pour éloquent. 
+                              <persName xmlns="http://www.tei-c.org/ns/1.0">Ennius</persName> étudia également
+                              à Athènes. Enfin, ayant acquis la connaissance de trois langues, il se vanta souvent
+                              de
+                              posséder trois cœurs. Il vécut à Rome, certains disent sur le mont Caelius, d’autres
+                              sur
+                              l’Aventin.</seg>
+                           
+                           <seg class="theme-condition" ana="#condition" data-highlight="off">Il reçut la citoyenneté pour ses vertus poétiques.</seg>
+                           
+                           <seg class="theme-vie" ana="#vie" data-highlight="off">Il mena une vie frugale et, bien qu’il pût avoir plusieurs serviteurs, il se
+                              contenta d’une seule esclave. Il consacra tout son temps à la littérature et produisit
+                              nombre d’œuvres.</seg>
+                           
+                           <seg class="theme-oeuvre" ana="#oeuvre" data-highlight="off">Il traduisit en latin les tragédies d’Euripide, poète grec très brillant.
+                              En latin, il composa lui-même des comédies, des tragédies, des satires et les Annales.
+                              Il
+                              souffrait souvent de la goutte, mais se consacrait avant tout à la poésie et à la
+                              métrique, même allongé par la maladie. Il soulageait le malheur de sa douleur grâce
+                              au
+                              remède de la poésie. On rappelle souvent ce mot de lui : 
+                              <div class="citation-vers" data-highlight="off">
+                                 <lg xmlns="http://www.tei-c.org/ns/1.0">
+                                    Je ne suis jamais poète, si je ne suis pas podagre.<br xmlns="">
+                                    </lg>
+                              </div> Il fréquenta Marcus Caton l’Ancien, Marcus Fulvius et les Scipions, le Premier
+                              Africain et l'Asiatique. Marcus Fulvius le conduisit à la guerre d'Étolie, non pour
+                              manier
+                              les armes, car il n’y était pas habitué, mais pour voir de ses yeux ce qui s'y passait
+                              afin de pouvoir, une fois revenu, raconter à Rome les plans de guerre, les batailles
+                              et
+                              les évènements. Cette guerre contre les Étoliens (il s'agit d'un peuple grec) commença
+                              juste après la fin de la deuxième guerre punique. Le peuple romain, se souvenant de
+                              leurs
+                              pensées hostiles, déclara la guerre à peu près en même temps à la Macédoine, l’Étolie
+                              et
+                              l’Asie (car ils s’étaient alliés à Hannibal lors de la deuxième guerre punique). D’autres
+                              guerres eurent lieu ailleurs, mais le peuple romain confia à Marcus Figulus le
+                              commandement de la guerre contre les Étoliens. Quant à Fulvius, revenu victorieux
+                              chez
+                              lui, il consacra aux Muses d’
+                              <persName xmlns="http://www.tei-c.org/ns/1.0">Ennius</persName>, en signe du plus grand honneur,
+                              le butin qu’il avait rapporté. À Rome, on appelait manubiae la partie du butin qui,
+                              après
+                              la victoire sur l’ennemi, devait ou être consacrée aux dieux ou servir à embellir
+                              la ville
+                              à la discrétion du général. Il enseigna à Caton, préteur de Sardaigne et presque déjà
+                              vieillard, la littérature latine. 
+                              <persName xmlns="http://www.tei-c.org/ns/1.0">Ennius</persName> eut donc le plus grand
+                              dévouement pour l’étude des lettres. Selon Varron, il avait soixante-sept ans lorsqu’il
+                              écrivit le douzième livre des Annales.</seg>
+                           
+                           <seg class="theme-mort" ana="#mort" data-highlight="off">Il vécut soixante-dix ans. Il mourut à Rome d'une maladie articulaire, sous
+                              le second consulat de Caepio et Philippus. Certains affirment qu’il fut enterré sur
+                              la
+                              voie Appienne, à l’intérieur du premier mille à partir de la ville, dans le tombeau
+                              des
+                              Scipions. D’autres disent que ses os furent transportés du Janicule jusqu'à Rudiae
+                              et
+                              déposés avec ceux de son père. On rapporte de lui cet épigramme : 
+                              <div class="citation-vers" data-highlight="off">
+                                 <lg xmlns="http://www.tei-c.org/ns/1.0">
+                                    Que personne ne me couvre de larmes et ne fasse de funérailles en pleurs.<br xmlns="">
+                                    </lg>
+                              </div> Il est établi qu’une statue fut élevée en son honneur parmi les images de la
+                              famille Cornelia, avec des louanges immenses et gravées dans le marbre.</seg>
+                           
+                           <seg class="theme-réception" ana="#réception" data-highlight="off">La ville de Rome elle-même et toute l’Italie le considérèrent comme un
+                              poète savant et de loin supérieur à son temps. Mais, selon l’opinion des érudits il
+                              avait
+                              plus de disposition naturelle pour la poésie que d'art. Les dispositions naturelles
+                              étaient certes enclines à cette époque (ainsi que je le suppose, les cieux s’y prêtant
+                              alors) aux lettres et aux études poétiques, mais l’art y était encore peu développé,
+                              parce
+                              qu'au commencement des études, Rome, comme je l’ai dit, ne possédait aucune discipline
+                              suffisamment élaborée. <span class="source">Cicéron</span> rapporte clairement,
+                              dans le discours qu’il prononça devant les juges pour le poète Aulus Licinius Archias,
+                              qu’
+                              <persName xmlns="http://www.tei-c.org/ns/1.0">Ennius</persName> était encore rude. <span class="source">Ovide</span> écrit également qu’il était rude en matière d'art mais immense pour le
+                              talent. Qu’il faut le vénérer comme on vénère les bois sacrés pour leur ancienneté,
+                              où se
+                              dressent de grands chênes antiques, qui n’ont pas tant de beauté que de majesté sacrée
+                              :
+                              ce sont là les mots mêmes et le jugement de <span class="source">Quintilien</span>.
+                              Comme <span class="source">Virgile</span> feuilletait les livres de ce poète et
+                              qu'on lui demandait ce qu’il faisait, il répondit : 
+                              <div class="citation-vers" data-highlight="off">
+                                 <lg xmlns="http://www.tei-c.org/ns/1.0">
+                                    Je ramasse l’or dans le fumier,<br xmlns="">
+                                    </lg>
+                              </div> signifiant qu'
+                              <persName xmlns="http://www.tei-c.org/ns/1.0">Ennius</persName> présentait des pensées solides et
+                              excellentes, mais aucun ornement. <span class="source">Nigidius
+                                 Figulus</span>, homme d’une grande érudition en son temps et que l’on peut comparer,
+                              selon l’avis de beaucoup, à Marcus Varron, dans son livre sur les poètes, compta le
+                              poète
+                              
+                              <persName xmlns="http://www.tei-c.org/ns/1.0">Ennius</persName>, parmi les poètes comiques, non pour son mérite mais pour
+                              son ancienneté. En effet, dans son livre, <span class="source">Nigidius</span> classe les poètes comiques selon son propre jugement. Il accorde la
+                              première place pour le mérite à Caecilius Statius ; Plaute est nommé second ; ensuite,
+                              en
+                              troisième position, il compte Naevius ; Licinius est quatrième ; la cinquième place
+                              est
+                              donnée à Attilius ; Térence est sixième ; Turpilius obtient la septième place ; Trabea
+                              vient en huitième ; Lucrèce est neuvième ; 
+                              <persName xmlns="http://www.tei-c.org/ns/1.0">Ennius</persName>, qui surpassait
+                              tous par son ancienneté, est placé en dernier pour le mérite.</seg>
+                        </div>
+                     </td>
+                     <td>
+                        <div class="ab orig">Q. Ennius Poeta epicus Tarenti natus traditur,
+                           ut est auctor Eusebius, ut plerique volunt Rhudiis oppido Salentinorum, quod a Mella
+                           Pomponio et aliis veteribus affirmatur. Translatus in urbem dicitur a Catone quaestore
+                           devicta Sardiniae provincia. Qua tempestate missi sunt ab Atheniensibus legati ad
+                           Senatum
+                           populique Romani Diogenes Stoicus, Carneades Academicus, et Critolaus peripatheticus,
+                           florente in scena M. Plauto, et in civitate M. Catone oratore clarissimo. Deinceps
+                           insecuti
+                           sunt Statius Cecilius, Pacuvius, Accius et Pub. Terentius. Dicitur fuisse Ennius ingenio
+                           acri et eruditione multiplici, ut qui domi forisque docuerit. Et cum graecam linguam
+                           oscamque et latinam calleret, solitus est dicere sibi esse tria corda de quo multa
+                           scribuntur a Gellio in Atticis comentariis. Si quis est qui cognosse velit qualis
+                           et quantus
+                           vir Q. Ennius fuerit, qua fide, modestia, comitate, ingenio, doctrina, cultu, probitate
+                           vixerit, legat illos versus ex annali septimo quos Aelius preconinus non minus ad
+                           ipsum
+                           auctorem Ennium existimavit referendos quam ad Servilium Geminum. Neque defuerunt
+                           qui
+                           putarent Q. Ennium de se ipso et ingenio suo talia scripsisse. Nos eo libentius carmen
+                           ascribemus, quoniam Gellius pari diligentia ediscendum asserebat. Atque praecepta
+                           quaedam et
+                           optima decreta philosophorum de ratione et officiis recte vivendi. 
+                           <div class="citation-vers" data-highlight="off">
+                              <lg xmlns="http://www.tei-c.org/ns/1.0">
+                                 Hocce locutus vocat qui cum bene saepe libenter<br xmlns="">
+                                  Mensam sermonesque suos rerumque suarum<br xmlns="">
+                                  Comiter impartit, magna cum lapsa diei<br xmlns="">
+                                  Pars foret e summis rebus parvisque regundis<br xmlns="">
+                                  Parte fuisset de parvis summisque gerundis<br xmlns="">
+                                  Consilio induforo lato sanctoque senatu ;<br xmlns="">
+                                  Cui res audacter magnas parvasque iocumque<br xmlns="">
+                                  Eloqueret quae tincta malis et quae bona dictu<br xmlns="">
+                                  Evomeret si quid vellet tutoque locaret ;<br xmlns="">
+                                  Quo cum multa volup ac gaudia clamque palamque ;<br xmlns="">
+                                  Ingenium cui nulla malum sententia suadet<br xmlns="">
+                                  Vt faceret facinus levis haud malus idem,<br xmlns="">
+                                  Doctus, fidelis, suavis homo, facundus, suoque<br xmlns="">
+                                  Intentus atque beatus, scitus, secunda loquens in<br xmlns="">
+                                  Tempore, commodus, et verborum vir paucorum,<br xmlns="">
+                                  Multa tenens, antiqua sepulta et saepe vetustas<br xmlns="">
+                                  Quae facit. Et mores veteresque novosque tenentem,<br xmlns="">
+                                  Multorum veterum leges divumque hominumque<br xmlns="">
+                                  Prudentem qui multa loquive tacereve possit.<br xmlns="">
+                                  Hunc inter pugnas compellat Servilius sic.<br xmlns="">
+                                 </lg>
+                           </div> In Auentino colle dicitur domum habuisse prope aedem Tutulinae deae adeoque
+                           tenui victu et parcis sumptibus vixisse ut contentus fuerit unius ancillae ministerio.
+                           Inter
+                           amicos habuit M. Catonem, C. Cethegum et M. Nobiliorem qui secutus traditur cum consul
+                           in
+                           Etholiam proficisceretur. Scipioni Africano ita coniunctus atque carissimus fuit ut
+                           inter
+                           praecipua fidei ac beniuolentiae exempla relatum hoc sit a veteribus. Composuit per
+                           multa
+                           opera vario et multiplici carmine. Nam praeter celeberrimos libros Annalium, Satyras
+                           etiam
+                           comediasque et tragedias scripsit. Annales eius Q. Vargunteius inter antiquos grammaticos
+                           nobilis magna celebritate certis diebus exposuit. Octavius quoque Lampadio eosdem
+                           libros
+                           diligentissime emendavit, ut in veterum comentariis adnotatum est. Duodecimum annale
+                           addidit
+                           cum septimum et sexagesimum annum ageret ut est auctor M. Varro. Satyrarum libros
+                           scripsit
+                           quadratis versibus qui in magno precio habiti sunt. Citatur praeterea Ennius in his
+                           fabulis,
+                           hoc est, in Telepho in Ambracia Eumenidibus Alcmeone Andromacha Thieste Medea, quam
+                           ex
+                           Euripide in Latinum conuertit, item in Phenice in Telamone Hecuba Hectoris lustris
+                           Achille
+                           Aristarchi et Pachratiastis in Epicharmo in Cresphonte. Idem in Latinum sermonem transtulit
+                           Poetam Euhemerum qui de Diis Graeca oratione libros composuit ut Cicero et alii ueteres
+                           testantur. T. Lucretius eundem Ennium refert primum fuisse apud Latinos qui coronam
+                           sibi ex
+                           Helicone asumpsit quo loco Pythagorae sententiam repetit de animae Metamorphosi. Ennius
+                           ut
+                           noster cecinit qui 
+                           <div class="citation-vers" data-highlight="off">
+                              <lg xmlns="http://www.tei-c.org/ns/1.0">
+                                 primus amoeno<br xmlns="">
+                                 Detulit ex Helicone per Enni fronde coronam.<br xmlns="">
+                                  Per gentes Italas hominum quae clara clueret.<br xmlns="">
+                                 </lg>
+                           </div> Silius Italicus centurionem fuisse Ennium tradit in bello contra Poenos ac
+                           praesenti animo rem gessisse, ut in his versibus declaratur. 
+                           <div class="citation-vers" data-highlight="off">
+                              <lg xmlns="http://www.tei-c.org/ns/1.0">
+                                 Nota parum magni longo tradantur in aevo<br xmlns="">
+                                  Facta viri, et meritum vati sacremus honorem.<br xmlns="">
+                                  Ennius, antiqua Massapi ab origine Regis,<br xmlns="">
+                                  Miscebat primas acies, Latiaeque superbum<br xmlns="">
+                                  Vitis adornabat dextram decus ; hispida tellus<br xmlns="">
+                                  Miserunt Calabri ; Rhudiae genuere vetustae ;<br xmlns="">
+                                  Nunc Rhudiae solo memorabile nomen alumno,<br xmlns="">
+                                  Is prima in pugna (vates ut Thracius olim<br xmlns="">
+                                  Infestam bello quateret cum Cynthius Argo,<br xmlns="">
+                                  Spicula deposito Rhodopeia pectore torsit)<br xmlns="">
+                                  Spectandum sese non parua strage virorum,<br xmlns="">
+                                  Fecerat, et dextrae gliscebat caedibus ardor.<br xmlns="">
+                                 </lg>
+                           </div> Quintilianus Poetam Ennium summopere commendat parique veneratione colendum
+                           atque adorandum statuit quam sacros vetustate lucos, in quibus grandia et antiqua
+                           robora non
+                           tantam habent speciem quantam religionem. Vixit ad extremam senectutem. Cumque morbo
+                           articulari teneretur, eo ingravescente, septuagenario maior infata concessit. Sepultusque
+                           traditur una in monumento, Cn. Scipionis via Appia intra primum ab urbe milliarium.
+                           Neque
+                           desunt:qui dicant ipsius Ennii ossa ex Ianiculo fuisse in patriam translata. Fuit
+                           alter
+                           Ennius paulo posterior in officio artis grammaticae nobilis, qui de metris scripsit,
+                           deque
+                           augurandi disciplina libros reliquit ; sed hoc dicemus commodius. Nunc illud carmen
+                           vulgatum
+                           adiciemus de poeta Ennio, quod equidem subdubitassem ab eo fuisse compositum, nisi
+                           M. Cicero
+                           pluribus locis ab ipso Ennio editum affirmaret. 
+                           <div class="citation-vers" data-highlight="off">
+                              <lg xmlns="http://www.tei-c.org/ns/1.0">
+                                 Aspicite o cives senis Ennii imaginis urnam.<br xmlns="">
+                                  Hic vestrum pinxit maxima facta patrum.<br xmlns="">
+                                  Nemo me lacrimis docoret nec funera fletu<br xmlns="">
+                                  Faxit ? Cur ? Volito vivus per ora virum.<br xmlns="">
+                                 </lg>
+                           </div>
+                           </div>
+                        <div class="ab trad">Quintus Ennius, poète épique, est tenu pour
+                           être né à Tarente : telle est l’autorité d’Eusèbe. Toutefois, comme beaucoup le pensent,
+                           il
+                           serait né à Rudies, ville des Salentins, ainsi que l’affirment Pomponius Méla et d’autres
+                           auteurs anciens. On dit qu’il fut amené à Rome par Caton, alors questeur, après la
+                           soumission de la province de Sardaigne. À cette époque furent envoyés par les Athéniens
+                           comme ambassadeurs auprès du Sénat du peuple romain le Stoïcien Diogène, l’Académicien
+                           Carnéade et le Péripatéticien Critolaos, tandis que Marcus Plaute était florissant
+                           sur la
+                           scène et que Marcus Caton brillait dans la cité comme orateur très illustre. Par la
+                           suite
+                           vinrent Statius Caecilius, Pacuvius, Accius et Publius Térence. On dit qu’Ennius fut
+                           doué
+                           d’un esprit vif et d’une érudition variée, de sorte qu’il enseigna aussi bien en privé
+                           qu’en
+                           public. Et comme il maîtrisait la langue grecque, l’osque et le latin, il avait coutume
+                           de
+                           dire qu’il possédait trois cœurs ; à ce sujet, Aulu-Gelle écrit abondamment dans ses
+                           Nuits
+                           attiques. Si quelqu’un souhaite connaître quel homme fut Quintus Ennius, quelle fut
+                           sa
+                           valeur, avec quelle loyauté, quelle modestie, quelle affabilité, quel génie, quelle
+                           science,
+                           quelle culture et quelle probité il vécut, qu’il lise ces vers du septième livre des
+                           Annales, dont Aelius Praeconinus jugeait qu’ils devaient se rapporter autant à l’auteur
+                           Ennius lui-même qu’à Servilius Geminus. Il ne manqua d’ailleurs pas de gens pour penser
+                           que
+                           Quintus Ennius avait écrit ces vers sur lui-même et sur son propre génie. Pour notre
+                           part,
+                           nous attribuerons d’autant plus volontiers ce poème à Ennius que Aulu-Gelle affirmait
+                           qu’il
+                           devait être appris avec le plus grand soin. Il contient certaines règles et d’excellents
+                           principes des philosophes sur la raison et les devoirs d’une vie droite : 
+                           <div class="citation-vers" data-highlight="off">
+                              <lg xmlns="http://www.tei-c.org/ns/1.0">
+                                 Ayant dit ces mots, il appelle l’homme avec lequel, souvent et volontiers,<br xmlns="">
+                                  il partage avec bienveillance sa table, ses propos et ses biens,<br xmlns="">
+                                  et alors qu’il passe une bonne partie du jour<br xmlns="">
+                                  à gouverner les grandes et les petites affaires,<br xmlns="">
+                                  tantôt occupé des petites, tantôt des plus grandes,<br xmlns="">
+                                  au conseil, sur le forum, au vaste et vénérable sénat ;<br xmlns="">
+                                  à qui il peut exprimer avec assurance les grandes comme les petites choses<br xmlns="">
+                                 , à qui il peut dire en plaisantant ce qui est entaché de maux,<br xmlns="">
+                                  avouer ce qui est bon à dire, s’il veut quelque chose et le placer en sécurité ;<br xmlns="">
+                                  celui auprès de qui abondent plaisirs et joies, en secret comme en public ;<br xmlns="">
+                                  dont l’esprit n’est jamais persuadé par une pensée mauvaise<br xmlns="">
+                                  à commettre un crime, homme simple, nullement mauvais,<br xmlns="">
+                                  instruit, loyal, aimable, éloquent, attentif à lui-même<br xmlns="">
+                                  et heureux, avisé, prononçant de favorables paroles<br xmlns="">
+                                  à propos, accommodant, homme de peu de mots<br xmlns="">
+                                  mais riche d’un grand savoir, conservant une grande partie du savoir ancien que le
+                                 temps<br xmlns="">
+                                  a enfoui. Et cet homme, qui conserve les mœurs anciennes comme les nouvelles,<br xmlns="">
+                                  les lois de nombreux anciens, des dieux et des hommes,<br xmlns="">
+                                  prudent, capable de beaucoup dire ou bien de se taire,<br xmlns="">
+                                  au milieu des combats, Servilius l’appelle ainsi.<br xmlns="">
+                                 </lg>
+                           </div> On dit qu’il possédait une maison sur la colline de l’Aventin, près du temple de
+                           la déesse Tutulina, et qu’il vécut avec une nourriture très frugale et des dépenses
+                           modestes, au point de se contenter du service d’une seule servante. Parmi ses amis,
+                           il
+                           compta Marcus Caton, Caius Cethegus et Marcus Nobilior, qu’il aurait accompagné, dit-on,
+                           lorsqu’il partit comme consul en Étolie. Il fut si étroitement lié à Scipion l’Africain
+                           et
+                           lui fut si cher que les Anciens ont rapporté ce fait parmi les exemples les plus
+                           remarquables de fidélité et de bienveillance. Il composa de nombreuses œuvres en des
+                           genres
+                           variés et multiples. En effet, outre les très célèbres livres des Annales, il écrivit
+                           aussi
+                           des Satires, des Comédies et des Tragédies. Quintus Varguntéius, grammairien renommé
+                           parmi
+                           les anciens, récita ses Annales à dates fixes devant un public nombreux. Octavius
+                           Lampadio
+                           corrigea également ces mêmes livres avec le plus grand soin, comme cela est noté dans
+                           les
+                           commentaires des anciens. Il ajouta le douzième livre des Annales alors qu’il était
+                           dans sa
+                           soixante-septième année, comme l’atteste Marcus Varron. Il écrivit des livres de Satires
+                           en
+                           septénaires, qui furent tenus en très haute estime. Ennius est en outre cité concernant
+                           les
+                           pièces suivantes : Télèphe, L’Ambracienne, Les Euménides, Alcméon, Andromaque, Thyeste,
+                           Médée, qu’il traduisit d’Euripide en latin, de même Phénix, Télamon, Hécube, La Rançon
+                           d’Hector, Achille d’Aristarque, Les Pancratiastes, L’Épicharme et Cresiphonte. Il
+                           traduisit
+                           également en langue latine le poète Évhémère, qui avait composé en grec des livres
+                           sur les
+                           dieux, comme en témoignent Cicéron et d’autres auteurs anciens. Titus Lucrèce rapporte
+                           qu’Ennius fut le premier, chez les Latins, à s’être ceint d’une couronne venue de
+                           l’Hélicon,
+                           reprenant en cela la doctrine pythagoricienne de la métamorphose de l’âme. Ainsi c'est
+                           Ennius, comme notre poète l’a chanté, qui, 
+                           <div class="citation-vers" data-highlight="off">
+                              <lg xmlns="http://www.tei-c.org/ns/1.0">
+                                 le premier, de l’aimable Hélicon,<br xmlns="">
+                                  apporta une couronne faite du feuillage d’Ennius<br xmlns="">
+                                  afin qu’elle fût célèbre parmi les peuples de l’Italie.<br xmlns="">
+                                 </lg>
+                           </div> Silius Italicus rapporte qu’Ennius fut centurion pendant la guerre contre les
+                           Puniques et qu’il s’y comporta avec un courage présent et résolu, comme cela est montré
+                           dans
+                           ces vers : 
+                           <div class="citation-vers" data-highlight="off">
+                              <lg xmlns="http://www.tei-c.org/ns/1.0">
+                                 Que soient tansmis à la postérité les nobles exploits, trop peu connus,<br xmlns="">
+                                  d'un grand homme, et puissions-nous consacrer le poète de l’honneur qu'il
+                                 mérite.<br xmlns="">
+                                  Ennius, descendant de l'ancienne lignée du roi Messapus,<br xmlns="">
+                                  se trouvait au premier rang des combattants et ornait de la vigne<br xmlns="">
+                                  sa main droite, fier insigne latin ; la rude terre<br xmlns="">
+                                  de Calabre l’envoya ; l’antique Rudies l’engendra,<br xmlns="">
+                                  elle qui doit aujourd'hui toute sa renommée à cet enfant.<br xmlns="">
+                                  Lui, poète au premier rang dans la bataille : comme jadis le Thrace,<br xmlns="">
+                                  avait autrefois abandonné sa lyre pour lancer les projectiles des Rhodopes,<br xmlns="">
+                                  lorsque Cynthius avait attaqué l'Argo ennemie,<br xmlns="">
+                                  Il s’offrait lui-même en spectacle en tuant de nombreux ennemis,<br xmlns="">
+                                  et son ardeur au combat croissait au fil des tueries.<br xmlns="">
+                                 </lg>
+                           </div> Quintilien recommande vivement le poète Ennius et estime qu’il doit être honoré
+                           et vénéré au même titre que les bois sacrés par leur antiquité, dans lesquels les
+                           grands
+                           chênes antiques n’inspirent pas tant par leur beauté que par leur majesté sacrée.
+                           Il vécut
+                           jusqu’à une extrême vieillesse. Et, atteint d’une maladie articulaire, alors qu’elle
+                           s’aggravait, il s’éteignit à plus de soixante-dix ans. On rapporte qu’il fut enseveli
+                           dans
+                           le même monument que Cnaeus Scipion, sur la voie Appienne, à moins d’un mille de la
+                           ville.
+                           Il ne manque pas non plus de gens pour affirmer que les ossements d’Ennius furent
+                           transportés du Janicule dans sa patrie. Il y eut un autre Ennius, un peu plus tardif,
+                           célèbre dans l’exercice de l’art grammatical, qui écrivit sur les mètres et laissa
+                           des
+                           livres sur la discipline augurale ; mais nous en parlerons plus commodément ailleurs.
+                           Pour
+                           l’instant, ajoutons ce poème largement diffusé sur le poète Ennius, dont j’aurais
+                           personnellement douté qu’il l’eût composé lui-même, si Marcus Cicéron n’avait affirmé
+                           en
+                           plusieurs endroits qu’il avait été publié par Ennius en personne : 
+                           <div class="citation-vers" data-highlight="off">
+                              <lg xmlns="http://www.tei-c.org/ns/1.0">
+                                 Regardez, citoyens, l’urne de l’image du vieil Ennius.<br xmlns="">
+                                 Il a peint les plus grands exploits de vos pères.<br xmlns="">
+                                  Que personne ne me couvre de larmes et ne fasse de funérailles en pleurs.<br xmlns="">
+                                  Pourquoi ? Je vole vivant sur les lèvres savantes des hommes.<br xmlns="">
+                                 </lg>
+                           </div>
+                           </div>
+                     </td>
+                     <td>
+                        <div class="ab orig">Primi vero poetae Latini, Suetonio et Eusebio
+                           referentibus, fuere Livius Andronicus, cuius inter scenicos poetas imago refertur,
+                           et Q.
+                           Ennius, qui, ut Lucretius cecinit: — Primus amoeno Detulit ex Helicone perenni fronde
+                           coronam. Quam ferme quoque sententiam et Syllius Italicus suo carmine retulit. Trigesima
+                           vero sexta supra centesimam Olympiadem, hoc est, Prioris Scipionis tempore floruit,
+                           sub quo
+                           etiam stipendia meruisse traditur, ita Claudiano poeta scribente: Haerebat doctus
+                           lateri,
+                           castrisque solebat Omnibus in medias Ennius ire tubas. Fuit vero Romam deductus ex
+                           Sardinia
+                           insula, a M. Catone, quaestore ex Africa decedente, ut scribit Probus Aemilius in
+                           Catonis
+                           vita, quae falso a quibusdam Cornelio Nepoti ascribitur. Meruisse et cum Q. Fulvio
+                           Nobiliore, cum is a senatu contra Aetolos imperator missus est, testis est ante alios
+                           M.
+                           Cicero, a M. vero Fulvii filio civitate donatus, ea tempestate, qua III Vir coloniam
+                           deduxit. Ennii quidem patria Rudiae, quod Calabriae oppidum est, ut Mela Pomponius,
+                           et
+                           Plinius scribunt, et poeta Syllius canit. Rhodias vero et Graecam urbem nuncupat Strabo.
+                           Hinc, puto, ab Ausonio Rudinus dicitur, et Rudius a M. Tullio, pro Archia, si fidis
+                           codicibus stamus ; Eutropius tamen historicus, et Hieronymus in Chronico ex Eusebio,
+                           Tarantinum illum his verbis faciunt. Q. Ennius, aiunt, poeta Tarenti nascitur, qui
+                           a Catone
+                           quaestore Romam translatus, habitavit in monte Aventino, parco admodum sumptu contentus,
+                           et
+                           unius ancillae ministerio. Sed enim de hac Ennii ancilla, ut puto, et Cicero in secundo
+                           de
+                           Oratore, cum de ridiculis agit, mentionem fecit. Cum enim, inquit, Scipio Nasica ad
+                           poeta
+                           Ennium venisset, eique ab ostio quaerenti Ennium, ancilla dixisset domi non esse.
+                           Nasica
+                           sensit illam domini iussu dixisse, et illum intus esse. Paucis post diebus, cum ad
+                           Nasicam
+                           venisset Ennius, et eum a ianua quaereret, exclamat Nasica, se domi non esse. Tum
+                           Ennius :
+                           Quid, ego non cognosco vocem, inquit, tuam ? Hic Nasica : Homo es impudens : ego cum
+                           te
+                           quaererem, ancillae tuae credidi te domi non esse, tu mihi non credis ipsi ? Natus
+                           vero est
+                           Ennius, ut ipsemet cecinit, ex stirpe Neptuni, a Messapo, qui ut ait Vergilius, fuit
+                           Equum
+                           domitor, Neptunia proles. Quod et adnotavit Servius. Idem Syllius suo hoc carmine
+                           : Ennius
+                           antiqua Messapi ab origine regis. Quod vero per palingenesiam, quam vocant Pythagorici,
+                           Homeri animam sortitus sit, fabulosius videtur quam ut historica fide comprobetur
+                           ; id enim
+                           somnio contigisse et Lucretius poeta et M. Cicero tradidere, eodem etiam etiam ipso
+                           Ennio
+                           canente : Mihi visus Homerus adesse Poeta. Fuit vero vini appetentior, Nec unquam
+                           nisi potus
+                           ad arma Prosiluit dicenda, ut ait Horatius. Ingenio acri fuit atque ad scribendum
+                           promptissimo, vehemens in sententiis, in verbis rudis, ut qui non discederet a communi
+                           more
+                           verborum. Addit et Cicero, eum fide plenum, haud tamen magna cum re. Hinc est, ait
+                           Piso,
+                           illud fortasse, quod P. Virgilium solitum dicere accepimus, aurum se ex Ennii stercore
+                           colligere. Recte tu quidem, inquam. Trium quoque linguarum cognitionem habuit Ennius,
+                           unde
+                           poetice se tria corda habere dicebat, quod Graece, quod Latine, quod Osce loqueretur,
+                           ut
+                           Gellius et Festus tradunt. Multa vero librorum volumina scripsit, inter quae Annales,
+                           quos,
+                           ut refert Suetonius, Q. Vargunteius divisit in volumina, certisque diebus in magna
+                           hominum
+                           frequentia pronuntiabat. In hos M. Pompilius Andronicus librum composuit, quem Elenchorum
+                           nomine nuncupavit. Edidit et Ennius bella populi Romani, quorum librum duodecimum
+                           scripsit
+                           annos natus sextum et quadragesimum, ut Varro et Gellius scribunt. Sed et Ennium Phagetica
+                           composuisse, testis est L. Apuleius : quo libro, quaeque esui et gulae magis celebrata
+                           essent, quoque loco, carmine complexus erat, id quod et apud Graecos Archestratus
+                           aliique
+                           complures, ut hesterno sermone diximus. Et plures insuper comoedias et tragoedias
+                           composuit.
+                           Quibus ei propter vetustatem, decimum inter comicos locum dedit Volcacius. Mortem
+                           vero
+                           obiit, Q. Martio et Cn. Servilio consulibus, cum Sulpicius Gallus praetor Apollini
+                           ludos
+                           faceret, ipseque Ennius Thyesten fabulam docuisset ; annos natus, ut scribit Hieronymus,
+                           LXX. Periit vero articulari morbo, quem, ut Q. Serenus ait, nimio potu contraxerat.
+                           Quo
+                           quidem tempore Crates Mallotes ab Attalo rege Romam missus, e regione palatii, in
+                           cloacae
+                           foramen crus fregerat. Sepultus est in Scipionis monumento, via Appia, intra primum
+                           ab Vrbe
+                           lapidem. Livius libro XLVIII et Plinius lib. VII Africanum Q. Ennii statuam suo sepulchro
+                           imponi iussisse tradunt. Idem M. Tullius in ea, quae est pro Archia, oratione. Hinc
+                           carmen
+                           illud Ovidii, Ennius emeruit, Calabris in montibus ortus, Contiguus poni Scipio magne
+                           tibi.
+                           Quidam eius ossa Rudias ex Ianiculo translatas affirmant. Ennii hoc epitaphum celebrat
+                           M.
+                           Cicero, Aspicite o cives senis Enni imaginis urnam, Hic vestrum pinxit maxima facta
+                           patrum.
+                           Nemo me lachrumis decoret, nec funera fletu Faxit. Quor ? Volito docta per ora virum.
+                           De
+                           Ennio vero hoc profert iudicium Fabius Quintilianus : Ennium, inquit, sicut sacros
+                           vetustate
+                           lucos adoremus, in quibus grandia et antiqua robora, iam non tantam habent speciem,
+                           quantam
+                           religionem. Fuit et alter Ennius, qui ut Suetonius autor est, de literis duos libros
+                           scripsit, et de syllabis et metris, et cuius de augurandi disciplina volumina duo
+                           ferebantur. Hunc ipsum Ennium esse arbitror, quem Isidorus ait primum vulgares notas
+                           reperiisse, de quibus mox plura Tyro, Tullius et Iunius Philargyrus, itemque Acilius
+                           vel
+                           Aquila, libertus Maecenatis, et M. Probus, demum et Petrus quidam Diaconus perscripsere.
+                           Hactenusque de Ennio, post quem magna fuit poetarum turba, quae et si parum celebrata,
+                           maiorem tamen vobis partem memoriter recensebo.</div>
+                        <div class="ab trad">Les tout premiers poètes latins, selon les
+                           témoignages de Suétone et d’Eusèbe, furent Livius Andronicus, dont on rapporte le
+                           portrait
+                           parmi les poètes dramatiques, et Quintus Ennius, qui, comme l’a chanté Lucrèce : «
+                           Le
+                           premier, il rapporta de l’aimable Hélicon une couronne de feuillage impérissable.
+                           » Cette
+                           pensée, à peu près identique, est également reprise par Silius Italicus dans son poème.
+                           Ennius fleurit durant la cent trente-sixième Olympiade, c’est-à-dire à l’époque du
+                           Premier
+                           Scipion, sous lequel on rapporte aussi qu’il accomplit son service militaire, comme
+                           l’écrit
+                           le poète Claudien : « Le savant Ennius se tenait à ses côtés, et avait coutume, dans
+                           tous
+                           les camps, d’avancer jusqu’au milieu des trompettes guerrières. » Il fut amené à Rome
+                           depuis
+                           l’île de Sardaigne par Marcus Caton, qui quittait l’Afrique après y avoir exercé la
+                           questure, comme l’écrit Aemilius Probus dans la Vie de Caton, œuvre que certains attribuent
+                           à tort à Cornelius Nepos. Que Ennius ait aussi servi sous Quintus Fulvius Nobilior,
+                           lorsque
+                           celui-ci fut envoyé par le Sénat comme général contre les Étoliens, Marcus Cicéron
+                           en est le
+                           témoin, entre autres ; et il reçut la citoyenneté de Marcus Fulvius, le fils de ce
+                           dernier,
+                           à l’époque où celui-ci, en qualité de triumvir, fonda une colonie. La patrie d’Ennius
+                           fut
+                           Rudies, ville de Calabre, comme l’écrivent Pomponius Méla et Pline, et comme le chante
+                           le
+                           poète Silius ; Strabon, en revanche, la qualifie de cité rhodienne et grecque. C’est,
+                           je
+                           pense, de là qu’Ausone l’appelle Rudinus, et que Marcus Tullius, dans le discours
+                           Pour
+                           Archias, le nomme Rudius, si l’on en croit les manuscrits fiables ; toutefois, l’historien
+                           Eutrope et Jérôme, dans sa Chronique d’après Eusèbe, le disent originaire de Tarente
+                           en ces
+                           termes. Quintus Ennius, disent-ils, naquit à Tarente. Il fut amené à Rome par Caton,
+                           alors
+                           questeur, et habita sur le mont Aventin, se contentant d’un train de vie très modeste
+                           et du
+                           service d’une seule servante. Or c’est, je crois, de cette servante d’Ennius que Cicéron
+                           fait mention dans le second livre du De Oratore, lorsqu’il traite du comique. En effet,
+                           raconte-t-il, alors que Scipion Nasica s’était rendu chez le poète Ennius et avait
+                           demandé
+                           celui-ci à la porte, la servante répondit qu’il n’était pas chez lui. Nasica comprit
+                           qu’elle
+                           parlait sur l’ordre de son maître et que celui-ci se trouvait à l’intérieur. Quelques
+                           jours
+                           plus tard, alors qu’Ennius s’était rendu chez Nasica et l’avait demandé depuis l’entrée,
+                           Nasica s’écria alors qu’il n’était pas chez lui. Ennius répliqua : « Comment ? moi,
+                           je ne
+                           reconnais donc pas ta voix ? » Alors Nasica dit : « Tu es un homme impudent : alors
+                           que moi
+                           je te cherchais, j’ai cru ta servante qui disait que tu n’étais pas chez toi, et toi,
+                           tu ne
+                           me crois pas moi-même ? » Ennius, en vérité, était né, comme il l’a lui-même chanté,
+                           de la
+                           lignée de Neptune, issu de Messapus, lequel, selon Virgile, fut « dompteur de chevaux,
+                           rejeton de Neptune ». Cela, Servius l’a également noté. De même Silius dit dans ce
+                           vers : «
+                           Ennius, issu de l’antique origine du roi Messapus. » Quant à l’affirmation selon laquelle,
+                           par la palingenèse (comme l’appellent les pythagoriciens), il aurait hérité de l’âme
+                           d’Homère, cela paraît trop fabuleux pour être confirmé par une foi historique ; car
+                           le poète
+                           Lucrèce et Marcus Cicéron rapportent que cela lui serait arrivé en songe, Ennius lui-même
+                           chantant d’ailleurs : « Il m’a semblé que le poète Homère était présent devant moi.
+                           » Il
+                           était, en outre, assez porté sur le vin : « Jamais il ne se lança à chanter les armes
+                           sans
+                           avoir bu », comme le dit Horace. Il eut un esprit vif et extrêmement prompt à écrire,
+                           énergique dans ses pensées, rude dans ses mots, en ce qu’il ne s’écartait guère de
+                           l’usage
+                           commun du langage. Cicéron ajoute encore qu’Ennius était plein de bonne foi, mais
+                           sans
+                           grande richesse. De là vient, dit Piso, cette parole que nous avons peut-être entendue
+                           attribuer à Virgile : qu’il avait coutume de dire qu’il recueillait de l’or dans le
+                           fumier
+                           d’Ennius. Tu as raison, dis-je. Ennius possédait également la connaissance de trois
+                           langues
+                           ; c’est pourquoi il disait poétiquement avoir trois cœurs, parce qu’il parlait le
+                           grec, le
+                           latin et l’osque, comme le rapportent Aulu-Gelle et Festus. Il écrivit un très grand
+                           nombre
+                           de volumes, parmi lesquels les Annales, que, selon Suétone, Quintus Vargunteius divisa
+                           en
+                           livres et qu’il récitait à dates fixes devant un public nombreux. À leur propos, Marcus
+                           Pompilius Andronicus composa un ouvrage qu’il intitula Appendice. Ennius publia également
+                           les guerres du peuple romain ; le douzième livre de cette œuvre, comme l’écrivent
+                           Varron et
+                           Aulu-Gelle, il le composa à l’âge de quarante-six ans. Mais qu’Ennius ait aussi composé
+                           les
+                           Phagetica, Lucius Apulée en témoigne : dans ce livre, il traitait en vers des mets
+                           et des
+                           aliments les plus renommés pour la table et la gourmandise, ainsi que des lieux où
+                           on les
+                           trouvait, à l’exemple de ce qu’avaient fait chez les Grecs Archestrate et plusieurs
+                           autres,
+                           comme nous l’avons dit dans notre entretien d’hier. Il composa en outre plusieurs
+                           comédies
+                           et tragédies ; à cause de leur ancienneté, Volcacius lui attribua la dixième place
+                           parmi les
+                           poètes comiques. Il mourut sous le consulat de Quintus Martius et de Cnaeus Servilius,
+                           à
+                           l’époque où Sulpicius Gallus, préteur, donnait des jeux en l’honneur d’Apollon et
+                           où Ennius
+                           lui-même avait fait représenter la tragédie Thyeste ; il était alors âgé, selon Jérôme,
+                           de
+                           soixante-dix ans. Il succomba à une maladie articulaire, qu’il avait contractée, d’après
+                           Quintus Serenus, à la suite d’une consommation excessive de vin. C’est à la même époque
+                           que
+                           Cratès de Mallos, envoyé à Rome par le roi Attale, se brisa la jambe près du palais
+                           en
+                           tombant dans l’ouverture d’un égout. Ennius fut enseveli dans le monument des Scipions,
+                           sur
+                           la voie Appienne, à moins d’un mille de la ville. Tite-Live, au livre XLVIII, et Pline,
+                           au
+                           livre VII, rapportent que Scipion l’Africain ordonna que la statue de Quintus Ennius
+                           fût
+                           placée sur son tombeau. Marcus Tullius Cicéron rapporte la même chose dans son discours
+                           Pour
+                           Archias. De là ce vers d’Ovide : « Ennius, né dans les montagnes de Calabre, a mérité
+                           d’être
+                           placé auprès de toi, grand Scipion. » Certains affirment que ses ossements furent
+                           transférés
+                           à Rudies depuis le Janicule. Marcus Cicéron célèbre cet épitaphe d’Ennius : « Regardez,
+                           citoyens, l’urne de l’image du vieil Ennius. Il a peint les plus grands exploits de
+                           vos
+                           pères. Que personne ne me couvre de larmes et ne fasse de funérailles en pleurs. Pourquoi
+                           ?
+                           Je vole vivant sur les lèvres savantes des hommes. » Quant à son jugement sur Ennius,
+                           Fabius
+                           Quintilien s’exprime ainsi : « Ennius, dit-il, honorons-le comme les bois sacrés pour
+                           leur
+                           ancienneté, où se dressent de grands chênes antiques, qui n’ont pas tant de beauté
+                           que de
+                           majesté sacrée. » Il y eut aussi un autre Ennius qui, selon Suétone, écrivit deux
+                           livres Sur
+                           les lettres, ainsi que des traités Sur les syllabes et les mètres, et à qui l’on attribuait
+                           deux volumes sur la discipline augurale. Je pense qu’il s’agit du même Ennius dont
+                           Isidore
+                           dit qu’il fut le premier à inventer les notes vulgaires, sur lesquelles, plus tard,
+                           Tyron,
+                           Cicéron, Junius Philargyrus, ainsi qu’Acilius ou Aquila, affranchi de Mécène, et Marcus
+                           Probus, et enfin un certain Pierre le Diacre, écrivirent plus en détail. Voilà ce
+                           qu’il y
+                           avait à dire d’Ennius. Après lui, il y eut une grande foule de poètes, que, bien que
+                           peu
+                           célébrés, je vous rappellerai néanmoins en grande partie de mémoire.</div>
+                     </td>
+                  </tr>
+               </tbody>
+            </table>
+         </div>
+      </div>
+   </body>
+</html>
