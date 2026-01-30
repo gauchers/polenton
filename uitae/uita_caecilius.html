@@ -2,89 +2,152 @@
 <html xmlns:tei="http://www.tei-c.org/ns/1.0" lang="fr">
    <head>
       <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-      <title>Traductions comparées</title>
+      <title>Vies de Caecilius</title>
       <style type="text/css">
+                    :root {
+                        --uga-blue: #003a8f;
+                        --uga-light-blue: #5b7dbb;
+                        --uga-grey: #e6e9ef;
+                        --uga-dark-grey: #555;
+                    }
+                    
                     body {
                         font-family: serif;
-                        margin: 30px;
+                        margin: 0;
+                        color: #111;
                     }
                     
                     /* ===================== */
-                    /* Style commun boutons */
+                    /* Marges décoratives */
+                    /* ===================== */
+                    .marge {
+                        position: fixed;
+                        top: 0;
+                        width: 120px;
+                        height: 100%;
+                        background-image: url("../images/marge.png");
+                        background-repeat: repeat;
+                        pointer-events: none;
+                        z-index: -1;
+                    }
+                    
+                    .marge.left {
+                        left: 0;
+                    }
+                    .marge.right {
+                        right: 0;
+                    }
+                    
+                    /* ===================== */
+                    /* Wrapper principal */
+                    /* ===================== */
+                    .page-wrapper {
+                        padding: 50px 140px;
+                        box-sizing: border-box;
+                    }
+                    
+                    /* ===================== */
+                    /* Titre principal */
+                    /* ===================== */
+                    h1 {
+                        text-align: center;
+                        font-size: 30px;
+                        margin-bottom: 25px;
+                        color: var(--uga-blue);
+                    }
+                    
+                    /* ===================== */
+                    /* Boutons */
                     /* ===================== */
                     button {
                         padding: 6px 12px;
                         font-size: 14px;
                         cursor: pointer;
-                        border: 1px solid #888;
+                        border: 1px solid var(--uga-light-blue);
                         border-radius: 4px;
+                        background-color: #f4f7fc;
                         font-family: serif;
-                        transition: all 0.3s;
+                        transition: all 0.2s;
+                        color: var(--uga-blue);
                     }
                     
                     button:hover {
-                        filter: brightness(90%);
+                        background-color: var(--uga-light-blue);
+                        color: #fff;
                     }
                     
-                    /* Boutons Sources / Orig-Trad neutres */
-                    button#sources-btn,
-                    button#orig-trad-btn {
-                        background-color: #f8f8f8;
-                        margin-right: 10px;
+                    /* ===================== */
+                    /* Zone thématique */
+                    /* ===================== */
+                    #theme-buttons {
+                        display: flex;
+                        flex-direction: column;
+                        margin-right: 30px;
+                        min-width: 150px;
                     }
                     
-                    button#sources-btn:hover,
-                    button#orig-trad-btn:hover {
-                        background-color: #e0e0e0;
+                    #theme-buttons > div:first-child {
+                        font-weight: bold;
+                        margin-bottom: 15px;
+                        color: var(--uga-blue);
                     }
                     
-                    /* Boutons thématiques verticaux + Citation */
-                    button.theme-btn {
-                        margin-bottom: 8px;
-                        color: #000;
-                        border: 1px solid #888;
-                        border-radius: 4px;
-                        padding: 6px 10px;
-                        font-family: serif;
+                    /* ===================== */
+                    /* Toolbar */
+                    /* ===================== */
+                    .toolbar {
+                        display: flex;
+                        justify-content: space-between;
+                        align-items: center;
+                        margin-bottom: 18px;
                     }
                     
+                    /* ===================== */
                     /* Tableau */
+                    /* ===================== */
                     table {
-                        width: calc(100% - 1cm);
-                        margin-right: 1cm;
-                        margin-left: 0;
+                        width: 100%;
                         border-collapse: collapse;
                         table-layout: fixed;
                     }
+                    
                     th,
                     td {
-                        border: 1px solid #999;
+                        border: 1px solid #ccc;
                         vertical-align: top;
                     }
+                    
+                    th {
+                        background-color: var(--uga-grey);
+                        text-align: center;
+                        font-weight: bold;
+                        padding: 10px;
+                    }
+                    
                     td {
-                        padding: 8px 10px;
+                        padding: 10px;
                         text-align: justify;
-                        word-wrap: break-word;
                         hyphens: auto;
                     }
-                    th {
-                        background-color: #f0f0f0;
-                        text-align: center;
-                    }
                     
-                    /* Sources */
+                    /* ===================== */
+                    /* Sources / citations */
+                    /* ===================== */
                     .source {
-                        background-color: transparent;
                         transition: background-color 0.3s;
                     }
+                    
                     .highlight {
-                        background-color: #ffe066;
+                        background-color: #ffe8a3;
                     }
                     
+                    /* ===================== */
                     /* Orig / Trad */
+                    /* ===================== */
                     .orig {
                         display: none;
                     }
+                    
                     body.show-orig .trad {
                         display: none;
                     }
@@ -92,36 +155,8 @@
                         display: block;
                     }
                     
-                    /* Zone thématiques */
-                    #theme-buttons {
-                        display: flex;
-                        flex-direction: column;
-                        margin-right: 20px;
-                        min-width: 120px;
-                        /* décaler le titre et boutons plus bas */
-                        margin-top: 30px;
-                    }
-                    
-                    #theme-buttons > div:first-child {
-                        font-weight: bold;
-                        margin-bottom: 12px;
-                    }
-                    
-                    /* Toolbar horizontal boutons */
-                    .toolbar {
-                        display: flex;
-                        justify-content: space-between;
-                        align-items: center;
-                        margin-bottom: 15px;
-                    }
-                    
-                    .toolbar div > button {
-                        margin-right: 10px;
-                    }
-                    
                     .citation-vers {
-                        display: block;
-                        margin: 8px 0 8px 10px;
+                        margin: 8px 0 8px 15px;
                     }</style><script type="text/javascript">
                     
                     function toggleSources() {
@@ -162,305 +197,310 @@
                     }//
                 </script></head>
    <body>
-      <div style="display:flex; align-items:flex-start;">
-         <div id="theme-buttons">
-            <div>Rubriques</div>
-         </div>
-         <div style="flex:1">
-            <div class="toolbar">
-               <div><button id="sources-btn" onclick="toggleSources()">Sources</button><button class="theme-btn" onclick="toggleCitation('#ffd699')">Citation</button></div><button id="orig-trad-btn" onclick="toggleOrigTrad()">Original /
-                  Traduction</button></div>
-            <table>
-               <thead>
-                  <tr>
-                     <th>Polenton</th>
-                     <th>Crinitus</th>
-                     <th>Giraldi</th>
-                  </tr>
-               </thead>
-               <tbody>
-                  <tr>
-                     <td>
-                        <div class="ab orig">
-                           <seg class="theme-reception" ana="#reception" data-highlight="off">Comico igitur in genere
+      <div class="marge left"></div>
+      <div class="marge right"></div>
+      <div class="page-wrapper">
+         <h1>Vies de Caecilius</h1>
+         <div style="display:flex; align-items:flex-start;">
+            <div id="theme-buttons">
+               <div>Rubriques</div>
+            </div>
+            <div style="flex:1">
+               <div class="toolbar">
+                  <div><button id="sources-btn" onclick="toggleSources()">Sources</button><button onclick="toggleCitation('#e0d7ff')">Citations</button></div><button id="orig-trad-btn" onclick="toggleOrigTrad()">Original /
+                     Traduction</button></div>
+               <table>
+                  <thead>
+                     <tr>
+                        <th>Polenton</th>
+                        <th>Crinitus</th>
+                        <th>Giraldi</th>
+                     </tr>
+                  </thead>
+                  <tbody>
+                     <tr>
+                        <td>
+                           <div class="ab orig">
+                              <seg class="theme-reception" ana="#reception" data-highlight="off">Comico igitur in genere
+                                 
+                                 <persName xmlns="http://www.tei-c.org/ns/1.0">Caecilius Statius</persName> iudicio <span class="source">Nigidii</span> princeps fuit.</seg>
+                              <seg class="theme-condition" ana="#condition" data-highlight="off"> Servilem iste fortunam
+                                 habuit atque Statius a stando, uti solerent servi, appellatus est. Servos enim Statios,
+                                 quod dominorum ad servitium et capessenda iussa parati starent, veteres appellabant.</seg>
                               
-                              <persName xmlns="http://www.tei-c.org/ns/1.0">Caecilius Statius</persName> iudicio <span class="source">Nigidii</span> princeps fuit.</seg>
-                           <seg class="theme-condition" ana="#condition" data-highlight="off"> Servilem iste fortunam
-                              habuit atque Statius a stando, uti solerent servi, appellatus est. Servos enim Statios,
-                              quod dominorum ad servitium et capessenda iussa parati starent, veteres appellabant.</seg>
-                           
-                           <seg class="theme-origine" ana="#origine" data-highlight="off">Gallus hic gente fuit. Mediolani quidem natus est, quae civitas in terra
-                              Italia ea in regione est quam illa tempora Galliam Cisalpinam appellarent. Romae nanque
+                              <seg class="theme-origine" ana="#origine" data-highlight="off">Gallus hic gente fuit. Mediolani quidem natus est, quae civitas in terra
+                                 Italia ea in regione est quam illa tempora Galliam Cisalpinam appellarent. Romae nanque
+                                 
+                                 <persName xmlns="http://www.tei-c.org/ns/1.0" role="historique">Tarquinio Prisco</persName> regnante Gallos, qui loca
+                                 Transalpina incolerent, novas quaerentes sedes in Italiam venisse primum eosdemque,
+                                 ut
+                                 transgressi sunt Alpes, in agrum Insubrem descendisse atque pulsis inde Tuscis, qui
+                                 ea
+                                 tenebant loca, haud procul Ticino a flumine civitatem Mediolani ac deinde complures
+                                 civitates sibi condidisse constat. Postea vero atque per idem fere tempus manus alia
+                                 atque
+                                 alia nunc Gallorum, nunc Germanorum venit. Hinc regio ipsis ab Alpibus Adriaticum
+                                 ad mare
+                                 usque Gallia Cisalpina, populi quoque passim Galli Cisalpini, quod quicquid est agri
+                                 occuparent, appellati.</seg>
                               
-                              <persName xmlns="http://www.tei-c.org/ns/1.0" role="historique">Tarquinio Prisco</persName> regnante Gallos, qui loca
-                              Transalpina incolerent, novas quaerentes sedes in Italiam venisse primum eosdemque,
-                              ut
-                              transgressi sunt Alpes, in agrum Insubrem descendisse atque pulsis inde Tuscis, qui
-                              ea
-                              tenebant loca, haud procul Ticino a flumine civitatem Mediolani ac deinde complures
-                              civitates sibi condidisse constat. Postea vero atque per idem fere tempus manus alia
-                              atque
-                              alia nunc Gallorum, nunc Germanorum venit. Hinc regio ipsis ab Alpibus Adriaticum
-                              ad mare
-                              usque Gallia Cisalpina, populi quoque passim Galli Cisalpini, quod quicquid est agri
-                              occuparent, appellati.</seg>
-                           
-                           <seg class="theme-mort" ana="#mort" data-highlight="off">
-                              <persName xmlns="http://www.tei-c.org/ns/1.0">Statius</persName> igitur poeta Gallus gente fuit sed habitavit
-                              Romae atque ibi defunctus vita iuxta laniculum sepultus est.</seg>
-                           
-                           <seg class="theme-datation" ana="#datation" data-highlight="off">Familiaritatem iuvenis cum sene iam 
-                              <persName xmlns="http://www.tei-c.org/ns/1.0" role="autre_poete">Ennio</persName> habuit nec supra illum nisi modo annum vixit.</seg>
-                           
-                           <seg class="theme-homonyme" ana="#homonyme" data-highlight="off">Poetam alterum nomine 
-                              <persName xmlns="http://www.tei-c.org/ns/1.0" role="homonyme">Statium</persName>
-                              appellatum liquet. Gallus quidem uterque, sed iste Mediolanensis atque, ut dixi,
-                              Cisalpinus, ille Tolosanus et Transalpinus fuit. De ipso dicam loco suo. Annos quidem
-                              ille
-                              ad CCC post istum mortuum natus est.</seg>
-                        </div>
-                        <div class="ab trad">Dans le genre comique, Caecilius Statius
-                           fut considéré, selon le jugement de Nigidius, comme le premier. Statius avait eu une
-                           condition servile et fut appelé Statius d'après le verbe stare « se tenir ». En effet,
-                           les
-                           Anciens appelaient Statii les esclaves, parce qu'ils se tenaient prêts à obéir aux
-                           ordres de
-                           leurs maîtres. Il était de race gauloise. Il naquit à Milan, ville italienne dans
-                           la région
-                           que les Anciens appelaient à cette époque la Gaule cisalpine. En effet, il est établi
-                           qu'à
-                           Rome, sous le règne de Tarquin l'Ancien, les Gaulois qui peuplaient la Gaule transalpine,
-                           cherchant de nouvelles terres, descendirent dans le territoire des Insubres, et, après
-                           avoir
-                           chassé les Étrusques qui occupaient ces lieux, et fondèrent pour eux non loin du Tessin
-                           la
-                           cité de Milan, puis plusieurs autres villes. Plus tard et presque au même moment,
-                           d’autres
-                           vagues arrivèrent, tantôt de Gaulois, tantôt de Germains. Ainsi, la région allant
-                           des Alpes
-                           à la mer Adriatique fut appelée Gaule cisalpine, et ses habitants, parce qu'ils occupaient
-                           tout ce qu'il y avait de territoire, Gaulois cisalpins. Ainsi, Statius était un poète
-                           de
-                           race gauloise, mais il vécut à Rome et, mort dans cette ville, fut enterré près de
-                           sa
-                           maison. Jeune homme, il fréquenta Ennius, déjà vieillard, mais il ne lui survécut
-                           guère plus
-                           d’un an. Un autre poète nommé Statius nous est connu ; l'un et l'autre aussi étaient
-                           Gaulois, le nôtre, comme je l'ai dit, cisalpin, mais celui-là était de Toulouse et
-                           transalpin. Je parlerai de lui au moment opportun. Il naquit trois cents ans après
-                           la mort
-                           de l’autre.</div>
-                     </td>
-                     <td>
-                        <div class="ab orig">
-                           <seg class="theme-origine" ana="#origine" data-highlight="off">
-                              <persName xmlns="http://www.tei-c.org/ns/1.0">Statius
-                                 Caecilius</persName> in Gallia natus est, ut creditur, et ob id Mediolanensem quidam
-                              dixerunt, quod ex annalibus <span class="source">Hieronymi</span> acceperunt. Illud
-                              pro certo haberi debet : in urbe Roma eum vixisse et in scribendis comediis principem
-                              locum tenuisse, ut a <span class="source">Vulcatio Sedigito</span> scriptum
-                              est</seg>
-                           
-                           <seg class="theme-reception" ana="#reception" data-highlight="off">Qui hunc ipsum 
-                              <persName xmlns="http://www.tei-c.org/ns/1.0">Caecilium</persName>, non 
-                              <persName xmlns="http://www.tei-c.org/ns/1.0" role="autre_poete">Terentio</persName> tantum et 
-                              <persName xmlns="http://www.tei-c.org/ns/1.0" source="autre_poete">Plauto</persName>, sed reliquis omnibus Comicis sine controversia praeposuit. <span class="source">M. Cicero</span> in eadem sententia est tantumque 
-                              <persName xmlns="http://www.tei-c.org/ns/1.0">Statio
-                                 Caecilio</persName> concedit, ut illius quidem carmen, ut constat, summis laudibus
-                              prosequatur. <span class="source">Fabius Quintilianus</span> (qui in omni
-                              antiquitate publicus censor est habitus) tris maxime nominat in describendis comediis,
-                              hoc
-                              est. 
-                              <persName xmlns="http://www.tei-c.org/ns/1.0" role="autre_poete">M. Plautum</persName>, 
-                              <persName xmlns="http://www.tei-c.org/ns/1.0" role="autre_poete">P.
-                                 Terentium</persName> et 
-                              <persName xmlns="http://www.tei-c.org/ns/1.0">Statium Caecilium</persName>.</seg>
-                           
-                           <seg class="theme-datation" ana="#datation" data-highlight="off">Vixit in summa familiaritate cum Poeta 
-                              <persName xmlns="http://www.tei-c.org/ns/1.0" role="autre_poete">Ennio</persName>, ut ab <span class="source">Eusebio</span> refertur.</seg>
-                           
-                           <seg class="theme-reception" ana="#reception" data-highlight="off">Idem magnopere dilectus est a 
-                              <persName xmlns="http://www.tei-c.org/ns/1.0" role="autre_poete">Terentio</persName>, qui tantum illius iudicio tribuit, ut ad Poetam
+                              <seg class="theme-mort" ana="#mort" data-highlight="off">
+                                 <persName xmlns="http://www.tei-c.org/ns/1.0">Statius</persName> igitur poeta Gallus gente fuit sed habitavit
+                                 Romae atque ibi defunctus vita iuxta laniculum sepultus est.</seg>
                               
-                              <persName xmlns="http://www.tei-c.org/ns/1.0">Caecilium</persName> ceu ad optimum censorem suas fabulas referret.</seg>
-                           
-                           <seg class="theme-oeuvre" ana="#oeuvre" data-highlight="off">Enumerantur supra XXX 
-                              <persName xmlns="http://www.tei-c.org/ns/1.0">Statii</persName> comediae a gramaticis
-                              veteribus. Neque togatas minore studio composuit quam palliatas, unde singularem gratiam
-                              reportavit. Iudicio eruditorum in precio magno fuerunt : <em>Nauclerus</em>, <em>Syracusae</em>, <em>Pausimachus</em>, <em>Hippobolymeus</em>, <em>Epiclerus</em>, <em>Cratinus</em>, <em>Plocius</em>, <em>Asotus</em>, <em>Ephestion</em>. Citatur etiam in <em>Subditivo</em>, in <em>Fallacia</em>, in <em>Andria</em>, in <em>Annalibus</em>, in <em>Feneratore</em>, in <em>Venatorio</em>, in <em>Vmbris</em>, in <em>Obolo</em>, in <em>Synaristosis</em>. Quarum partem
-                              a 
-                              <persName xmlns="http://www.tei-c.org/ns/1.0" role="autre_poete">Menandro</persName>, 
-                              <persName xmlns="http://www.tei-c.org/ns/1.0" role="autre_poete">Philemone</persName> et 
-                              <persName xmlns="http://www.tei-c.org/ns/1.0" role="autre_poete">Apollodoro</persName>
-                              transtulit.</seg>
-                           
-                           <seg class="theme-reception" ana="#reception" data-highlight="off">Neque defuerunt antiqui gramatici qui hunc
+                              <seg class="theme-datation" ana="#datation" data-highlight="off">Familiaritatem iuvenis cum sene iam 
+                                 <persName xmlns="http://www.tei-c.org/ns/1.0" role="autre_poete">Ennio</persName> habuit nec supra illum nisi modo annum vixit.</seg>
                               
-                              <persName xmlns="http://www.tei-c.org/ns/1.0">Caecilium</persName> accusaverint quod in vertendis a 
-                              <persName xmlns="http://www.tei-c.org/ns/1.0" role="autre_poete">Menandro</persName> fabulis parum apte aut concinne quaedam
-                              transtulerit.</seg>
-                           
-                           <seg class="theme-mort" ana="#mort" data-highlight="off">Mortuus est sequenti anno post obitum 
-                              <persName xmlns="http://www.tei-c.org/ns/1.0" role="autre_poete">Q.
-                                 Ennii</persName> et iuxta Ianiculum sepultus traditur.</seg>
-                           
-                           <seg class="theme-homonyme" ana="#homonyme" data-highlight="off">De 
-                              <persName xmlns="http://www.tei-c.org/ns/1.0" role="homonyme">Statio</persName> rhetore, qui Tolosanus
-                              fuit, suo loco scripsimus.</seg>
-                        </div>
-                        <div class="ab trad">Statius Caecilius naquit en Gaule, comme on
-                           le croit ; c’est pourquoi certains l’ont dit Milanais, d’après ce qu’ils ont tiré
-                           des
-                           <em>Annales</em> de Jérôme. Une chose doit cependant être tenue pour certaine : il
-                           vécut à Rome et y occupa le premier rang dans l’écriture des comédies, comme l’a écrit
-                           Volcatius Sedigitus, qui plaça ce même Caecilius non seulement au-dessus de Térence
-                           et de
-                           Plaute, mais encore, sans contestation, au-dessus de tous les autres poètes comiques.
-                           Marcus
-                           Cicéron est du même avis et accorde tant de valeur à Statius Caecilius qu’il célèbre
-                           assurément ses vers avec les plus grands éloges. Fabius Quintilien, tenu pour un censeur
-                           public de toute l’Antiquité, ne cite principalement que trois noms dans l’art de composer
-                           des comédies : Marcus Plaute, Publius Térence et Statius Caecilius. Il vécut dans
-                           une
-                           étroite familiarité avec le poète Ennius, comme le rapporte Eusèbe. Il fut également
-                           très
-                           aimé de Térence, qui accordait tant de poids à son jugement qu’il soumettait ses propres
-                           pièces au poète Caecilius, comme à un critique excellent. Les anciens grammairiens
-                           recensent
-                           plus de trente comédies de Statius. Il composa des togatae avec un zèle non moindre
-                           que les
-                           palliatae, et en retira une faveur exceptionnelle. Parmi ses pièces, tenues en grande
-                           estime
-                           auprès des érudits, on compte : <em>Nauclerus</em>, <em>Syracusae</em>,
-                           <em>Pausimachus</em>, <em>Hippobolymeus</em>, <em>Epiclerus</em>,
-                           <em>Cratinus</em>, <em>Plocius</em>, <em>Asotus</em>,
-                           <em>Ephestion</em> ; il est aussi cité concernant <em>Subditivus</em>,
-                           <em>Fallacia</em>, <em>Andria</em>, <em>Annales</em>,
-                           <em>Fenerator</em>, <em>Venatorius</em>, <em>Umbrae</em>,
-                           <em>Obolus</em> et <em>Synaristosae</em>. Il en adapta une partie d’après
-                           Ménandre, Philémon et Apollodore. Il ne manqua pas, toutefois, d’anciens grammairiens
-                           pour
-                           lui reprocher d’avoir, dans ses traductions de Ménandre, rendu certains passages de
-                           façon
-                           peu appropriée ou peu élégante. Il mourut l’année suivante après la mort de Quintus
-                           Ennius
-                           et l’on rapporte qu’il fut enseveli près du Janicule. Quant à Statius le rhéteur,
-                           originaire
-                           de Toulouse, nous en avons parlé à l’endroit opportun.</div>
-                     </td>
-                     <td>
-                        <div class="ab orig">
-                           <seg class="theme-reception" ana="#reception" data-highlight="off">Sed de 
-                              <persName xmlns="http://www.tei-c.org/ns/1.0" role="autre_poete">Plauto</persName> hactenus quem sequebatur 
-                              <persName xmlns="http://www.tei-c.org/ns/1.0">Statius
-                                 Caecilius</persName> poeta, ut scribit <span class="source">Gellius</span>,
-                              Comoediarum inclytus.</seg>
-                           
-                           <seg class="theme-condition" ana="#condition" data-highlight="off">Hic quidem genere servus : Statii quippe nomen apud antiquos servile
-                              fuit, et perinde apud veteres plerique eo nomine servi fuere. Postea id nomen versum
-                              est
-                              in cognomentum, ut paulo ante de 
-                              <persName xmlns="http://www.tei-c.org/ns/1.0" role="autre_poete">Livio</persName> quoque
-                              Andronico diximus, et appellatus est 
-                              <persName xmlns="http://www.tei-c.org/ns/1.0">Caecilius Statius</persName>.</seg>
-                           
-                           <seg class="theme-datation" ana="#datation" data-highlight="off">Floruit vero in scena 
-                              <persName xmlns="http://www.tei-c.org/ns/1.0">Caecilius</persName>, ut notat
-                              <span class="source">Eusebius</span>, CL Olympiade ; quo etiam tempore 
-                              <persName xmlns="http://www.tei-c.org/ns/1.0" role="personnage">Cato Portius</persName>, ut ipse fatetur apud <span class="source">Ciceronem</span> in dialogo <em>de Senectute</em>, quo loco eius fabulam
-                              <em>Synephebos</em>, id est, coadolescentes commemorat.</seg>
-                           
-                           <seg class="theme-origine" ana="#origine" data-highlight="off">Fuit vero 
-                              <persName xmlns="http://www.tei-c.org/ns/1.0">Caecilius</persName> natione Gallus, et ut cum
-                              <span class="source">Crinito</span> nonnulli interpretati sunt, ex urbe
-                              Mediolani.</seg>
-                           
-                           <seg class="theme-mort" ana="#mort" data-highlight="off">Contubernalis primum fuit 
-                              <persName xmlns="http://www.tei-c.org/ns/1.0">Caecilius</persName>
+                              <seg class="theme-homonyme" ana="#homonyme" data-highlight="off">Poetam alterum nomine 
+                                 <persName xmlns="http://www.tei-c.org/ns/1.0" role="homonyme">Statium</persName>
+                                 appellatum liquet. Gallus quidem uterque, sed iste Mediolanensis atque, ut dixi,
+                                 Cisalpinus, ille Tolosanus et Transalpinus fuit. De ipso dicam loco suo. Annos quidem
+                                 ille
+                                 ad CCC post istum mortuum natus est.</seg>
+                           </div>
+                           <div class="ab trad">Dans le genre comique, Caecilius Statius
+                              fut considéré, selon le jugement de Nigidius, comme le premier. Statius avait eu une
+                              condition servile et fut appelé Statius d'après le verbe stare « se tenir ». En effet,
+                              les
+                              Anciens appelaient Statii les esclaves, parce qu'ils se tenaient prêts à obéir aux
+                              ordres de
+                              leurs maîtres. Il était de race gauloise. Il naquit à Milan, ville italienne dans
+                              la région
+                              que les Anciens appelaient à cette époque la Gaule cisalpine. En effet, il est établi
+                              qu'à
+                              Rome, sous le règne de Tarquin l'Ancien, les Gaulois qui peuplaient la Gaule transalpine,
+                              cherchant de nouvelles terres, descendirent dans le territoire des Insubres, et, après
+                              avoir
+                              chassé les Étrusques qui occupaient ces lieux, et fondèrent pour eux non loin du Tessin
+                              la
+                              cité de Milan, puis plusieurs autres villes. Plus tard et presque au même moment,
+                              d’autres
+                              vagues arrivèrent, tantôt de Gaulois, tantôt de Germains. Ainsi, la région allant
+                              des Alpes
+                              à la mer Adriatique fut appelée Gaule cisalpine, et ses habitants, parce qu'ils occupaient
+                              tout ce qu'il y avait de territoire, Gaulois cisalpins. Ainsi, Statius était un poète
+                              de
+                              race gauloise, mais il vécut à Rome et, mort dans cette ville, fut enterré près de
+                              sa
+                              maison. Jeune homme, il fréquenta Ennius, déjà vieillard, mais il ne lui survécut
+                              guère plus
+                              d’un an. Un autre poète nommé Statius nous est connu ; l'un et l'autre aussi étaient
+                              Gaulois, le nôtre, comme je l'ai dit, cisalpin, mais celui-là était de Toulouse et
+                              transalpin. Je parlerai de lui au moment opportun. Il naquit trois cents ans après
+                              la mort
+                              de l’autre.</div>
+                        </td>
+                        <td>
+                           <div class="ab orig">
+                              <seg class="theme-origine" ana="#origine" data-highlight="off">
+                                 <persName xmlns="http://www.tei-c.org/ns/1.0">Statius
+                                    Caecilius</persName> in Gallia natus est, ut creditur, et ob id Mediolanensem quidam
+                                 dixerunt, quod ex annalibus <span class="source">Hieronymi</span> acceperunt. Illud
+                                 pro certo haberi debet : in urbe Roma eum vixisse et in scribendis comediis principem
+                                 locum tenuisse, ut a <span class="source">Vulcatio Sedigito</span> scriptum
+                                 est</seg>
                               
-                              <persName xmlns="http://www.tei-c.org/ns/1.0" role="autre_poete">Ennii</persName> poetae, eodemque quo ille anno, et ipse
-                              mortuus est et iuxta Ianiculum sepultus.</seg>
-                           
-                           <seg class="theme-reception" ana="#reception" data-highlight="off"><span class="source">Volcatius</span> quidem Sedigitus palmam
+                              <seg class="theme-reception" ana="#reception" data-highlight="off">Qui hunc ipsum 
+                                 <persName xmlns="http://www.tei-c.org/ns/1.0">Caecilium</persName>, non 
+                                 <persName xmlns="http://www.tei-c.org/ns/1.0" role="autre_poete">Terentio</persName> tantum et 
+                                 <persName xmlns="http://www.tei-c.org/ns/1.0" source="autre_poete">Plauto</persName>, sed reliquis omnibus Comicis sine controversia praeposuit. <span class="source">M. Cicero</span> in eadem sententia est tantumque 
+                                 <persName xmlns="http://www.tei-c.org/ns/1.0">Statio
+                                    Caecilio</persName> concedit, ut illius quidem carmen, ut constat, summis laudibus
+                                 prosequatur. <span class="source">Fabius Quintilianus</span> (qui in omni
+                                 antiquitate publicus censor est habitus) tris maxime nominat in describendis comediis,
+                                 hoc
+                                 est. 
+                                 <persName xmlns="http://www.tei-c.org/ns/1.0" role="autre_poete">M. Plautum</persName>, 
+                                 <persName xmlns="http://www.tei-c.org/ns/1.0" role="autre_poete">P.
+                                    Terentium</persName> et 
+                                 <persName xmlns="http://www.tei-c.org/ns/1.0">Statium Caecilium</persName>.</seg>
                               
-                              <persName xmlns="http://www.tei-c.org/ns/1.0">Caecilio</persName> inter Comicos latinos suo carmine statuit. Ita enim
-                              cecinit : 
+                              <seg class="theme-datation" ana="#datation" data-highlight="off">Vixit in summa familiaritate cum Poeta 
+                                 <persName xmlns="http://www.tei-c.org/ns/1.0" role="autre_poete">Ennio</persName>, ut ab <span class="source">Eusebio</span> refertur.</seg>
+                              
+                              <seg class="theme-reception" ana="#reception" data-highlight="off">Idem magnopere dilectus est a 
+                                 <persName xmlns="http://www.tei-c.org/ns/1.0" role="autre_poete">Terentio</persName>, qui tantum illius iudicio tribuit, ut ad Poetam
+                                 
+                                 <persName xmlns="http://www.tei-c.org/ns/1.0">Caecilium</persName> ceu ad optimum censorem suas fabulas referret.</seg>
+                              
+                              <seg class="theme-oeuvre" ana="#oeuvre" data-highlight="off">Enumerantur supra XXX 
+                                 <persName xmlns="http://www.tei-c.org/ns/1.0">Statii</persName> comediae a gramaticis
+                                 veteribus. Neque togatas minore studio composuit quam palliatas, unde singularem gratiam
+                                 reportavit. Iudicio eruditorum in precio magno fuerunt : <em>Nauclerus</em>, <em>Syracusae</em>, <em>Pausimachus</em>, <em>Hippobolymeus</em>, <em>Epiclerus</em>, <em>Cratinus</em>, <em>Plocius</em>, <em>Asotus</em>, <em>Ephestion</em>. Citatur etiam in <em>Subditivo</em>, in <em>Fallacia</em>, in <em>Andria</em>, in <em>Annalibus</em>, in <em>Feneratore</em>, in <em>Venatorio</em>, in <em>Vmbris</em>, in <em>Obolo</em>, in <em>Synaristosis</em>. Quarum partem
+                                 a 
+                                 <persName xmlns="http://www.tei-c.org/ns/1.0" role="autre_poete">Menandro</persName>, 
+                                 <persName xmlns="http://www.tei-c.org/ns/1.0" role="autre_poete">Philemone</persName> et 
+                                 <persName xmlns="http://www.tei-c.org/ns/1.0" role="autre_poete">Apollodoro</persName>
+                                 transtulit.</seg>
+                              
+                              <seg class="theme-reception" ana="#reception" data-highlight="off">Neque defuerunt antiqui gramatici qui hunc
+                                 
+                                 <persName xmlns="http://www.tei-c.org/ns/1.0">Caecilium</persName> accusaverint quod in vertendis a 
+                                 <persName xmlns="http://www.tei-c.org/ns/1.0" role="autre_poete">Menandro</persName> fabulis parum apte aut concinne quaedam
+                                 transtulerit.</seg>
+                              
+                              <seg class="theme-mort" ana="#mort" data-highlight="off">Mortuus est sequenti anno post obitum 
+                                 <persName xmlns="http://www.tei-c.org/ns/1.0" role="autre_poete">Q.
+                                    Ennii</persName> et iuxta Ianiculum sepultus traditur.</seg>
+                              
+                              <seg class="theme-homonyme" ana="#homonyme" data-highlight="off">De 
+                                 <persName xmlns="http://www.tei-c.org/ns/1.0" role="homonyme">Statio</persName> rhetore, qui Tolosanus
+                                 fuit, suo loco scripsimus.</seg>
+                           </div>
+                           <div class="ab trad">Statius Caecilius naquit en Gaule, comme on
+                              le croit ; c’est pourquoi certains l’ont dit Milanais, d’après ce qu’ils ont tiré
+                              des
+                              <em>Annales</em> de Jérôme. Une chose doit cependant être tenue pour certaine : il
+                              vécut à Rome et y occupa le premier rang dans l’écriture des comédies, comme l’a écrit
+                              Volcatius Sedigitus, qui plaça ce même Caecilius non seulement au-dessus de Térence
+                              et de
+                              Plaute, mais encore, sans contestation, au-dessus de tous les autres poètes comiques.
+                              Marcus
+                              Cicéron est du même avis et accorde tant de valeur à Statius Caecilius qu’il célèbre
+                              assurément ses vers avec les plus grands éloges. Fabius Quintilien, tenu pour un censeur
+                              public de toute l’Antiquité, ne cite principalement que trois noms dans l’art de composer
+                              des comédies : Marcus Plaute, Publius Térence et Statius Caecilius. Il vécut dans
+                              une
+                              étroite familiarité avec le poète Ennius, comme le rapporte Eusèbe. Il fut également
+                              très
+                              aimé de Térence, qui accordait tant de poids à son jugement qu’il soumettait ses propres
+                              pièces au poète Caecilius, comme à un critique excellent. Les anciens grammairiens
+                              recensent
+                              plus de trente comédies de Statius. Il composa des togatae avec un zèle non moindre
+                              que les
+                              palliatae, et en retira une faveur exceptionnelle. Parmi ses pièces, tenues en grande
+                              estime
+                              auprès des érudits, on compte : <em>Nauclerus</em>, <em>Syracusae</em>,
+                              <em>Pausimachus</em>, <em>Hippobolymeus</em>, <em>Epiclerus</em>,
+                              <em>Cratinus</em>, <em>Plocius</em>, <em>Asotus</em>,
+                              <em>Ephestion</em> ; il est aussi cité concernant <em>Subditivus</em>,
+                              <em>Fallacia</em>, <em>Andria</em>, <em>Annales</em>,
+                              <em>Fenerator</em>, <em>Venatorius</em>, <em>Umbrae</em>,
+                              <em>Obolus</em> et <em>Synaristosae</em>. Il en adapta une partie d’après
+                              Ménandre, Philémon et Apollodore. Il ne manqua pas, toutefois, d’anciens grammairiens
+                              pour
+                              lui reprocher d’avoir, dans ses traductions de Ménandre, rendu certains passages de
+                              façon
+                              peu appropriée ou peu élégante. Il mourut l’année suivante après la mort de Quintus
+                              Ennius
+                              et l’on rapporte qu’il fut enseveli près du Janicule. Quant à Statius le rhéteur,
+                              originaire
+                              de Toulouse, nous en avons parlé à l’endroit opportun.</div>
+                        </td>
+                        <td>
+                           <div class="ab orig">
+                              <seg class="theme-reception" ana="#reception" data-highlight="off">Sed de 
+                                 <persName xmlns="http://www.tei-c.org/ns/1.0" role="autre_poete">Plauto</persName> hactenus quem sequebatur 
+                                 <persName xmlns="http://www.tei-c.org/ns/1.0">Statius
+                                    Caecilius</persName> poeta, ut scribit <span class="source">Gellius</span>,
+                                 Comoediarum inclytus.</seg>
+                              
+                              <seg class="theme-condition" ana="#condition" data-highlight="off">Hic quidem genere servus : Statii quippe nomen apud antiquos servile
+                                 fuit, et perinde apud veteres plerique eo nomine servi fuere. Postea id nomen versum
+                                 est
+                                 in cognomentum, ut paulo ante de 
+                                 <persName xmlns="http://www.tei-c.org/ns/1.0" role="autre_poete">Livio</persName> quoque
+                                 Andronico diximus, et appellatus est 
+                                 <persName xmlns="http://www.tei-c.org/ns/1.0">Caecilius Statius</persName>.</seg>
+                              
+                              <seg class="theme-datation" ana="#datation" data-highlight="off">Floruit vero in scena 
+                                 <persName xmlns="http://www.tei-c.org/ns/1.0">Caecilius</persName>, ut notat
+                                 <span class="source">Eusebius</span>, CL Olympiade ; quo etiam tempore 
+                                 <persName xmlns="http://www.tei-c.org/ns/1.0" role="personnage">Cato Portius</persName>, ut ipse fatetur apud <span class="source">Ciceronem</span> in dialogo <em>de Senectute</em>, quo loco eius fabulam
+                                 <em>Synephebos</em>, id est, coadolescentes commemorat.</seg>
+                              
+                              <seg class="theme-origine" ana="#origine" data-highlight="off">Fuit vero 
+                                 <persName xmlns="http://www.tei-c.org/ns/1.0">Caecilius</persName> natione Gallus, et ut cum
+                                 <span class="source">Crinito</span> nonnulli interpretati sunt, ex urbe
+                                 Mediolani.</seg>
+                              
+                              <seg class="theme-mort" ana="#mort" data-highlight="off">Contubernalis primum fuit 
+                                 <persName xmlns="http://www.tei-c.org/ns/1.0">Caecilius</persName>
+                                 
+                                 <persName xmlns="http://www.tei-c.org/ns/1.0" role="autre_poete">Ennii</persName> poetae, eodemque quo ille anno, et ipse
+                                 mortuus est et iuxta Ianiculum sepultus.</seg>
+                              
+                              <seg class="theme-reception" ana="#reception" data-highlight="off"><span class="source">Volcatius</span> quidem Sedigitus palmam
+                                 
+                                 <persName xmlns="http://www.tei-c.org/ns/1.0">Caecilio</persName> inter Comicos latinos suo carmine statuit. Ita enim
+                                 cecinit : 
+                                 <div class="citation-vers" data-highlight="off">
+                                    <lg xmlns="http://www.tei-c.org/ns/1.0">
+                                       Multos incerto certare hanc rem vidimus,<br xmlns="">
+                                       Palmam poetae comico cui deferant,<br xmlns="">
+                                       Eum me iudice errorem dissolvam tibi,<br xmlns="">
+                                       Contra ut si quis sentiat, nihil sentiat.<br xmlns="">
+                                       
+                                       <persName>Caecilio</persName> palmam statuo de Comico.<br xmlns="">
+                                       </lg>
+                                 </div> Cui plane assentiri non videtur <span class="source">Fabius
+                                    Quintilianus</span>, ut qui dicat Latinos in Comoedia claudicare. <span class="source">Gellius</span> quoque monstrat cum ex aliis fabulis, tum maxime ex
+                                 <em>Plotio</em>, longe 
+                                 <persName xmlns="http://www.tei-c.org/ns/1.0" role="autre_poete">Menandro</persName> inferiorem fuisse 
+                                 <persName xmlns="http://www.tei-c.org/ns/1.0">Caecilium</persName> in eius
+                                 transferendis fabulis minimeque illum assecutum transmarinam illam 
+                                 <persName xmlns="http://www.tei-c.org/ns/1.0" role="autre_poete">Menandri</persName> Venerem. Scribit <span class="source">D.
+                                    Hieronymus</span>, 
+                                 <persName xmlns="http://www.tei-c.org/ns/1.0" role="autre_poete">Terentium</persName> cum
+                                 <em>Andriam</em> composuisset, antequam aedilibus venderet,
+                                 
+                                 <persName xmlns="http://www.tei-c.org/ns/1.0">Caecilio</persName> eam legisse, qui 
+                                 <persName xmlns="http://www.tei-c.org/ns/1.0" role="autre_poete">Terentii</persName> ingenium elegantiamque miratus est. Idem scribit et <span class="source">Donatus</span>, licet id perperam legatur in pervulgatis codicibus.
+                                 Fabulas vero plures 
+                                 <persName xmlns="http://www.tei-c.org/ns/1.0">Caecilium</persName> docuisse videmus, adeo frequentes a
+                                 scriptoribus citantur. <span class="source">Horatius</span>
+                                 
+                                 <persName xmlns="http://www.tei-c.org/ns/1.0">Caecilium</persName> gravitate praestare ait.</seg>
+                           </div>
+                           <div class="ab trad">Mais assez parlé de Plaute. Le suivait
+                              Statius Caecilius, poète illustre dans la comédie, comme l’écrit Aulu-Gelle. Celui-ci
+                              fut en
+                              effet d’origine servile : assurément le nom Statius était chez les Anciens un nom
+                              d’esclave,
+                              et de nombreux serviteurs le portaient chez les antiques. Plus tard, ce nom devint
+                              un
+                              cognomen, comme nous l’avons dit un peu plus haut à propos de Livius Andronicus, et
+                              il fut
+                              appelé Caecilius Statius. Caecilius brilla sur la scène, selon la remarque d’Eusèbe,
+                              lors de
+                              la 150ᵉ Olympiade ; à cette même époque, Porcius Caton, comme il le dit lui-même chez
+                              Cicéron dans le dialogue <em>De la vieillesse</em>, mentionne sa pièce <em>Les
+                                 Synéphèbes</em>, c’est-à-dire Les jeunes gens du même âge. Caecilius était de nation
+                              gauloise et, comme certains l’ont interprété avec Crinitus, originaire de la ville
+                              de Milan.
+                              Il fut d’abord compagnon du poète Ennius : il mourut la même année que lui et fut
+                              enseveli
+                              près du Janicule. Volcacius Sedigitus attribue expressément à Caecilius la palme parmi
+                              les
+                              poètes comiques latins. Il a en effet écrit ces vers : 
                               <div class="citation-vers" data-highlight="off">
                                  <lg xmlns="http://www.tei-c.org/ns/1.0">
-                                    Multos incerto certare hanc rem vidimus,<br xmlns="">
-                                    Palmam poetae comico cui deferant,<br xmlns="">
-                                    Eum me iudice errorem dissolvam tibi,<br xmlns="">
-                                    Contra ut si quis sentiat, nihil sentiat.<br xmlns="">
-                                    
-                                    <persName>Caecilio</persName> palmam statuo de Comico.<br xmlns="">
+                                    Nous avons vu bien des hommes rivaliser, incertains,<br xmlns="">
+                                     pour savoir à quel poète comique attribuer la palme ;<br xmlns="">
+                                     moi, selon mon jugement, je dissiperai cette erreur pour toi :<br xmlns="">
+                                     si quelqu’un pense autrement, qu’il n’ait point d’opinion.<br xmlns="">
+                                     J’accorde la palme au comique Caecilius.<br xmlns="">
                                     </lg>
-                              </div> Cui plane assentiri non videtur <span class="source">Fabius
-                                 Quintilianus</span>, ut qui dicat Latinos in Comoedia claudicare. <span class="source">Gellius</span> quoque monstrat cum ex aliis fabulis, tum maxime ex
-                              <em>Plotio</em>, longe 
-                              <persName xmlns="http://www.tei-c.org/ns/1.0" role="autre_poete">Menandro</persName> inferiorem fuisse 
-                              <persName xmlns="http://www.tei-c.org/ns/1.0">Caecilium</persName> in eius
-                              transferendis fabulis minimeque illum assecutum transmarinam illam 
-                              <persName xmlns="http://www.tei-c.org/ns/1.0" role="autre_poete">Menandri</persName> Venerem. Scribit <span class="source">D.
-                                 Hieronymus</span>, 
-                              <persName xmlns="http://www.tei-c.org/ns/1.0" role="autre_poete">Terentium</persName> cum
-                              <em>Andriam</em> composuisset, antequam aedilibus venderet,
-                              
-                              <persName xmlns="http://www.tei-c.org/ns/1.0">Caecilio</persName> eam legisse, qui 
-                              <persName xmlns="http://www.tei-c.org/ns/1.0" role="autre_poete">Terentii</persName> ingenium elegantiamque miratus est. Idem scribit et <span class="source">Donatus</span>, licet id perperam legatur in pervulgatis codicibus.
-                              Fabulas vero plures 
-                              <persName xmlns="http://www.tei-c.org/ns/1.0">Caecilium</persName> docuisse videmus, adeo frequentes a
-                              scriptoribus citantur. <span class="source">Horatius</span>
-                              
-                              <persName xmlns="http://www.tei-c.org/ns/1.0">Caecilium</persName> gravitate praestare ait.</seg>
-                        </div>
-                        <div class="ab trad">Mais assez parlé de Plaute. Le suivait
-                           Statius Caecilius, poète illustre dans la comédie, comme l’écrit Aulu-Gelle. Celui-ci
-                           fut en
-                           effet d’origine servile : assurément le nom Statius était chez les Anciens un nom
-                           d’esclave,
-                           et de nombreux serviteurs le portaient chez les antiques. Plus tard, ce nom devint
-                           un
-                           cognomen, comme nous l’avons dit un peu plus haut à propos de Livius Andronicus, et
-                           il fut
-                           appelé Caecilius Statius. Caecilius brilla sur la scène, selon la remarque d’Eusèbe,
-                           lors de
-                           la 150ᵉ Olympiade ; à cette même époque, Porcius Caton, comme il le dit lui-même chez
-                           Cicéron dans le dialogue <em>De la vieillesse</em>, mentionne sa pièce <em>Les
-                              Synéphèbes</em>, c’est-à-dire Les jeunes gens du même âge. Caecilius était de nation
-                           gauloise et, comme certains l’ont interprété avec Crinitus, originaire de la ville
-                           de Milan.
-                           Il fut d’abord compagnon du poète Ennius : il mourut la même année que lui et fut
-                           enseveli
-                           près du Janicule. Volcacius Sedigitus attribue expressément à Caecilius la palme parmi
-                           les
-                           poètes comiques latins. Il a en effet écrit ces vers : 
-                           <div class="citation-vers" data-highlight="off">
-                              <lg xmlns="http://www.tei-c.org/ns/1.0">
-                                 Nous avons vu bien des hommes rivaliser, incertains,<br xmlns="">
-                                  pour savoir à quel poète comique attribuer la palme ;<br xmlns="">
-                                  moi, selon mon jugement, je dissiperai cette erreur pour toi :<br xmlns="">
-                                  si quelqu’un pense autrement, qu’il n’ait point d’opinion.<br xmlns="">
-                                  J’accorde la palme au comique Caecilius.<br xmlns="">
-                                 </lg>
-                           </div> À cet avis ne semble pourtant pas souscrire pleinement Quintilien, puisqu’il
-                           affirme que les Latins boitent dans la comédie. Aulu-Gelle montre également, à partir
-                           d’autres pièces, et surtout du <em>Plocium</em>, que Caecilius fut de beaucoup
-                           inférieur à Ménandre dans l’adaptation de ses œuvres, et qu’il ne parvint nullement
-                           à
-                           atteindre cette grâce grecque de Ménandre. Saint Jérôme rapporte que Térence, après
-                           avoir
-                           composé L’<em>Andrienne</em>, la lut à Caecilius avant de la vendre aux édiles ;
-                           celui-ci admira alors le talent et l’élégance de Térence. Donat rapporte la même chose,
-                           bien
-                           que le passage soit mal transmis dans les manuscrits courants. Nous voyons en outre
-                           que
-                           Caecilius mit en scène un grand nombre de pièces, tant il est fréquemment cité par
-                           les
-                           auteurs. Horace affirme que Caecilius se distingue par sa gravité. </div>
-                     </td>
-                  </tr>
-               </tbody>
-            </table>
+                              </div> À cet avis ne semble pourtant pas souscrire pleinement Quintilien, puisqu’il
+                              affirme que les Latins boitent dans la comédie. Aulu-Gelle montre également, à partir
+                              d’autres pièces, et surtout du <em>Plocium</em>, que Caecilius fut de beaucoup
+                              inférieur à Ménandre dans l’adaptation de ses œuvres, et qu’il ne parvint nullement
+                              à
+                              atteindre cette grâce grecque de Ménandre. Saint Jérôme rapporte que Térence, après
+                              avoir
+                              composé L’<em>Andrienne</em>, la lut à Caecilius avant de la vendre aux édiles ;
+                              celui-ci admira alors le talent et l’élégance de Térence. Donat rapporte la même chose,
+                              bien
+                              que le passage soit mal transmis dans les manuscrits courants. Nous voyons en outre
+                              que
+                              Caecilius mit en scène un grand nombre de pièces, tant il est fréquemment cité par
+                              les
+                              auteurs. Horace affirme que Caecilius se distingue par sa gravité. </div>
+                        </td>
+                     </tr>
+                  </tbody>
+               </table>
+            </div>
          </div>
       </div>
    </body>
