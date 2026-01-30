@@ -69,6 +69,7 @@
                         font-family: serif;
                         transition: all 0.2s;
                         color: var(--uga-blue);
+                        margin-right: 10px;
                     }
                     
                     button:hover {
@@ -80,16 +81,17 @@
                     /* Zone thématique */
                     /* ===================== */
                     #theme-buttons {
-                        display: flex;
-                        flex-direction: column;
-                        margin-right: 30px;
-                        min-width: 150px;
+                    display: flex;
+                    flex-direction: column;
+                    gap: 5px;              /* ⬅️ espace ENTRE les boutons */
+                    margin-right: 15px;
+                    min-width: 150px;
                     }
                     
                     #theme-buttons > div:first-child {
-                        font-weight: bold;
-                        margin-bottom: 15px;
-                        color: var(--uga-blue);
+                    font-weight: bold;
+                    margin-bottom: 12px;   /* espace sous le titre */
+                    color: var(--uga-blue);
                     }
                     
                     /* ===================== */
@@ -203,7 +205,7 @@
          <h1>Vies de Livius Andronicus</h1>
          <div style="display:flex; align-items:flex-start;">
             <div id="theme-buttons">
-               <div>Rubriques</div><button class="theme-btn" style="background-color:#ffcccc" onclick="toggleTheme('condition','#ffcccc')">Condition</button><button class="theme-btn" style="background-color:#ccffcc" onclick="toggleTheme('profession','#ccffcc')">Profession</button><button class="theme-btn" style="background-color:#ccccff" onclick="toggleTheme('datation','#ccccff')">Datation</button><button class="theme-btn" style="background-color:#e6e9ef" onclick="toggleTheme('oeuvre','#e6e9ef')">Œuvre</button><button class="theme-btn" style="background-color:#e6e9ef" onclick="toggleTheme('mort','#e6e9ef')">Mort</button></div>
+               <div>Rubriques</div><button class="theme-btn" style="background-color:#CDF7F6" onclick="toggleTheme('condition','#CDF7F6')">Condition</button><button class="theme-btn" style="background-color:#8FB8DE" onclick="toggleTheme('profession','#8FB8DE')">Profession</button><button class="theme-btn" style="background-color:#9A94BC" onclick="toggleTheme('datation','#9A94BC')">Datation</button><button class="theme-btn" style="background-color:#BA78B3" onclick="toggleTheme('oeuvre','#BA78B3')">Œuvre</button><button class="theme-btn" style="background-color:#E3A69D" onclick="toggleTheme('mort','#E3A69D')">Mort</button></div>
             <div style="flex:1">
                <div class="toolbar">
                   <div><button id="sources-btn" onclick="toggleSources()">Sources</button><button onclick="toggleCitation('#e0d7ff')">Citations</button></div><button id="orig-trad-btn" onclick="toggleOrigTrad()">Original /
