@@ -1,0 +1,631 @@
+<!DOCTYPE HTML>
+<html xmlns:tei="http://www.tei-c.org/ns/1.0" lang="fr">
+   <head>
+      <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+      <title>Traductions comparées</title>
+      <style type="text/css">
+                    body {
+                        font-family: serif;
+                        margin: 30px;
+                    }
+                    
+                    /* ===================== */
+                    /* Style commun boutons */
+                    /* ===================== */
+                    button {
+                        padding: 6px 12px;
+                        font-size: 14px;
+                        cursor: pointer;
+                        border: 1px solid #888;
+                        border-radius: 4px;
+                        font-family: serif;
+                        transition: all 0.3s;
+                    }
+                    
+                    button:hover {
+                        filter: brightness(90%);
+                    }
+                    
+                    /* Boutons Sources / Orig-Trad neutres */
+                    button#sources-btn,
+                    button#orig-trad-btn {
+                        background-color: #f8f8f8;
+                        margin-right: 10px;
+                    }
+                    
+                    button#sources-btn:hover,
+                    button#orig-trad-btn:hover {
+                        background-color: #e0e0e0;
+                    }
+                    
+                    /* Boutons thématiques verticaux + Citation */
+                    button.theme-btn {
+                        margin-bottom: 8px;
+                        color: #000;
+                        border: 1px solid #888;
+                        border-radius: 4px;
+                        padding: 6px 10px;
+                        font-family: serif;
+                    }
+                    
+                    /* Tableau */
+                    table {
+                        width: calc(100% - 1cm);
+                        margin-right: 1cm;
+                        margin-left: 0;
+                        border-collapse: collapse;
+                        table-layout: fixed;
+                    }
+                    th,
+                    td {
+                        border: 1px solid #999;
+                        vertical-align: top;
+                    }
+                    td {
+                        padding: 8px 10px;
+                        text-align: justify;
+                        word-wrap: break-word;
+                        hyphens: auto;
+                    }
+                    th {
+                        background-color: #f0f0f0;
+                        text-align: center;
+                    }
+                    
+                    /* Sources */
+                    .source {
+                        background-color: transparent;
+                        transition: background-color 0.3s;
+                    }
+                    .highlight {
+                        background-color: #ffe066;
+                    }
+                    
+                    /* Orig / Trad */
+                    .orig {
+                        display: none;
+                    }
+                    body.show-orig .trad {
+                        display: none;
+                    }
+                    body.show-orig .orig {
+                        display: block;
+                    }
+                    
+                    /* Zone thématiques */
+                    #theme-buttons {
+                        display: flex;
+                        flex-direction: column;
+                        margin-right: 20px;
+                        min-width: 120px;
+                        /* décaler le titre et boutons plus bas */
+                        margin-top: 30px;
+                    }
+                    
+                    #theme-buttons > div:first-child {
+                        font-weight: bold;
+                        margin-bottom: 12px;
+                    }
+                    
+                    /* Toolbar horizontal boutons */
+                    .toolbar {
+                        display: flex;
+                        justify-content: space-between;
+                        align-items: center;
+                        margin-bottom: 15px;
+                    }
+                    
+                    .toolbar div > button {
+                        margin-right: 10px;
+                    }
+                    
+                    .citation-vers {
+                        display: block;
+                        margin: 8px 0 8px 10px;
+                    }</style><script type="text/javascript">
+                    
+                    function toggleSources() {
+                        var sources = document.getElementsByClassName("source");
+                        for (var i = 0; i < sources.length; i++) {
+                            sources[i].classList.toggle("highlight");
+                        }
+                    }
+                    
+                    function toggleOrigTrad() {
+                        document.body.classList.toggle("show-orig");
+                    }
+                    
+                    function toggleTheme(themeId, color) {
+                        var segs = document.querySelectorAll("seg.theme-" + themeId);
+                        for (var i = 0; i < segs.length; i++) {
+                            if (segs[i].getAttribute("data-highlight") === "on") {
+                                segs[i].style.backgroundColor = "";
+                                segs[i].setAttribute("data-highlight", "off");
+                            } else {
+                                segs[i].style.backgroundColor = color;
+                                segs[i].setAttribute("data-highlight", "on");
+                            }
+                        }
+                    }
+                    
+                    function toggleCitation(color) {
+                        var elems = document.querySelectorAll("q, .citation-vers");
+                        for (var i = 0; i < elems.length; i++) {
+                            if (elems[i].getAttribute("data-highlight") === "on") {
+                                elems[i].style.backgroundColor = "";
+                                elems[i].setAttribute("data-highlight", "off");
+                            } else {
+                                elems[i].style.backgroundColor = color;
+                                elems[i].setAttribute("data-highlight", "on");
+                            }
+                        }
+                    }//
+                </script></head>
+   <body>
+      <div style="display:flex; align-items:flex-start;">
+         <div id="theme-buttons">
+            <div>Rubriques</div>
+         </div>
+         <div style="flex:1">
+            <div class="toolbar">
+               <div><button id="sources-btn" onclick="toggleSources()">Sources</button><button class="theme-btn" onclick="toggleCitation('#ffd699')">Citation</button></div><button id="orig-trad-btn" onclick="toggleOrigTrad()">Original /
+                  Traduction</button></div>
+            <table>
+               <thead>
+                  <tr>
+                     <th>Polenton</th>
+                     <th>Crinitus</th>
+                     <th>Giraldi</th>
+                  </tr>
+               </thead>
+               <tbody>
+                  <tr>
+                     <td>
+                        <div class="ab orig">Comicorum autem illustrium tertium ordine
+                           Nigidii e sententia C. Nevium dignitas locat. Hunc Plautus contemporaneum habuit atque
+                           post
+                           mortuum istum annos ad quinque vita defunctus est. Annum vero Nevii supra LX vixit.
+                           Ipsum
+                           quidem stipendia fecisse bello primo Punico tradit Varro. Diem vero obisse consulibus
+                           P.
+                           Cornellio Cethego et P. Tuditano (belli Punici secundi XV tunc annus erat) Cicero
+                           suo in
+                           Bruto veterum ex commentariis refert. Fabulas vero ad populum Punica stante pace ante
+                           bellum
+                           secundum Punicum dedit. Hoc quingentesimo ac undevicesimo post urbem conditam anno
+                           fuit.
+                           Litteras Nevius habuit multas. Sed illos suo pro ingenio est secutus quos maledicendi
+                           licentia summopere delectavit. Hoc enim licere sibi Graecorum poetarum e more putavit,
+                           oblitus viros graves et sapientes solere abhorrere maledicentias ac nos monere hominis
+                           non
+                           boni esse male de quoquam loqui, temerarii autem atque stulti esse scribere in eos
+                           qui
+                           proscribere quos velint possint. Nulla quidem lacessitus iniuria mordebat saepe nobiles
+                           Nevius. Saepius Metellos pungebat. Cives hi tum Romae clari ac metuendi cum opibus
+                           tum
+                           nobilitate ac rebus gestis erant. Hoc in eos dictum ab eo facete sed contumeliose
+                           fertur: «
+                           Fato Metelli Romae fiunt consules. » Iratus vero ob id Metellus, qui designatus tum
+                           forte
+                           consul esset, ita respondit: « Dabunt malum Metelli Nevio poetae. » Versus preterea
+                           et
+                           fabulas complures in nobiles ac presertim in Metellos maledicentiis et probris plenos
+                           fecit.
+                           Hanc ob rem, quae turpis esset vehementerque Metellis ac nobilibus displiceret, saepe
+                           reprehensus est. Sed cum linguam neque minis nec precibus coherceret, ipsum, qui capitalibus
+                           praeerant, triumviri in carcerem coniecerunt nec ante dimiserunt quam probra, fabulas,
+                           versus quos in nobiles ac Metellos ediderat omnes penitus revocavit. Duas tunc in
+                           carcere
+                           comoedias, quibus maledicta omnia expurgaret, fecit. Carcere ipsum exemerunt tribuni
+                           plebis,
+                           quod hinc emendatus ipse, inde reconciliatus illorum animus videtur. Ipse autem se
+                           maledictis haudquaquam abstinuit, sed, quasi ob carcerem lacessitus ac iuste ad vindictam
+                           motus, veterem ad consuetudinem rediit. Tum quidem factione nobilium urbe pulsus traiecit
+                           in
+                           Africam atque perdiu vagus diem tandem Uticae obiit. Lapidi vero inscribendum hoc
+                           sibi
+                           epigramma fecit: « Immortales mortales si foret fas, flerent divae Camenae Nevium
+                           poetam.
+                           »</div>
+                        <div class="ab trad">Parmi les poètes comiques illustres, la
+                           dignité place Gnaeus Naevius, selon l’opinion de Nigidius, troisième. Plaute fut son
+                           contemporain et mourut environ cinq ans avant lui. Naevius vécut plus de soixante
+                           ans.
+                           Varron rapporte qu’il fit son service militaire durant la première guerre punique.
+                           Cicéron,
+                           dans son Brutus, d’après les anciens commentaires, écrit qu’il mourut sous le consulat
+                           de
+                           Publius Cornelius Cethegus et de Publius Tuditanus (c’était alors la quinzième année
+                           de la
+                           seconde guerre punique). Il donna ses pièces au public durant la paix punique, avant
+                           la
+                           seconde guerre punique ; c’était l’année 519 après la fondation de Rome. Naevius possédait
+                           un vaste savoir littéraire. Mais, selon son tempérament, il suivit surtout ceux que
+                           la
+                           liberté de médire ravissait au plus haut point. Il crut en effet que cette liberté
+                           lui était
+                           permise à l’exemple des poètes grecs, oubliant que les hommes sérieux et sages ont
+                           de
+                           coutume horreur des médisances et nous rappellent qu’il est le propre d’un homme mauvais
+                           de
+                           dire du mal de quelqu’un, et d’un homme téméraire et sot d’attaquer par écrit ceux
+                           qui ont
+                           le pouvoir de proscrire qui ils veulent. Sans avoir été provoqué par aucune injure,
+                           Naevius
+                           mordait souvent les nobles. Il attaquait plus fréquemment encore les Metelli. Ils
+                           étaient
+                           des citoyens alors illustres et redoutables à Rome par leur richesse, leur noblesse
+                           et leurs
+                           hauts faits. On rapporte qu’il lança contre eux ce trait spirituel mais insultant
+                           : « C'est
+                           par la volonté du destin que les Metelli deviennent consuls à Rome. » Irrité par cette
+                           parole, un Metellus qui il était alors consul désigné, répondit ainsi : « Les Metelli
+                           feront
+                           payer cher au poète Naevius. » Il composa en outre de nombreux vers et pièces remplis
+                           d’injures et de reproches contre des membres de la noblesse et surtout contre les
+                           Metelli.
+                           Parce qu'il était extrêmement détesté et tout à fait haï des Metelli et de la noblesse,
+                           il
+                           fut souvent réprimandé. Mais comme il ne retenait sa langue ni par menaces ni par
+                           prières,
+                           les triumvirs chargés des affaires capitales le jetèrent en prison et ne le relâchèrent
+                           qu’après qu’il eut entièrement rétracté toutes les injures, pièces et vers qu’il avait
+                           publiés contre les nobles et les Metelli. Il composa alors en prison deux comédies,
+                           destinées à expurger toutes ces attaques. Les tribuns de la plèbe le firent sortir
+                           de
+                           prison, car lui-même semblait amendé et l’animosité de ses adversaires apaisée. Cependant,
+                           il ne s’abstint nullement de médisances : comme s’il avait été provoqué par l’emprisonnement
+                           et justement poussé à la vengeance, il revint à son ancienne habitude. Alors, chassé
+                           de Rome
+                           par la faction des nobles, il passa en Afrique et, après une longue errance, mourut
+                           enfin à
+                           Utique. Il fit graver pour son tombeau cette épigramme : « S’il était permis aux immortels
+                           de pleurer des mortels, les divines Camènes pleureraient le poète Naevius. »</div>
+                     </td>
+                     <td>
+                        <div class="ab orig">Gnaeus Naevius Poeta comicus illustris est
+                           habitus. Campanus fuit, ut a Gellio traditur in Atticis noctibus. Vulcacius sedigitus
+                           post
+                           Cecilium et Plautum constituit illi tertium locum neque Licinio tantum, Sed Attilio:
+                           Terentio atque Turpilio praeposuit. Eo maxime tempore in scena dicitur praestitisse
+                           fabulis
+                           ad populum editis, quo Spurius Carbilius, cognomento Ruga, primus Romae de amicorum
+                           sententia divortium cum uxore fecit, quod esset sterilis iuravitque apud censores
+                           uxorem se
+                           liberum quaerendorum causa habere. Traditum est ab antiquis scriptoribus Poetam Naevium
+                           stipendia fecisse bellis punicis ; idque ipsum testari Naevium eo carmine quod a se
+                           scriptum
+                           est de bello punico. Qua in re nec illud est omittendum quod cum esset unicum volumen
+                           Naevii, Octavius Lampadio grammaticus excellens divisit illud in septem libros, ut
+                           alibi
+                           diligenter exposuimus. Prisci enim grammatici consueverunt pro iudicio suo atque eruditione
+                           omnium scriptorum opera percensere auctoresque ipsos aut numero eximere aut in ordinem
+                           redigere. Scripsit Naevius praeter Punicum bellum Comedias ac Tragedias stilo imprimis
+                           erudito et gravi, ut veteres testantur. Comedias aliquot exemplo graecorum composuit
+                           probris
+                           atque maledicentia plenas, in quibus Romanae civitatis principes acriter est insectatus,
+                           ut
+                           qui Metellum consularem virum et Publium Scipionem Africanum maledictis suis oneraverit.
+                           Sic
+                           enim de Scipione : 
+                           <div class="citation-vers" data-highlight="off">
+                              <lg xmlns="http://www.tei-c.org/ns/1.0">
+                                 Etiam qui res magnas manu saepe gessit gloriose<br xmlns="">
+                                  Cuius facta viva nunc vigent, qui apud gentis solus<br xmlns="">
+                                  Praestat, eum suus pater cum pallio una ab amica abduxit.<br xmlns="">
+                                 </lg>
+                           </div> Hinc factum est ut Poeta Naevius in vincula coniceretur a triumviris propter
+                           immoderatam verborum petulantiam atque mordacitatem. Et cum aliquamdiu haberetur in
+                           custodiis, fabulas aliquot composuit. Paulo mox a tribunis plebis e carcere exemptus
+                           est ea
+                           conditione ut delicta illa ac probra dilueret, quae contra Romanos cives suis fabulis
+                           inferuerat. De quo scribuntur complura in Atticis commentariis, qui de Naevii fabulis
+                           agunt.
+                           Citant illum in Alceste, in Aureolo, Lycurgo, Tripholo, Leone, in Colace, Aegysto,
+                           Tereo, et
+                           Zenone. Terentius Varro in libris de latina lingua ad Marcum Tullium plures alias
+                           pro
+                           Neuianis commemorat, ut Esionam, Clastidium, Dolum, Demetrium, Persas, Lampadionem,
+                           Agedonem, Romulum, Stigmatiam. Ab hoc Naevio multa mutuatus est Publius Vergilius
+                           sicuti ab
+                           Ennio, Lucretio, Pacuvio et aliis, ut a Macrobio diligenti studio est observatum.
+                           Obiisse
+                           traditur Vticae, cum factione nobilium praecipueque Metelli foret ex urbe eiectus.
+                           Nunc
+                           epigramma illud vulgatum referemus ab ipso Naevio de se compositum. in quo Campana
+                           superbia
+                           merito ab antiquis culpata est : 
+                           <div class="citation-vers" data-highlight="off">
+                              <lg xmlns="http://www.tei-c.org/ns/1.0">
+                                 Immortales mortales si foret fas flere<br xmlns="">
+                                  Flerent divae Camenae Naevium Poetam.<br xmlns="">
+                                  Itaque postquam est Orci traditus thesauro<br xmlns="">
+                                  Obliti sunt Romae latina loquier lingua.<br xmlns="">
+                                 </lg>
+                           </div> De Quinto Nouio, qui attellanarum scriptor fuit, suo loco dicemus. ne tam apte
+                           decipiantur nostri grammatici, cum Naevium hunc pro Novio imperite accipiant. </div>
+                        <div class="ab trad">Cnaeus Naevius fut tenu pour un poète comique
+                           illustre. Il était originaire de Campanie, comme le rapporte Aulu-Gelle dans les Nuits
+                           attiques. Volcatius Sedigitus, après Caecilius et Plaute, lui attribua la troisième
+                           place,
+                           le préférant non seulement à Licinius, mais aussi à Attilius, Térence et Turpilius.
+                           On dit
+                           qu’il se distingua surtout sur la scène, faisant représenter ses pièces à l’époque
+                           où
+                           Spurius Carbilius, surnommé Ruga, fut le premier à Rome à divorcer de sa femme, sur
+                           l’avis
+                           de ses amis, au motif qu’elle était stérile, et qu’il jura devant les censeurs qu’il
+                           avait
+                           épousé sa femme dans le but d’avoir des enfants. Les auteurs anciens rapportent que
+                           le poète
+                           Naevius fit son service militaire durant les guerres puniques ; et Naevius lui-même
+                           en
+                           témoigne dans ce poème qu’il composa sur la guerre punique. À ce sujet, il ne faut
+                           pas
+                           passer sous silence que, bien que l’ouvrage de Naevius n’ait formé à l’origine qu’un
+                           seul
+                           volume, le grammairien éminent Octavius Lampadio le divisa en sept livres, comme nous
+                           l’avons expliqué ailleurs avec soin. En effet, les anciens grammairiens avaient coutume,
+                           selon leur jugement et leur érudition, d’examiner l’ensemble des œuvres des écrivains,
+                           d’en
+                           exclure certains auteurs ou de les classer dans un ordre déterminé. Naevius écrivit,
+                           outre
+                           la Guerre punique, des comédies et des tragédies d’un style particulièrement savant
+                           et
+                           grave, comme en témoignent les Anciens. Il composa plusieurs comédies à l’imitation
+                           des
+                           Grecs, pleines d’invectives et d’attaques, dans lesquelles il attaqua avec vigueur
+                           les
+                           principaux personnages de l’État romain, allant jusqu’à charger de ses attaques Metellus,
+                           homme consulaire, et Publius Scipion l’Africain. Ainsi parle-t-il de Scipion : 
+                           <div class="citation-vers" data-highlight="off">
+                              <lg xmlns="http://www.tei-c.org/ns/1.0">
+                                 Même celui qui souvent accomplit glorieusement de grandes actions de sa main,<br xmlns="">
+                                  Dont les exploits vivants brillent encore aujourd’hui,<br xmlns="">
+                                  qui l’emporte seul parmi les peuples,<br xmlns="">
+                                  Celui-là même, son propre père l’a tiré, vêtu d’un manteau, de chez sa
+                                 maîtresse.<br xmlns="">
+                                 </lg>
+                           </div> De là vint que le poète Naevius fut jeté en prison par les triumvirs, en raison
+                           de l’immodération, de l’insolence et de la mordacité de ses paroles. Après avoir été
+                           détenu
+                           quelque temps, il composa plusieurs pièces. Peu après, il fut libéré de prison par
+                           les
+                           tribuns de la plèbe, à la condition qu’il effaçât ces fautes et ces injures qu’il
+                           avait
+                           dirigées contre des citoyens romains dans ses comédies. À ce sujet, on trouve de nombreux
+                           témoignages dans les Commentaires attiques, qui traitent des pièces de Naevius et
+                           le citent
+                           notamment dans Alceste, Aureolus, Lycurgue, Tripholus, Leo, Colax, Égisthe, Térée
+                           et Zénon.
+                           Térence Varron, dans ses livres De la langue latine adressés à Marcus Tullius, en
+                           mentionne
+                           encore plusieurs autres comme œuvres de Naevius : Hésione, Clastidium, Dolus, Démétrius,
+                           Les
+                           Perses, Lampadion, Agédon, Romulus, Stigmatia. À ce Naevius, Publius Virgile a beaucoup
+                           emprunté, tout comme il l’a fait à Ennius, Lucrèce, Pacuvius et à d’autres, ainsi
+                           que l’a
+                           soigneusement observé Macrobe. On rapporte que Naevius mourut à Utique, après avoir
+                           été
+                           chassé de Rome par le parti des nobles, et surtout par celui des Metelli. Nous rapporterons
+                           maintenant cette épigramme célèbre que Naevius composa sur lui-même, dans laquelle
+                           l’orgueil
+                           campanien, à juste titre, fut blâmé par les Anciens : 
+                           <div class="citation-vers" data-highlight="off">
+                              <lg xmlns="http://www.tei-c.org/ns/1.0">
+                                 Si les immortels avaient le droit de pleurer les mortels,<br xmlns="">
+                                 les divines Camènes pleureraient le poète Naevius.<br xmlns="">
+                                 Et ainsi, lorsqu’il fut confié au trésor d’Orcus,<br xmlns="">
+                                 à Rome on oublia de parler la langue latine.<br xmlns="">
+                                 </lg>
+                           </div> De Quintus Novius, auteur d’attellanes, nous parlerons en son lieu, afin que nos
+                           grammairiens ne se laissent pas tromper trop aisément, lorsqu’ils prennent à tort
+                           ce Naevius
+                           pour Novius.</div>
+                     </td>
+                     <td>
+                        <div class="ab orig">Sequebatur Livium Gnaeus Naevius poeta Campanus,
+                           cui in Comoedia tertias suo carmine Sedigitus Volcatius attribuit. Fabulas Naevius
+                           tum
+                           primum docuisse dicitur, cum Spurius Carbilius Ruga cum uxore fecit divortium. Marcus
+                           Varro
+                           in libro de poetis primo, eum stipendia fecisse ait bello Punico, idque ipsum Naevium
+                           dicere
+                           in eo carmine, quod de eodem bello scripsit. At vero Marcus Tullius eadem tempestate
+                           fuisse
+                           ait, qua Marcus Cethegus ille, 
+                           <div class="citation-vers" data-highlight="off">
+                              <lg xmlns="http://www.tei-c.org/ns/1.0">
+                                 Qui dictus ollis popularibus olim,<br xmlns="">
+                                  Qui tum vivebant homines, atque aevum agitabant,<br xmlns="">
+                                  Flos delibatus populi, Suadaeque medulla.<br xmlns="">
+                                 </lg>
+                           </div> ut Ennius cecinit. Hoc ipso Cethego et Tuditano Consulibus, bello Punico
+                           secundo, anno plane centesimo sexagesimo ante Marcum Tullium Consulem ut in veteribus
+                           commentariis scriptum est, Naevius est mortuus, quanquam Varro, ut ait Cicero,
+                           diligentissimus investigator antiquitatis, putat in hoc erratum vitamque Naevii producit
+                           longius. Scribit Eusebius, CXLIIII Olympiade in Utica Aphricae Naevium diem obiisse,
+                           cum eo
+                           pulsus esset factione nobilium, et praecipue Metelli et Scipionis Aphricani, quos
+                           ipse odio
+                           est insectatus et suis versibus satyrice perstrinxit : Fato, inquit, Metelli Romae
+                           fiunt
+                           consules. Contra Metelli quoque, ut est apud Attilium, a Naevio aliquoties lacessiti,
+                           in eum
+                           hoc Saturnio carmine luserunt: 
+                           <div class="citation-vers" data-highlight="off">
+                              <lg xmlns="http://www.tei-c.org/ns/1.0">
+                                 Malum dabunt Metelli Naevio poetae.<br xmlns="">
+                                 </lg>
+                           </div> Duius rei et Asconius et Terentianus meminere. De Scipione vero etiam inquit:
+                           Qui res magnas manu saepe gessit gloriose, cuius facta viva nunc vigent, qui apud
+                           genteis
+                           solus praestat, eum suus pater cum pallio una ab amica abduxit. Praeter Comoedias
+                           et
+                           Tragoedias composuit et bellum Punicum Naevius, quod Suetonio teste, Caius Octavius
+                           Lampadio, cum esset uno volumine contentum, in septem libros divisit. Scripsit insuper
+                           et
+                           epigrammata, ut docet Gellius. At vero cum ob assiduam maledicentiam et probra in
+                           principes
+                           civitatis de poetarum Graecorum more dicta, in vincula Romae a triumviris coniectus
+                           esset,
+                           fabulas Laureolum et Leontem composuit, quibus delicta sua et dictorum petulantias,
+                           quibus
+                           plerosque ante laeserat, diluit ; unde postea a tribuno plebis e vinculis exemptus
+                           est.
+                           Numerus fabularum Naevii haud quidem a scriptoribus traditur ; ut ex diversis tamen
+                           colligitur, viginti ferme fuisse reperiuntur. Est quoque traditum ipsum sibi suum
+                           epigramma
+                           funeris, superbiae quidem Campanae plenum composuisse, quod testimonium, inquit Gellius,
+                           iustum esse potuisset, nisi ab ipso dictum esset: 
+                           <div class="citation-vers" data-highlight="off">
+                              <lg xmlns="http://www.tei-c.org/ns/1.0">
+                                 Immortales, ait, mortales si foret fas flere,<br xmlns="">
+                                  Flerent divae Camenae Naevium poetam.<br xmlns="">
+                                  Itaque postquam est Orcino traditus thesauro,<br xmlns="">
+                                  Obliti sunt Romae lingua latina loquier.<br xmlns="">
+                                 </lg>
+                           </div> Eo autem fetiarium genere Naevium usum esse, quae praeter expectationem et
+                           ambiguum, risum movent, testis est Marcus Tullius, cuius et illud affert : « Vt apud
+                           Naevium, inquit, videtur esse misericors ille, qui iudicatum duci videtur, percontatur
+                           ita,
+                           “Quanti addictus ?” “Mille nummum.” Si addidisset tantummodo, “Ducas licet”, esset
+                           illud
+                           ridiculi praeter expectationem ; sed quia addidit, “Nihil addo, ducas licet”, addito
+                           ambiguo
+                           altero genere ridiculi, fuit, ut mihi quidem videtur, falsissimus », ait Cicero, qui
+                           et
+                           alibi hoc etiam ponit. Cum enim cuipiam videretur velle remedium algoris ostendere,
+                           «
+                           Sapiens, inquit, si algebis, tremes ». Dum enim ille expectaret remedium, « si algebis,
+                           ait,
+                           tremes ». At huiusmodi plenum Naevium fuisse idem scribit Cicero, quo loco tamen vetusti
+                           nonnulli codices Novium, non Naevium, scriptum habent. Fuit autem Quintus Novius et
+                           ipse
+                           poeta Comicus et probatus Attellanarum fabularum scriptor. Citantur pleraeque huius
+                           Novii
+                           fabulae a Marcello et aliis grammaticis. Macrobius hoc illius affert carmen: 
+                           <div class="citation-vers" data-highlight="off">
+                              <lg xmlns="http://www.tei-c.org/ns/1.0">
+                                 Olim expectata veniunt septem saturnalia.<br xmlns="">
+                                 </lg>
+                           </div>
+                           </div>
+                        <div class="ab trad">Après Livius vint Cnaeus Naevius, poète
+                           campanien, à qui Volcatius Sedigitus attribua, dans son poème, la troisième place
+                           en
+                           comédie. On dit que Naevius commença à faire représenter ses pièces précisément à
+                           l’époque
+                           où Spurius Carbilius Ruga divorça de son épouse. Marcus Varron, dans le premier livre
+                           Des
+                           Poètes, affirme que Naevius fit son service militaire durant la guerre punique, et
+                           que
+                           Naevius lui-même le déclare dans le poème qu’il écrivit sur cette guerre. Mais Marcus
+                           Tullius soutient qu’il vécut à la même époque que Marcus Cethegus, 
+                           <div class="citation-vers" data-highlight="off">
+                              <lg xmlns="http://www.tei-c.org/ns/1.0">
+                                 celui qui fut jadis proclamé par ses compatriotes,<br xmlns="">
+                                  qui étaient alors en vie et vivaient leurs dernières années,<br xmlns="">
+                                  la fleur la plus précieuse du peuple et la moelle même de l’éloquence,<br xmlns="">
+                                 </lg>
+                           </div> comme l’a chanté Ennius. C’est sous le consulat de Cethegus et Tuditanus,
+                           pendant la seconde guerre punique, exactement cent soixante ans avant le consulat
+                           de Marcus
+                           Tullius, comme on le lit dans les anciens commentaires, que Naevius mourut ; bien
+                           que
+                           Varron, ainsi que le rapporte Cicéron, le plus scrupuleux chercheur de l’Antiquité,
+                           pense
+                           qu’il y a là une erreur et prolonge la vie de Naevius plus avant. Eusèbe écrit que
+                           Naevius
+                           mourut à Utique, en Afrique, lors de la 144ᵉ Olympiade, après avoir été chassé de
+                           Rome par
+                           la faction des nobles, et surtout par celle des Metelli et de Scipion l’Africain,
+                           qu’il
+                           avait attaqués avec haine et fustigés satiriquement dans ses vers : « C'est par la
+                           volonté
+                           du destin que les Metelli deviennent consuls à Rome. » En retour, les Metelli, souvent
+                           pris
+                           pour cibles par Naevius, selon le témoignage d’Attilius, se moquèrent de lui à leur
+                           tour par
+                           ce vers saturnien : 
+                           <div class="citation-vers" data-highlight="off">
+                              <lg xmlns="http://www.tei-c.org/ns/1.0">
+                                 Les Metelli feront payer cher au poète Naevius.<br xmlns="">
+                                 </lg>
+                           </div> De cet épisode font également mention Asconius et Terentianus. À propos de
+                           Scipion, Naevius dit encore : Même celui qui souvent accomplit glorieusement de grandes
+                           actions de sa main,<br>
+                           
+                           <div class="citation-vers" data-highlight="off">
+                              <lg xmlns="http://www.tei-c.org/ns/1.0">
+                                 Dont les exploits vivants brillent encore aujourd’hui,<br xmlns="">
+                                 qui l’emporte seul parmi les peuples,<br xmlns="">
+                                 Celui-là même, son propre père l’a tiré, vêtu d’un manteau, de chez sa maîtresse.<br xmlns="">
+                                 </lg>
+                           </div> Outre des comédies et des tragédies, Naevius composa aussi la Guerre punique,
+                           ouvrage que, selon le témoignage de Suétone, Caius Octavius Lampadio, bien qu’il n’eût
+                           formé
+                           à l’origine qu’un seul volume, divisa en sept livres. Il écrivit en outre des épigrammes,
+                           comme l’enseigne Aulu-Gelle. Mais lorsque, en raison de son incessante médisance et
+                           des
+                           injures qu’il lançait contre les principaux citoyens de l’État, à l’imitation des
+                           poètes
+                           grecs, il eut été jeté en prison à Rome par les triumvirs, il composa les pièces Laureolus
+                           et Leo, par lesquelles il effaça ses fautes et la fougue de ses paroles, qui avaient
+                           auparavant offensé beaucoup de gens ; c’est ainsi qu’il fut ensuite libéré de ses
+                           chaînes
+                           par un tribun de la plèbe. Le nombre exact des pièces de Naevius n’est certes pas
+                           transmis
+                           par les auteurs ; mais, d’après divers indices, on constate qu’il y en eut environ
+                           vingt. On
+                           rapporta aussi qu’il avait composé lui-même son épitaphe, pleine d’une superbe typiquement
+                           campanienne, témoignage qui, aux dires d’Aulu-Gelle, aurait pu être légitime s’il
+                           n’avait
+                           pas été prononcé par lui-même : 
+                           <div class="citation-vers" data-highlight="off">
+                              <lg xmlns="http://www.tei-c.org/ns/1.0">
+                                 Si les immortels avaient le droit de pleurer les mortels,<br xmlns="">
+                                 les divines Camènes pleureraient le poète Naevius.<br xmlns="">
+                                 Et ainsi, lorsqu’il fut confié au trésor d’Orcus,<br xmlns="">
+                                 à Rome on oublia de parler la langue latine.<br xmlns="">
+                                 </lg>
+                           </div> Que Naevius ait usé de ce genre de plaisanterie dite « féciale », qui provoque
+                           le rire par l’inattendu et l’ambiguïté, Marcus Tullius Cicéron en est témoin, et il
+                           en cite
+                           notamment cet exemple : « Comme on le voit chez Naevius, dit-il, paraît compatissant
+                           cet
+                           homme qui, voyant qu’un condamné est conduit en prison, lui demande ainsi : “Pour
+                           quelle
+                           somme as-tu été adjugé ?” ; “Pour mille sesterces.” Si l’on s’était contenté d’ajouter
+                           seulement : “Tu peux l’emmener”, il y aurait eu là un trait comique fondé sur l’inattendu
+                           ;
+                           mais parce qu’il ajoute : “Je n’ajoute rien : tu peux l’emmener”, en joignant un second
+                           type
+                           de comique, fondé sur l’ambiguïté, le trait devient, selon moi, extrêmement artificiel
+                           »,
+                           dit Cicéron, qui rapporte ailleurs encore cet exemple. Ainsi, lorsqu’un homme semblait
+                           vouloir indiquer un remède contre le froid, il disait : « Même un philosophe comme
+                           vous,
+                           s'il a froid, frissonnera. » En effet, tandis que l’auditeur attendait un remède,
+                           il dit : «
+                           si tu as froid, tu trembleras ». Le même Cicéron écrit que Naevius abonde en traits
+                           de ce
+                           genre ; toutefois, en ce passage, certains anciens manuscrits portent Novius et non
+                           Naevius.
+                           Il y eut en effet aussi Quintus Novius, lui-même poète comique et auteur estimé d’atellanes.
+                           Un grand nombre de pièces de ce Novius sont citées par Marcellus et par d’autres
+                           grammairiens. Macrobius rapporte de lui ce vers : 
+                           <div class="citation-vers" data-highlight="off">
+                              <lg xmlns="http://www.tei-c.org/ns/1.0">
+                                 Longtemps attendues, voici qu’arrivent les sept Saturnales.<br xmlns="">
+                                 </lg>
+                           </div>
+                        </div>
+                     </td>
+                  </tr>
+               </tbody>
+            </table>
+         </div>
+      </div>
+   </body>
+</html>
