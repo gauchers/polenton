@@ -2,120 +2,162 @@
 <html xmlns:tei="http://www.tei-c.org/ns/1.0" lang="fr">
    <head>
       <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-      <title>Traductions comparées</title>
+      <title>Vies de Livius Andronicus</title>
       <style type="text/css">
+                    :root {
+                        --uga-blue: #003a8f;
+                        --uga-light-blue: #5b7dbb;
+                        --uga-grey: #e6e9ef;
+                        --uga-dark-grey: #555;
+                    }
+                    
                     body {
                         font-family: serif;
-                        margin: 30px;
+                        margin: 0;
+                        color: #111;
                     }
-
+                    
                     /* ===================== */
-                    /* Style commun boutons */
+                    /* Marges décoratives */
+                    /* ===================== */
+                    .marge {
+                        position: fixed;
+                        top: 0;
+                        width: 120px;
+                        height: 100%;
+                        background-image: url("../images/marge.png");
+                        background-repeat: repeat;
+                        pointer-events: none;
+                        z-index: -1;
+                    }
+                    
+                    .marge.left {
+                        left: 0;
+                    }
+                    .marge.right {
+                        right: 0;
+                    }
+                    
+                    /* ===================== */
+                    /* Wrapper principal */
+                    /* ===================== */
+                    .page-wrapper {
+                        padding: 50px 140px;
+                        box-sizing: border-box;
+                    }
+                    
+                    /* ===================== */
+                    /* Titre principal */
+                    /* ===================== */
+                    h1 {
+                        text-align: center;
+                        font-size: 30px;
+                        margin-bottom: 25px;
+                        color: var(--uga-blue);
+                    }
+                    
+                    /* ===================== */
+                    /* Boutons */
                     /* ===================== */
                     button {
                         padding: 6px 12px;
                         font-size: 14px;
                         cursor: pointer;
-                        border: 1px solid #888;
+                        border: 1px solid var(--uga-light-blue);
                         border-radius: 4px;
+                        background-color: #f4f7fc;
                         font-family: serif;
-                        transition: all 0.3s;
+                        transition: all 0.2s;
+                        color: var(--uga-blue);
                     }
-
+                    
                     button:hover {
-                        filter: brightness(90%);
+                        background-color: var(--uga-light-blue);
+                        color: #fff;
                     }
-
-                    /* Boutons Sources / Orig-Trad neutres */
-                    button#sources-btn,
-                    button#orig-trad-btn {
-                        background-color: #f8f8f8;
-                        margin-right: 10px;
+                    
+                    /* ===================== */
+                    /* Zone thématique */
+                    /* ===================== */
+                    #theme-buttons {
+                        display: flex;
+                        flex-direction: column;
+                        margin-right: 30px;
+                        min-width: 150px;
                     }
-
-                    button#sources-btn:hover,
-                    button#orig-trad-btn:hover {
-                        background-color: #e0e0e0;
+                    
+                    #theme-buttons > div:first-child {
+                        font-weight: bold;
+                        margin-bottom: 15px;
+                        color: var(--uga-blue);
                     }
-
-                    /* Boutons thématiques verticaux + Citation */
-                    button.theme-btn {
-                        margin-bottom: 8px;
-                        color: #000;
-                        border: 1px solid #888;
-                        border-radius: 4px;
-                        padding: 6px 10px;
-                        font-family: serif;
+                    
+                    /* ===================== */
+                    /* Toolbar */
+                    /* ===================== */
+                    .toolbar {
+                        display: flex;
+                        justify-content: space-between;
+                        align-items: center;
+                        margin-bottom: 18px;
                     }
-
+                    
+                    /* ===================== */
                     /* Tableau */
+                    /* ===================== */
                     table {
-                        width: 90%;
+                        width: 100%;
                         border-collapse: collapse;
                         table-layout: fixed;
                     }
-                    th, td {
-                        border: 1px solid #999;
+                    
+                    th,
+                    td {
+                        border: 1px solid #ccc;
                         vertical-align: top;
                     }
+                    
+                    th {
+                        background-color: var(--uga-grey);
+                        text-align: center;
+                        font-weight: bold;
+                        padding: 10px;
+                    }
+                    
                     td {
-                        padding: 8px 10px;
+                        padding: 10px;
                         text-align: justify;
-                        word-wrap: break-word;
                         hyphens: auto;
                     }
-                    th {
-                        background-color: #f0f0f0;
-                        text-align: center;
-                    }
-
-                    /* Sources */
+                    
+                    /* ===================== */
+                    /* Sources / citations */
+                    /* ===================== */
                     .source {
-                        background-color: transparent;
                         transition: background-color 0.3s;
                     }
+                    
                     .highlight {
-                        background-color: #ffe066;
+                        background-color: #ffe8a3;
                     }
-
+                    
+                    /* ===================== */
                     /* Orig / Trad */
+                    /* ===================== */
                     .orig {
                         display: none;
                     }
+                    
                     body.show-orig .trad {
                         display: none;
                     }
                     body.show-orig .orig {
                         display: block;
                     }
-
-                    /* Zone thématiques */
-                    #theme-buttons {
-                        display: flex;
-                        flex-direction: column;
-                        margin-right: 20px;
-                        min-width: 120px;
-                        /* décaler le titre et boutons plus bas */
-                        margin-top: 30px;
-                    }
-
-                    #theme-buttons > div:first-child {
-                        font-weight: bold;
-                        margin-bottom: 12px;
-                    }
-
-                    /* Toolbar horizontal boutons */
-                    .toolbar {
-                        display: flex;
-                        justify-content: space-between;
-                        align-items: center;
-                        margin-bottom: 15px;
-                    }
-
-                    .toolbar div > button {
-                        margin-right: 10px;
-                    }
-                </style><script type="text/javascript">
+                    
+                    .citation-vers {
+                        margin: 8px 0 8px 15px;
+                    }</style><script type="text/javascript">
                     
                     function toggleSources() {
                         var sources = document.getElementsByClassName("source");
@@ -123,11 +165,11 @@
                             sources[i].classList.toggle("highlight");
                         }
                     }
-
+                    
                     function toggleOrigTrad() {
                         document.body.classList.toggle("show-orig");
                     }
-
+                    
                     function toggleTheme(themeId, color) {
                         var segs = document.querySelectorAll("seg.theme-" + themeId);
                         for (var i = 0; i < segs.length; i++) {
@@ -140,542 +182,524 @@
                             }
                         }
                     }
-
+                    
                     function toggleCitation(color) {
-                        var qs = document.getElementsByTagName("q");
-                        for (var i = 0; i < qs.length; i++) {
-                            if (qs[i].getAttribute("data-highlight") === "on") {
-                                qs[i].style.backgroundColor = "";
-                                qs[i].setAttribute("data-highlight", "off");
+                        var elems = document.querySelectorAll("q, .citation-vers");
+                        for (var i = 0; i < elems.length; i++) {
+                            if (elems[i].getAttribute("data-highlight") === "on") {
+                                elems[i].style.backgroundColor = "";
+                                elems[i].setAttribute("data-highlight", "off");
                             } else {
-                                qs[i].style.backgroundColor = color;
-                                qs[i].setAttribute("data-highlight", "on");
+                                elems[i].style.backgroundColor = color;
+                                elems[i].setAttribute("data-highlight", "on");
                             }
                         }
-                    }
-                    
+                    }//
                 </script></head>
    <body>
-      <div style="display:flex; align-items:flex-start;">
-         <div id="theme-buttons">
-            <div>Rubriques</div><button class="theme-btn" style="background-color:#ff9999" onclick="toggleTheme('condition','#ff9999')">Condition</button><button class="theme-btn" style="background-color:#99ff99" onclick="toggleTheme('profession','#99ff99')">Profession</button><button class="theme-btn" style="background-color:#9999ff" onclick="toggleTheme('datation','#9999ff')">Datation</button><button class="theme-btn" style="background-color:#ffcc99" onclick="toggleTheme('oeuvre','#ffcc99')">Œuvre</button><button class="theme-btn" style="background-color:#cc99ff" onclick="toggleTheme('mort','#cc99ff')">Mort</button></div>
-         <div style="flex:1">
-            <div class="toolbar">
-               <div><button id="sources-btn" onclick="toggleSources()">Sources</button><button class="theme-btn" onclick="toggleCitation('#ffd699')">Citation</button></div><button id="orig-trad-btn" onclick="toggleOrigTrad()">Original / Traduction</button></div>
-            <table>
-               <thead>
-                  <tr>
-                     <th>Polenton</th>
-                     <th>Crinitus</th>
-                     <th>Giraldi</th>
-                  </tr>
-               </thead>
-               <tbody>
-                  <tr>
-                     <td>
-                        <div class="ab orig">Fabulas igitur metro ante omnes Latine cecinisse
-                           fertur L. Livius. Hoc enim et Cicero cum prefatur in Tusculanas et qui hac de re quicquam
-                           loquuntur usquam docti omnes scribunt. Versu tamen ac Latino versu usus prius in sacris
-                           Numam Pompilium, qui e Curibus Sabinis vir consultissimus fuit atque Romae post Romulum
-                           rex
-                           secundus regnavit, quique ante Numam fuerant, priscos Latinos et Faunos constat. Ingenium
-                           Livius iste ad virtutes et litteras nobile sed fortunam humilem et infimam habuit.
-                           Quippe
-                           fuit serius M. Livii Salinatoris ac paedagogus eius liberos erudivit. Istis autem
-                           in
-                           litteris animo est adeo magno versatus, ut Latinorum primus auderet metro canere fabulas.
-                           Quicquid enim illum in diem poesis erat in terra Italia, id totum quemadmodum caeteris
-                           in
-                           doctrinis Graecae litterae continebant. Quo enim anno victis primo bello Poenis pax
-                           data
-                           est, eodem poeta iste Romae fabulam serere primum coepit. Consules tunc G. Claudius
-                           Cento,
-                           Apii Claudii Caeci filius, et M. Sempronius Tuditanus erant. Serius tamen quam dixi
-                           ac
-                           Cicero ipse tradit, Romae poeticam esse coeptam. Portius Licinius scribit verbis istis:
-                           «
-                           Punico bello secundo Musa pennato gradu intulit sese bellicosam in Romuli gentem feram.
-                           »
-                           Livius autem iste carmina primum placandos ad deos, quod viderentur irati, fecit.
-                           Fabulas
-                           deinde scripsit, sed ita scripsit ut legi amplius quam semel non esse dignae Ciceronis
-                           etiam
-                           iudicio videantur. Eam tamen ob rem quae, ut solent nova, omnibus admirabilis et grata
-                           esset, poeta hic Livius et ab universis laudatus summe et ipso a M. Livio Salinatore
-                           ad
-                           premium virtutis libertate donatus est. Neque vero parum laudis, honoris, gratiae
-                           debetur ei
-                           qui neglectam a caeteris viam ad haec studia veniendi, ne Grecis semper Italia litteris
-                           uteretur, omnium primus apud Latinos suo consilio, virtute, diligentia et invenit
-                           et docuit.
-                           Nec timuit Musas, quae pacem, ocium, quietem ament, inducere in urbem atque illam
-                           presertim
-                           in urbem quae nihil magis quam bellum et arma tractaret et cuperet.</div>
-                        <div class="ab trad">On rapporte que 
-                           <persName xmlns="http://www.tei-c.org/ns/1.0">Lucius
-                              Livius</persName> fut le premier à avoir chanté des pièces en vers latins. En effet,
-                           <span class="source">Cicéron</span>, dans ses <em>Tusculanes</em>, et tous
-                           les érudits qui écrivent sur ce sujet le confirment. On sait toutefois que, bien avant,
-                           
-                           <persName xmlns="http://www.tei-c.org/ns/1.0" role="historique">Numa Pompilius</persName> (homme très sage originaire de Cures
-                           en Sabine, qui régna à Rome comme second roi après 
-                           <persName xmlns="http://www.tei-c.org/ns/1.0" role="historique">Romulus</persName>) ainsi que ceux qui vécurent avant 
-                           <persName xmlns="http://www.tei-c.org/ns/1.0" role="historique">Numa</persName>, les anciens Latins et les Faunes, utilisèrent le vers, et même le vers
-                           latin, dans les rites sacrés. 
-                           <seg class="theme-condition" ana="#condition" data-highlight="off">Il avait pour les vertus et les lettres
-                              une importante disposition naturelle, mais sa fortune était humble et modeste.</seg>
-                           <seg class="theme-profession" ana="#profession" data-highlight="off">Il instruisit assez tard les enfants de 
-                              <persName xmlns="http://www.tei-c.org/ns/1.0" role="historique">M.
-                                 Livius Salinator</persName> et fut leur tuteur.</seg> Il s’exerça à ces lettres avec une
-                           telle force d'âme qu’il osa être le premier Latins à chanter des pièces en vers. Tout
-                           ce
-                           qu’était à cette époque lointaine la poésie en terre italienne était entièrement contenu
-                           dans les lettres grecques, de même que pour les autres disciplines du savoir. 
-                           <seg class="theme-datation" ana="#datation" data-highlight="off">Car l’année même où, après la victoire sur les Puniques lors de la
-                              première guerre, la paix fut accordée, ce poète commença pour la première fois à composer
-                              une pièce à Rome. Les consuls à cette époque étaient 
-                              <persName xmlns="http://www.tei-c.org/ns/1.0" role="historique">Gaius
-                                 Claudius Cento</persName>, fils d’
-                              <persName xmlns="http://www.tei-c.org/ns/1.0" role="historique">Appius Claudius</persName>
-                              Caecus, et 
-                              <persName xmlns="http://www.tei-c.org/ns/1.0" role="historique">Marcus Sempronius Tuditanus</persName>. Cependant,
-                              comme le rapporte <span class="source">Cicéron</span> lui-même, la poésie commença
-                              à Rome plus tard que je ne l’ai dit. <span class="source">Portius Licinius</span>
-                              écrit ces mots : <q data-highlight="off">Lors de la deuxième guerre punique, la Muse, d'un pas rapide,
-                                 s’introduisit dans la nation belliqueuse et sauvage de Romulus.</q></seg>
-                           
-                           <seg class="theme-oeuvre" ana="#oeuvre" data-highlight="off">Quant à 
-                              <persName xmlns="http://www.tei-c.org/ns/1.0">Livius</persName>, il composa d’abord des poèmes pour
-                              apaiser les dieux qui semblaient en colère. Il écrivit ensuite des pièces, mais de
-                              telle
-                              manière que, même selon le jugement de <span class="source">Cicéron</span>, elles
-                              ne paraissaient pas dignes d’être lues plus d’une fois. Toutefois, à cause de cette
-                              œuvre
-                              qui, comme il arrive pour les nouveautés, était admirable et agréable à tous, ce poète,
+      <div class="marge left"></div>
+      <div class="marge right"></div>
+      <div class="page-wrapper">
+         <h1>Vies de Livius Andronicus</h1>
+         <div style="display:flex; align-items:flex-start;">
+            <div id="theme-buttons">
+               <div>Rubriques</div><button class="theme-btn" style="background-color:#ffcccc" onclick="toggleTheme('condition','#ffcccc')">Condition</button><button class="theme-btn" style="background-color:#ccffcc" onclick="toggleTheme('profession','#ccffcc')">Profession</button><button class="theme-btn" style="background-color:#ccccff" onclick="toggleTheme('datation','#ccccff')">Datation</button><button class="theme-btn" style="background-color:#e6e9ef" onclick="toggleTheme('oeuvre','#e6e9ef')">Œuvre</button><button class="theme-btn" style="background-color:#e6e9ef" onclick="toggleTheme('mort','#e6e9ef')">Mort</button></div>
+            <div style="flex:1">
+               <div class="toolbar">
+                  <div><button id="sources-btn" onclick="toggleSources()">Sources</button><button onclick="toggleCitation('#e0d7ff')">Citations</button></div><button id="orig-trad-btn" onclick="toggleOrigTrad()">Original /
+                     Traduction</button></div>
+               <table>
+                  <thead>
+                     <tr>
+                        <th>Polenton</th>
+                        <th>Crinitus</th>
+                        <th>Giraldi</th>
+                     </tr>
+                  </thead>
+                  <tbody>
+                     <tr>
+                        <td>
+                           <div class="ab orig">Fabulas igitur metro ante omnes Latine cecinisse
+                              fertur L. Livius. Hoc enim et Cicero cum prefatur in Tusculanas et qui hac de re quicquam
+                              loquuntur usquam docti omnes scribunt. Versu tamen ac Latino versu usus prius in sacris
+                              Numam Pompilium, qui e Curibus Sabinis vir consultissimus fuit atque Romae post Romulum
+                              rex
+                              secundus regnavit, quique ante Numam fuerant, priscos Latinos et Faunos constat. Ingenium
+                              Livius iste ad virtutes et litteras nobile sed fortunam humilem et infimam habuit.
+                              Quippe
+                              fuit serius M. Livii Salinatoris ac paedagogus eius liberos erudivit. Istis autem
+                              in
+                              litteris animo est adeo magno versatus, ut Latinorum primus auderet metro canere fabulas.
+                              Quicquid enim illum in diem poesis erat in terra Italia, id totum quemadmodum caeteris
+                              in
+                              doctrinis Graecae litterae continebant. Quo enim anno victis primo bello Poenis pax
+                              data
+                              est, eodem poeta iste Romae fabulam serere primum coepit. Consules tunc G. Claudius
+                              Cento,
+                              Apii Claudii Caeci filius, et M. Sempronius Tuditanus erant. Serius tamen quam dixi
+                              ac
+                              Cicero ipse tradit, Romae poeticam esse coeptam. Portius Licinius scribit verbis istis:
+                              «
+                              Punico bello secundo Musa pennato gradu intulit sese bellicosam in Romuli gentem feram.
+                              »
+                              Livius autem iste carmina primum placandos ad deos, quod viderentur irati, fecit.
+                              Fabulas
+                              deinde scripsit, sed ita scripsit ut legi amplius quam semel non esse dignae Ciceronis
+                              etiam
+                              iudicio videantur. Eam tamen ob rem quae, ut solent nova, omnibus admirabilis et grata
+                              esset, poeta hic Livius et ab universis laudatus summe et ipso a M. Livio Salinatore
+                              ad
+                              premium virtutis libertate donatus est. Neque vero parum laudis, honoris, gratiae
+                              debetur ei
+                              qui neglectam a caeteris viam ad haec studia veniendi, ne Grecis semper Italia litteris
+                              uteretur, omnium primus apud Latinos suo consilio, virtute, diligentia et invenit
+                              et docuit.
+                              Nec timuit Musas, quae pacem, ocium, quietem ament, inducere in urbem atque illam
+                              presertim
+                              in urbem quae nihil magis quam bellum et arma tractaret et cuperet.</div>
+                           <div class="ab trad">On rapporte que 
+                              <persName xmlns="http://www.tei-c.org/ns/1.0">Lucius
+                                 Livius</persName> fut le premier à avoir chanté des pièces en vers latins. En effet,
+                              <span class="source">Cicéron</span>, dans ses <em>Tusculanes</em>, et tous
+                              les érudits qui écrivent sur ce sujet le confirment. On sait toutefois que, bien avant,
                               
-                              <persName xmlns="http://www.tei-c.org/ns/1.0">Livius</persName>, fut très unanimement encensé et reçut même de 
-                              <persName xmlns="http://www.tei-c.org/ns/1.0" role="historique">Marcus Livius Salinator</persName> lui-même, en récompense de son
-                              mérite, le don de la liberté. On doit également bien des éloges, beaucoup d’honneur
-                              et de
-                              reconnaissance à celui qui, premier d'entre tous chez les Latins trouva et enseigna
-                              par sa
-                              propre initiative, son mérite et son application une voie vers ces études jusque-là
-                              négligée par les autres, afin que l’Italie ne recourût pas toujours aux lettres
-                              grecques.</seg> Il n’eut pas peur d’introduire les Muses amatrices de paix, de loisir et
-                           de repos dans la ville, d'autant plus dans cette ville qui ne s'emparait et ne s'occupait
-                           que de la guerre et des armes.</div>
-                     </td>
-                     <td>
-                        <div class="ab orig">Livius cognomine Andronicus poeta epicus habitus
-                           est. Romae floruit post Vrbem conditam annis paulo supra quadringentis. Quae res probis
-                           auctoribus confirmatur. In annalibus enim quos habemus Graecis plerumque annorum supputatio
-                           falsa est et historiae veritas corrupta. M. Cicero et alii veteres Liuium hunc referunt
-                           primum dedisse fabulas apud Latinos eosque maxime tempore prestitisse quod senatus
-                           populusque Romanus pacem fecit cum Poenis. Gellius autem scriptor nobilis et in perscrutanda
-                           omni antiquitate diligens de Livio Andronico ad hunc modum tradit, quo loco annorum
-                           historiam contexit. Liuius Poeta, inquit, fabulas primo in urbe Roma docere cepit
-                           Cor.
-                           Claudio, Appii Caeci filio, et M. Tuditano consulibus, post obitum Sophoclis et Euripidis
-                           annos supra centum et LX. Quod et M. Cicero probat qui ad Brutum scribens annos ante
-                           natum
-                           Ennium refert Livii dedisse fabulas. Portius vero Licinius, cum de poetica loquitur,
-                           eius
-                           studium dicit Roma coeptum bello Punico secundo, quod ex his versibus facile colligitur
-                           quos
-                           Horatius Flaccus imitatur. 
-                           <l xmlns="http://www.tei-c.org/ns/1.0">Punico bello secundo musa pennatogradu</l>
-                           
-                           <l xmlns="http://www.tei-c.org/ns/1.0">Intulit se bellicosam in Romuli gentem feram.</l> Sed haec satis hoc loco ne forte
-                           videamur nimio detineri in his repetendis. Idem Livius domi ac foris primo docuit,
-                           utraque
-                           lingua, ut Suetonius tradit, non sine magna commendatione sui nominis. Nam vetustissimi
-                           illi
-                           erant fere semigraeci et graecas disciplinas atque etiam et priscas pari studio discebant,
-                           quod ex veterum monumentis intelligitur. Laudantur Livius et eius carmen, cum aliis
-                           multis,
-                           tum a Val. Maximo. et T. Livio qui copiose scribunt quantum Romae praestiterit editis
-                           carminibus. Quae ter nouenae uirgines data reste per manus per urbem euntes decantarunt
-                           ad
-                           iram deorum placandam. Praetereo de his fabulis referre quas Livius dicitur a Satyriis
-                           transtulisse, puerisque ad canendum instruxisse ante tibicinem. Praecipue vero commendatus
-                           est ab antiquis grammaticis Livius in Odissea et Romanis Annalibus. Et si quidam temere
-                           haec
-                           referunt ad alterum Livium, parum diligenter considerantes quae a Gellio et Prisciano
-                           scribuntur. Diomedes quidem sic de Livianis Annalibus prodit. Epos, inquit, apud Latinos
-                           primus digne scripsit Livius is qui gesta Romani populi duodeuiginti complexus est
-                           libris.
-                           Hi sunt appellati annales Liviani, quod acta singulorum annorum continerent. Idem
-                           praeterea
-                           Livius composuit hymnos deorum, ut a Terentiano et Livio notatum est in Romana historia.
-                           Afferuntur hi uersus Livii ex hymno de Diana. 
-                           <l xmlns="http://www.tei-c.org/ns/1.0">Et iam purpureo suras include cothurno</l>
-                           
-                           <l xmlns="http://www.tei-c.org/ns/1.0">Baltheus et reuocet volucres in pectore sinus</l>
-                           <l xmlns="http://www.tei-c.org/ns/1.0"> Pressaque iam grauida crepitet tibi
-                              terga pharetra</l>
-                           <l xmlns="http://www.tei-c.org/ns/1.0">Dirige odorisequos ad certa cubilia canes.</l> In his variatur carmen
-                           ac sub heroico myuron apponitur. Quo circa sic de Livio Terentianus. 
-                           <l xmlns="http://www.tei-c.org/ns/1.0">Livius ille uetus
-                              Graio cognomine suae</l>
-                           <l xmlns="http://www.tei-c.org/ns/1.0"> Inserit in omni versu puto tale docimen</l>
-                           <l xmlns="http://www.tei-c.org/ns/1.0"> Praemisso heroo
-                              : subiungit nanque myuron</l>
-                           <l xmlns="http://www.tei-c.org/ns/1.0"> Hymnum quando chorus festo canit ore Triviae.</l> Haec
-                           sunt que de Livio Andronico digna relatu existimavimus. De obitum eius nihil apud
-                           veteres
-                           legimus. </div>
-                        <div class="ab trad">
-                           <seg class="theme-datation" ana="#datation" data-highlight="off">
-                              <persName xmlns="http://www.tei-c.org/ns/1.0">Livius,
-                                 surnommé Andronicus</persName>, fut tenu pour un poète épique. Il connut son floruit à
-                              Rome un peu plus de quatre cents ans après la fondation de la Ville. Ce fait est confirmé
-                              par des autorités dignes de foi. Car, dans les annales grecques que nous possédons,
-                              le
-                              calcul des années est le plus souvent erroné, et la vérité historique y est altérée.
-                              <span class="source">Marcus Cicéron</span> et d’autres auteurs anciens rapportent
-                              que ce 
-                              <persName xmlns="http://www.tei-c.org/ns/1.0">Livius</persName> fut le premier à avoir donné des pièces de théâtre chez
-                              les Latins, et qu’il se distingua particulièrement à l’époque où le Sénat et le peuple
-                              romain firent la paix avec les Carthaginois. <span class="source">Aulu-Gelle</span>, écrivain illustre et d’une grande rigueur dans l’examen de toute
-                              l’Antiquité, rapporte au sujet de 
-                              <persName xmlns="http://www.tei-c.org/ns/1.0">Livius Andronicus</persName> ce qui suit, au
-                              passage où il expose l’histoire chronologique des années : <q data-highlight="off">Livius le poète, dit-il,
-                                 commença le premier à faire représenter des pièces dans la ville de Rome, sous le
-                                 consulat de 
-                                 <persName xmlns="http://www.tei-c.org/ns/1.0" role="historique">Cor. Claudius</persName>, fils d’
-                                 <persName xmlns="http://www.tei-c.org/ns/1.0" role="historique">Appius Caecus</persName>, et de 
+                              <persName xmlns="http://www.tei-c.org/ns/1.0" role="historique">Numa Pompilius</persName> (homme très sage originaire de Cures
+                              en Sabine, qui régna à Rome comme second roi après 
+                              <persName xmlns="http://www.tei-c.org/ns/1.0" role="historique">Romulus</persName>) ainsi que ceux qui vécurent avant 
+                              <persName xmlns="http://www.tei-c.org/ns/1.0" role="historique">Numa</persName>, les anciens Latins et les Faunes, utilisèrent le vers, et même le vers
+                              latin, dans les rites sacrés. 
+                              <seg class="theme-condition" ana="#condition" data-highlight="off">Il avait pour les vertus et les lettres
+                                 une importante disposition naturelle, mais sa fortune était humble et modeste.</seg>
+                              <seg class="theme-profession" ana="#profession" data-highlight="off">Il instruisit assez tard les enfants de 
                                  <persName xmlns="http://www.tei-c.org/ns/1.0" role="historique">M.
-                                    Tuditanus</persName>, plus de cent soixante ans après la mort de 
-                                 <persName xmlns="http://www.tei-c.org/ns/1.0" role="autre_poete">Sophocle</persName> et d’
-                                 <persName xmlns="http://www.tei-c.org/ns/1.0" role="autre_poete">Euripide</persName>.</q> Cela est également confirmé par <span class="source">Cicéron</span>, qui, écrivant à 
-                              <persName xmlns="http://www.tei-c.org/ns/1.0" role="historique">Brutus</persName>,
-                              rapporte que 
-                              <persName xmlns="http://www.tei-c.org/ns/1.0">Livius</persName> donna des pièces avant la naissance d’
-                              <persName xmlns="http://www.tei-c.org/ns/1.0" role="autre_poete">Ennius</persName>. Quant à <span class="source">Portius
-                                 Licinius</span>, lorsqu’il traite de poésie, il affirme que l’activité poétique de
+                                    Livius Salinator</persName> et fut leur tuteur.</seg> Il s’exerça à ces lettres avec une
+                              telle force d'âme qu’il osa être le premier Latins à chanter des pièces en vers. Tout
+                              ce
+                              qu’était à cette époque lointaine la poésie en terre italienne était entièrement contenu
+                              dans les lettres grecques, de même que pour les autres disciplines du savoir. 
+                              <seg class="theme-datation" ana="#datation" data-highlight="off">Car l’année même où, après la victoire sur les Puniques lors de la
+                                 première guerre, la paix fut accordée, ce poète commença pour la première fois à composer
+                                 une pièce à Rome. Les consuls à cette époque étaient 
+                                 <persName xmlns="http://www.tei-c.org/ns/1.0" role="historique">Gaius
+                                    Claudius Cento</persName>, fils d’
+                                 <persName xmlns="http://www.tei-c.org/ns/1.0" role="historique">Appius Claudius</persName>
+                                 Caecus, et 
+                                 <persName xmlns="http://www.tei-c.org/ns/1.0" role="historique">Marcus Sempronius Tuditanus</persName>. Cependant,
+                                 comme le rapporte <span class="source">Cicéron</span> lui-même, la poésie commença
+                                 à Rome plus tard que je ne l’ai dit. <span class="source">Portius Licinius</span>
+                                 écrit ces mots : <q data-highlight="off">Lors de la deuxième guerre punique, la Muse, d'un pas rapide,
+                                    s’introduisit dans la nation belliqueuse et sauvage de Romulus.</q></seg>
                               
-                              <persName xmlns="http://www.tei-c.org/ns/1.0">Livius</persName> commença à Rome durant la seconde guerre punique, ce que
-                              l’on peut aisément déduire de ces vers, qu’<span class="source">Horace</span> imite
-                              : <q data-highlight="off">Lors de la deuxième guerre punique, la Muse, d'un pas rapide, s’introduisit dans la
-                                 nation belliqueuse et sauvage de Romulus.</q></seg> Mais cela suffit pour l’instant, de
-                           peur que nous ne semblions nous attarder excessivement sur ces répétitions. 
-                           <seg class="theme-profession" ana="#profession" data-highlight="off">Le même 
-                              <persName xmlns="http://www.tei-c.org/ns/1.0">Livius</persName> enseigna d’abord aussi bien dans la
-                              sphère privée que publique, et dans les deux langues, comme le rapporte <span class="source">Suétone</span>, non sans une grande recommandation pour son nom. Car
-                              les plus anciens Romains étaient presque tous des semi-Grecs, et ils apprenaient avec
-                              un
-                              zèle égal les disciplines grecques ainsi que les anciennes traditions latines, comme
-                              on le
-                              comprend à partir des témoignages des Anciens.</seg>
-                           
-                           <seg class="theme-oeuvre" ana="#oeuvre" data-highlight="off">
-                              <persName xmlns="http://www.tei-c.org/ns/1.0">Livius</persName> et ses poèmes sont loués, parmi bien
-                              d’autres, par <span class="source">Valère Maxime</span> et <span class="source">Tite-Live</span>, qui décrivent abondamment combien il se distingua à Rome par ses
-                              compositions poétiques ; afin d’apaiser la colère des dieux, vingt-sept vierges, faisant
-                              passer une corde par leurs mains, parcourant la ville en procession les chantèrent.
-                              Je
-                              passe sous silence les récits concernant ces pièces que l’on dit que
+                              <seg class="theme-oeuvre" ana="#oeuvre" data-highlight="off">Quant à 
+                                 <persName xmlns="http://www.tei-c.org/ns/1.0">Livius</persName>, il composa d’abord des poèmes pour
+                                 apaiser les dieux qui semblaient en colère. Il écrivit ensuite des pièces, mais de
+                                 telle
+                                 manière que, même selon le jugement de <span class="source">Cicéron</span>, elles
+                                 ne paraissaient pas dignes d’être lues plus d’une fois. Toutefois, à cause de cette
+                                 œuvre
+                                 qui, comme il arrive pour les nouveautés, était admirable et agréable à tous, ce poète,
+                                 
+                                 <persName xmlns="http://www.tei-c.org/ns/1.0">Livius</persName>, fut très unanimement encensé et reçut même de 
+                                 <persName xmlns="http://www.tei-c.org/ns/1.0" role="historique">Marcus Livius Salinator</persName> lui-même, en récompense de son
+                                 mérite, le don de la liberté. On doit également bien des éloges, beaucoup d’honneur
+                                 et de
+                                 reconnaissance à celui qui, premier d'entre tous chez les Latins trouva et enseigna
+                                 par sa
+                                 propre initiative, son mérite et son application une voie vers ces études jusque-là
+                                 négligée par les autres, afin que l’Italie ne recourût pas toujours aux lettres
+                                 grecques.</seg> Il n’eut pas peur d’introduire les Muses amatrices de paix, de loisir et
+                              de repos dans la ville, d'autant plus dans cette ville qui ne s'emparait et ne s'occupait
+                              que de la guerre et des armes.</div>
+                        </td>
+                        <td>
+                           <div class="ab orig">Livius cognomine Andronicus poeta epicus habitus
+                              est. Romae floruit post Vrbem conditam annis paulo supra quadringentis. Quae res probis
+                              auctoribus confirmatur. In annalibus enim quos habemus Graecis plerumque annorum supputatio
+                              falsa est et historiae veritas corrupta. M. Cicero et alii veteres Liuium hunc referunt
+                              primum dedisse fabulas apud Latinos eosque maxime tempore prestitisse quod senatus
+                              populusque Romanus pacem fecit cum Poenis. Gellius autem scriptor nobilis et in perscrutanda
+                              omni antiquitate diligens de Livio Andronico ad hunc modum tradit, quo loco annorum
+                              historiam contexit. Liuius Poeta, inquit, fabulas primo in urbe Roma docere cepit
+                              Cor.
+                              Claudio, Appii Caeci filio, et M. Tuditano consulibus, post obitum Sophoclis et Euripidis
+                              annos supra centum et LX. Quod et M. Cicero probat qui ad Brutum scribens annos ante
+                              natum
+                              Ennium refert Livii dedisse fabulas. Portius vero Licinius, cum de poetica loquitur,
+                              eius
+                              studium dicit Roma coeptum bello Punico secundo, quod ex his versibus facile colligitur
+                              quos
+                              Horatius Flaccus imitatur. Punico bello secundo musa pennatogradu<br>
+                              Intulit se bellicosam in Romuli gentem feram.<br> Sed haec satis hoc loco ne forte
+                              videamur nimio detineri in his repetendis. Idem Livius domi ac foris primo docuit,
+                              utraque
+                              lingua, ut Suetonius tradit, non sine magna commendatione sui nominis. Nam vetustissimi
+                              illi
+                              erant fere semigraeci et graecas disciplinas atque etiam et priscas pari studio discebant,
+                              quod ex veterum monumentis intelligitur. Laudantur Livius et eius carmen, cum aliis
+                              multis,
+                              tum a Val. Maximo. et T. Livio qui copiose scribunt quantum Romae praestiterit editis
+                              carminibus. Quae ter nouenae uirgines data reste per manus per urbem euntes decantarunt
+                              ad
+                              iram deorum placandam. Praetereo de his fabulis referre quas Livius dicitur a Satyriis
+                              transtulisse, puerisque ad canendum instruxisse ante tibicinem. Praecipue vero commendatus
+                              est ab antiquis grammaticis Livius in Odissea et Romanis Annalibus. Et si quidam temere
+                              haec
+                              referunt ad alterum Livium, parum diligenter considerantes quae a Gellio et Prisciano
+                              scribuntur. Diomedes quidem sic de Livianis Annalibus prodit. Epos, inquit, apud Latinos
+                              primus digne scripsit Livius is qui gesta Romani populi duodeuiginti complexus est
+                              libris.
+                              Hi sunt appellati annales Liviani, quod acta singulorum annorum continerent. Idem
+                              praeterea
+                              Livius composuit hymnos deorum, ut a Terentiano et Livio notatum est in Romana historia.
+                              Afferuntur hi uersus Livii ex hymno de Diana. Et iam purpureo suras include cothurno<br>
+                              Baltheus et reuocet volucres in pectore sinus<br> Pressaque iam grauida crepitet tibi
+                              terga pharetra<br>Dirige odorisequos ad certa cubilia canes.<br> In his variatur carmen
+                              ac sub heroico myuron apponitur. Quo circa sic de Livio Terentianus. Livius ille uetus
+                              Graio cognomine suae<br> Inserit in omni versu puto tale docimen<br> Praemisso heroo
+                              : subiungit nanque myuron<br> Hymnum quando chorus festo canit ore Triviae.<br> Haec
+                              sunt que de Livio Andronico digna relatu existimavimus. De obitum eius nihil apud
+                              veteres
+                              legimus. </div>
+                           <div class="ab trad">
+                              <seg class="theme-datation" ana="#datation" data-highlight="off">
+                                 <persName xmlns="http://www.tei-c.org/ns/1.0">Livius,
+                                    surnommé Andronicus</persName>, fut tenu pour un poète épique. Il connut son floruit à
+                                 Rome un peu plus de quatre cents ans après la fondation de la Ville. Ce fait est confirmé
+                                 par des autorités dignes de foi. Car, dans les annales grecques que nous possédons,
+                                 le
+                                 calcul des années est le plus souvent erroné, et la vérité historique y est altérée.
+                                 <span class="source">Marcus Cicéron</span> et d’autres auteurs anciens rapportent
+                                 que ce 
+                                 <persName xmlns="http://www.tei-c.org/ns/1.0">Livius</persName> fut le premier à avoir donné des pièces de théâtre chez
+                                 les Latins, et qu’il se distingua particulièrement à l’époque où le Sénat et le peuple
+                                 romain firent la paix avec les Carthaginois. <span class="source">Aulu-Gelle</span>, écrivain illustre et d’une grande rigueur dans l’examen de toute
+                                 l’Antiquité, rapporte au sujet de 
+                                 <persName xmlns="http://www.tei-c.org/ns/1.0">Livius Andronicus</persName> ce qui suit, au
+                                 passage où il expose l’histoire chronologique des années : <q data-highlight="off">Livius le poète, dit-il,
+                                    commença le premier à faire représenter des pièces dans la ville de Rome, sous le
+                                    consulat de 
+                                    <persName xmlns="http://www.tei-c.org/ns/1.0" role="historique">Cor. Claudius</persName>, fils d’
+                                    <persName xmlns="http://www.tei-c.org/ns/1.0" role="historique">Appius Caecus</persName>, et de 
+                                    <persName xmlns="http://www.tei-c.org/ns/1.0" role="historique">M.
+                                       Tuditanus</persName>, plus de cent soixante ans après la mort de 
+                                    <persName xmlns="http://www.tei-c.org/ns/1.0" role="autre_poete">Sophocle</persName> et d’
+                                    <persName xmlns="http://www.tei-c.org/ns/1.0" role="autre_poete">Euripide</persName>.</q> Cela est également confirmé par <span class="source">Cicéron</span>, qui, écrivant à 
+                                 <persName xmlns="http://www.tei-c.org/ns/1.0" role="historique">Brutus</persName>,
+                                 rapporte que 
+                                 <persName xmlns="http://www.tei-c.org/ns/1.0">Livius</persName> donna des pièces avant la naissance d’
+                                 <persName xmlns="http://www.tei-c.org/ns/1.0" role="autre_poete">Ennius</persName>. Quant à <span class="source">Portius
+                                    Licinius</span>, lorsqu’il traite de poésie, il affirme que l’activité poétique de
+                                 
+                                 <persName xmlns="http://www.tei-c.org/ns/1.0">Livius</persName> commença à Rome durant la seconde guerre punique, ce que
+                                 l’on peut aisément déduire de ces vers, qu’<span class="source">Horace</span> imite
+                                 : <q data-highlight="off">Lors de la deuxième guerre punique, la Muse, d'un pas rapide, s’introduisit dans la
+                                    nation belliqueuse et sauvage de Romulus.</q></seg> Mais cela suffit pour l’instant, de
+                              peur que nous ne semblions nous attarder excessivement sur ces répétitions. 
+                              <seg class="theme-profession" ana="#profession" data-highlight="off">Le même 
+                                 <persName xmlns="http://www.tei-c.org/ns/1.0">Livius</persName> enseigna d’abord aussi bien dans la
+                                 sphère privée que publique, et dans les deux langues, comme le rapporte <span class="source">Suétone</span>, non sans une grande recommandation pour son nom. Car
+                                 les plus anciens Romains étaient presque tous des semi-Grecs, et ils apprenaient avec
+                                 un
+                                 zèle égal les disciplines grecques ainsi que les anciennes traditions latines, comme
+                                 on le
+                                 comprend à partir des témoignages des Anciens.</seg>
                               
-                              <persName xmlns="http://www.tei-c.org/ns/1.0">Livius</persName> adapta des Satyres, et qu’il forma des enfants pour les
-                              chanter devant le joueur de flûte. Mais 
-                              <persName xmlns="http://www.tei-c.org/ns/1.0">Livius</persName> fut surtout recommandé
-                              par les anciens grammairiens pour son <em>Odyssée</em> et pour ses <em>Annales
-                                 romaines</em>. Et si certains attribuent témérairement ces œuvres à un autre
-                              
-                              <persName xmlns="http://www.tei-c.org/ns/1.0">Livius</persName>, c’est faute d’avoir examiné avec suffisamment de soin ce
-                              qu’écrivent <span class="source">Aulu-Gelle</span> et <span class="source">Priscien</span>. <span class="source">Diomède</span>, en effet, parle ainsi
-                              des <em>Annales</em> de 
-                              <persName xmlns="http://www.tei-c.org/ns/1.0">Livius</persName> : <q data-highlight="off">Livius est, dit-il, le
-                                 premier chez les Latins à avoir dignement écrit un poème épique, lui qui embrassa
-                                 en
-                                 dix-huit livres les hauts faits du peuple romain.</q> Ces ouvrages furent appelés
-                              <em>Annales liviennes</em>, parce qu’ils contenaient les événements de chaque
-                              année. De plus, ce même 
-                              <persName xmlns="http://www.tei-c.org/ns/1.0">Livius</persName> composa des hymnes aux dieux, comme
-                              l’ont noté <span class="source">Terentianus</span> et <span class="source">Tite-Live</span> dans l’<em>Histoire romaine</em>. On cite ces vers de
-                              
-                              <persName xmlns="http://www.tei-c.org/ns/1.0">Livius</persName> tirés d’un hymne à Diane : <q data-highlight="off">
-                                 <l xmlns="http://www.tei-c.org/ns/1.0">Et maintenant, enveloppe
-                                    tes jambes dans des bottes de chasse sombres,</l>
-                                 <l xmlns="http://www.tei-c.org/ns/1.0"> et laisse une ceinture ramener
-                                    sur ta poitrine les plis flottants.</l>
-                                 <l xmlns="http://www.tei-c.org/ns/1.0"> Maintenant, laisse ton dos frapper sous les
-                                    secousses d'un carquois chargé.</l>
-                                 <l xmlns="http://www.tei-c.org/ns/1.0"> Envoie les chiens de traque vers des tanières
-                                    assurées.</l></q> Dans ces vers, le mètre varie, et un hexamètre fini par un iambe est
-                              joint au vers héroïque. C’est pourquoi <span class="source">Terentianus</span>
-                              s’exprime ainsi à propos de 
-                              <persName xmlns="http://www.tei-c.org/ns/1.0">Livius</persName> : <q data-highlight="off">
-                                 <l xmlns="http://www.tei-c.org/ns/1.0">Le célèbre
+                              <seg class="theme-oeuvre" ana="#oeuvre" data-highlight="off">
+                                 <persName xmlns="http://www.tei-c.org/ns/1.0">Livius</persName> et ses poèmes sont loués, parmi bien
+                                 d’autres, par <span class="source">Valère Maxime</span> et <span class="source">Tite-Live</span>, qui décrivent abondamment combien il se distingua à Rome par ses
+                                 compositions poétiques ; afin d’apaiser la colère des dieux, vingt-sept vierges, faisant
+                                 passer une corde par leurs mains, parcourant la ville en procession les chantèrent.
+                                 Je
+                                 passe sous silence les récits concernant ces pièces que l’on dit que
+                                 
+                                 <persName xmlns="http://www.tei-c.org/ns/1.0">Livius</persName> adapta des Satyres, et qu’il forma des enfants pour les
+                                 chanter devant le joueur de flûte. Mais 
+                                 <persName xmlns="http://www.tei-c.org/ns/1.0">Livius</persName> fut surtout recommandé
+                                 par les anciens grammairiens pour son <em>Odyssée</em> et pour ses <em>Annales
+                                    romaines</em>. Et si certains attribuent témérairement ces œuvres à un autre
+                                 
+                                 <persName xmlns="http://www.tei-c.org/ns/1.0">Livius</persName>, c’est faute d’avoir examiné avec suffisamment de soin ce
+                                 qu’écrivent <span class="source">Aulu-Gelle</span> et <span class="source">Priscien</span>. <span class="source">Diomède</span>, en effet, parle ainsi
+                                 des <em>Annales</em> de 
+                                 <persName xmlns="http://www.tei-c.org/ns/1.0">Livius</persName> : <q data-highlight="off">Livius est, dit-il, le
+                                    premier chez les Latins à avoir dignement écrit un poème épique, lui qui embrassa
+                                    en
+                                    dix-huit livres les hauts faits du peuple romain.</q> Ces ouvrages furent appelés
+                                 <em>Annales liviennes</em>, parce qu’ils contenaient les événements de chaque
+                                 année. De plus, ce même 
+                                 <persName xmlns="http://www.tei-c.org/ns/1.0">Livius</persName> composa des hymnes aux dieux, comme
+                                 l’ont noté <span class="source">Terentianus</span> et <span class="source">Tite-Live</span> dans l’<em>Histoire romaine</em>. On cite ces vers de
+                                 
+                                 <persName xmlns="http://www.tei-c.org/ns/1.0">Livius</persName> tirés d’un hymne à Diane : <q data-highlight="off">Et maintenant, enveloppe
+                                    tes jambes dans des bottes de chasse sombres,<br> et laisse une ceinture ramener
+                                    sur ta poitrine les plis flottants.<br> Maintenant, laisse ton dos frapper sous les
+                                    secousses d'un carquois chargé.<br> Envoie les chiens de traque vers des tanières
+                                    assurées.<br></q> Dans ces vers, le mètre varie, et un hexamètre fini par un iambe est
+                                 joint au vers héroïque. C’est pourquoi <span class="source">Terentianus</span>
+                                 s’exprime ainsi à propos de 
+                                 <persName xmlns="http://www.tei-c.org/ns/1.0">Livius</persName> : <q data-highlight="off">Le célèbre
                                     
-                                    <persName>Livius</persName> de l'Antiquité, celui qui portait un nom grec,</l>
-                                 <l xmlns="http://www.tei-c.org/ns/1.0"> a
-                                    inséré tous ces vers, je crois, le modèle suivant :</l>
-                                 <l xmlns="http://www.tei-c.org/ns/1.0"> à un hexamètre héroïque
-                                    précédent, il ajoute un hexamètre fini par un iambe</l>
-                                 <l xmlns="http://www.tei-c.org/ns/1.0">au moment où le chœur, de
-                                    voix joyeuses, chante l’hymne de Trivia.</l></q></seg> Voilà ce que nous avons jugé
-                           digne d’être rapporté au sujet de 
-                           <persName xmlns="http://www.tei-c.org/ns/1.0">Livius Andronicus</persName>. 
-                           <seg class="theme-mort" ana="#mort" data-highlight="off">Quant à sa mort, nous ne lisons rien à ce sujet chez les auteurs anciens.</seg>
-                        </div>
-                     </td>
-                     <td>
-                        <div class="ab orig">Primus igitur inter Latinos scenae poetas fuit
-                           Livius Andronicus, qui, ut Cicero et Gellius scribunt, apud Romanos primus fabulam
-                           docuit,
-                           Q. Claudio Cethego Appii Caeci filio, et M. Sempronio Tuditano consulibus, anno ipso
-                           antequam natus est Ennius. M. Cato apud Tullium : Vidi, inquit, etiam senem Livium,
-                           qui, cum
-                           septem annos antequam ego natus sum fabulam docuisset Cethego Tuditanoque consulibus,
-                           usque
-                           ad adolescentiam meam processit. Post Romam autem conditam annis D plus minus, non
-                           CCCC ut
-                           perperam quidam legunt apud M. Tullium, et post Sophoclis et Euripidis mortem annis
-                           plus
-                           fere centum et sexaginta, post Menandri vero annis circiter quinquaginta duobus. Est
-                           tamen
-                           inter scriptores de Livii tempore ac annorum numero controversia, teste Cicerone,
-                           qui rem
-                           hanc diligentissime perpendit in eo, qui Brutus, uel de claris oratoribus inscribitur.
-                           Docuisse enim fabulam Livium Accio placuit, C. Cornelio, Q. Minutio consulibus, ludis
-                           Luctatiis, quos Salinator Senensi praelio uouerat. In quo tantus error Actii fuit,
-                           ut his
-                           consulibus triginta annos natus Ennius fuerit. In quem etiam errorem, ut mihi quidem
-                           uidetur, lapsus est Eusebius, uel qui eum uertit Hieronymus, qui in libro de temporibus,
-                           Naevium et Plautum ante Livium commemorat. Quem quidem Livium ita a Livio Salinatore
-                           amatum
-                           tradit ob ingenii meritum, cuius et liberos erudiebat, ut ab eo cum prius servus esset,
-                           libertate et familia donatus sit. Suetonius Tranquillus ait latinas fabulas primum
-                           a Livuo
-                           Andronico scriptas esse ad cunctas res, etiam cum ipse poeta et actor suarum fabularum
-                           fuerit. Idem Donatus et Diomedes fere. Valerius uero Maximus : Paulatim, inquit, deinde
-                           ludicra ars ad Satyrarym modos perrexit, a quibus primus omnium poeta Livius ad fabularum
-                           argumenta spectantium oculos et animos transtulit, isque sui operis actor, cum saepius
-                           a
-                           populo revocatus uocem obtudisset, adhibito pueri et tibicinis concentu, gesticulationem
-                           tacitus peregit. Donatus item incertum esse scribit, quis primus inuenerit apud Latinos
-                           poemata : certum tamen, inquit, est et tragoediam et comoediam Livium Andronicum reperisse.
-                           Qui ait comoediam esse quotidianae vitae speculum. Fabius uero Quintilianus : Nihil,
-                           inquit,
-                           in poetis supra Livium Andronicum habemus. Scripsisse et epos quoque Livium, testis
-                           est
-                           Diomedes grammaticus his verbis : Epos, inquit, primus digne scripsit Livius is, qui
-                           Romanorum gesta octo complexus est libris, qui et Annales inscribuntur, quod fere
-                           singulorum
-                           annorum actus contineant. Sed videndum plerique aiunt, ne in iis Diomedis uerbis,
-                           pro Livio
-                           Ennium legendum sit, uel alius fuerit Livius. Composuit et hymnos in deos, ex quibus
-                           de
-                           Diana Maurus Terentianus versus miuros affert. Scripsit et Odysseam, ex qua praeter
-                           alia
-                           illud circumfertur: 
-                           <l xmlns="http://www.tei-c.org/ns/1.0">At celer hasta volans perrupit pectora ferro</l>. Frequenter omnino
-                           Livii uersus citantur a scriptoribus, Gellio, Macrobio, Terentiano, Nonio, Prisciano,
-                           aliis.
-                           Titus Livius et Valerius Maximus Andronicum prodidere uersus fecisse in honorem Iunonis
-                           reginae, qui a ter novenis puellis per urbem celebrati fuere, data (ut aiunt) per
-                           manus
-                           reste. Huiusmodi quoque versus ad expianda prodigia, P. Licinius Tegula post etiam
-                           condidisse dicitur ; idque factum ex decemuirali responso, T. Livius libro XL scriptum
-                           reliquit. Sed quae ab Andronico facta diximus, Sextus Pompeius, et quos paulo ante
-                           citavimus
-                           historici, secundo bello Punico facta scribunt, quo tempore, ut Licinii verbis utar,
-                           Musa
-                           pennato gradu intulit sese bellicosam in Romuli gentem. Cum vero prosperius res populi
-                           Romani geri coepta esset, publice in Aventino aedes Minervae constructa fuit, in qua
-                           liceret
-                           scribis (sic enim antiquitus poetae eodem Pompeio autore vocabantur) et histrionibus
-                           consistere, ac dona ponere in honore Livii, quia is etiam et scribebat fabulas et
-                           agebat.
-                           Sane Livius, cum prius servus esset, Andronicus vocabatur : donatus libertate, Andronicus
-                           ex
-                           nomine cognomen factum est, id quod et Cecilio Statio contigisse paulo post dicemus.
-                           Hinc de
-                           Livio ita Terentianus: 
-                           <l xmlns="http://www.tei-c.org/ns/1.0">Livius ille vetus graio cognomine suae</l>. ἀνδρονικὸς enim, ut
-                           videtis, graeca est dictio: nam a Livio Salinatore, et Livii nomine et libertate donatus
-                           est, id quod in Temporibus, quod modo dicebamus, innuit Eusebius, nisi et vos eorum
-                           forte
-                           admittatis de praenomine, nomine et cognomine opinionem, contra antiquorum grammaticorum
-                           definitionem, quos ego ea ratione non refello, quod scriptorum quorundam veterum pro
-                           ipsis
-                           stare videtur autoritas. Atque hactenus vobis, quae in praesentia de Livio memini,
-                           recensui.
-                           Fuit et alter Andronicus poeta tempore Iuliani Caesaris Imperatoris, qui, ut Marcellinus
-                           scribit, studiis liberalibus et carminum splendore notus ; nihilominus accusatus,
-                           et in
-                           iudicium adductus, cum secura et intrepida mente nullisque suspicionibus urgeretur,
-                           purgando
-                           se semper et objecta diluendo fidentius, absolutus est. Fuit et grammaticus Andronicus
-                           celebris, qui Syrus cum esset, Romae docuit, dein Cumis agens in ocio uixit, eius
-                           vitam
-                           Suetonius est executus.</div>
-                        <div class="ab trad">Le premier, donc, parmi les Latins, des poètes
-                           de théâtre fut 
-                           <persName xmlns="http://www.tei-c.org/ns/1.0">Livius Andronicus</persName>. Comme l’écrivent <span class="source">Cicéron</span> et <span class="source">Aulu-Gelle</span>, il fut
-                           le premier, chez les Romains, à faire représenter une pièce, sous le consulat de 
-                           <persName xmlns="http://www.tei-c.org/ns/1.0" role="historique">Quintus Claudius Cethegus</persName>, fils d’
-                           <persName xmlns="http://www.tei-c.org/ns/1.0" role="historique">Appius Caecus</persName>, et de 
-                           <persName xmlns="http://www.tei-c.org/ns/1.0" role="historique">Marcus Sempronius
-                              Tuditanus</persName>, l’année même qui précéda la naissance d’
-                           <persName xmlns="http://www.tei-c.org/ns/1.0" role="autre_poete">Ennius</persName>. 
-                           <persName xmlns="http://www.tei-c.org/ns/1.0" role="historique">Marcus Caton</persName> rapporte chez
-                           <span class="source">Tullius</span> : <q data-highlight="off">J’ai vu 
-                              <persName xmlns="http://www.tei-c.org/ns/1.0">Livius</persName> déjà
-                              vieux, lui qui, alors qu’il avait fait représenter une pièce sept ans avant ma naissance,
-                              sous le consulat de 
-                              <persName xmlns="http://www.tei-c.org/ns/1.0" role="historique">Cethegus</persName> et de 
-                              <persName xmlns="http://www.tei-c.org/ns/1.0" role="historique">Tuditanus</persName>, vécut jusqu’à mon adolescence.</q> Cela se
-                           produisit environ cinq cents ans après la fondation de Rome, et non pas quatre cents,
-                           comme
-                           certains le lisent à tort chez <span class="source">Marcus Tullius</span>, et environ
-                           cent soixante ans après la mort de 
-                           <persName xmlns="http://www.tei-c.org/ns/1.0" role="autre_poete">Sophocle</persName> et
-                           d’
-                           <persName xmlns="http://www.tei-c.org/ns/1.0" role="autre_poete">Euripide</persName>, et à peu près cinquante-deux ans après
-                           celle de 
-                           <persName xmlns="http://www.tei-c.org/ns/1.0" role="autre_poete">Ménandre</persName>. Il existe toutefois, parmi les
-                           auteurs, une controverse au sujet de l’époque et de l’âge de 
-                           <persName xmlns="http://www.tei-c.org/ns/1.0">Livius</persName>,
-                           comme en témoigne <span class="source">Cicéron</span>, qui a examiné cette question
-                           avec le plus grand soin dans l’ouvrage qu’il intitule <em>Brutus</em>, ou <em>Des
-                              orateurs illustres</em>. <span class="source">Accius</span> a en effet jugé que
-                           
-                           <persName xmlns="http://www.tei-c.org/ns/1.0">Livius</persName> avait fait représenter une pièce à l’occasion des Jeux
-                           Luctatiens, sous le consulat de 
-                           <persName xmlns="http://www.tei-c.org/ns/1.0" role="historique">Caius Cornelius</persName> et de
-                           
-                           <persName xmlns="http://www.tei-c.org/ns/1.0" role="historique">Quintus Minucius</persName>, jeux que 
-                           <persName xmlns="http://www.tei-c.org/ns/1.0" role="historique">Salinator</persName> avait fait vœu d’instituer durant la bataille de
-                           Sienne. Or, sur ce point, <span class="source">Accius</span> se trompe lourdement,
-                           puisque, sous ces consuls, 
-                           <persName xmlns="http://www.tei-c.org/ns/1.0" role="autre_poete">Ennius</persName> avait trente ans.
-                           Dans cette même erreur, à mon avis, est tombé <span class="source">Eusèbe</span> (ou
-                           <span class="source">Jérôme</span>, qui l’a traduit), lequel, dans sa
-                           <em>Chronique</em>, mentionne 
-                           <persName xmlns="http://www.tei-c.org/ns/1.0" role="autre_poete">Naevius</persName> et
-                           
-                           <persName xmlns="http://www.tei-c.org/ns/1.0" role="autre_poete">Plaute</persName> avant 
-                           <persName xmlns="http://www.tei-c.org/ns/1.0">Livius</persName>. Il
-                           rapporte aussi que ce 
-                           <persName xmlns="http://www.tei-c.org/ns/1.0">Livius</persName> fut à ce point aimé de 
-                           <persName xmlns="http://www.tei-c.org/ns/1.0" role="historique">Livius Salinator</persName>, dont il instruisait les enfants, en raison
-                           de son mérite et de son talent que, alors qu’il était auparavant esclave, il reçut
-                           de lui la
-                           liberté et l’intégration dans sa maison. <span class="source">Suétone
-                              Tranquillus</span> affirme que les pièces latines furent d’abord écrites par
-                           
-                           <persName xmlns="http://www.tei-c.org/ns/1.0">Livius Andronicus</persName> pour toutes sortes de représentations, et cela
-                           alors même qu’il était lui-même à la fois le poète et l’acteur de ses propres pièces.
-                           <span class="source">Donat</span> et <span class="source">Diomède</span>
-                           disent à peu près la même chose. <span class="source">Valère Maxime</span>, en
-                           revanche, écrit : <q data-highlight="off">Peu à peu, l'art mimique s'est lentement adapté aux rythmes des
-                              Satyres, dont le poète 
-                              <persName xmlns="http://www.tei-c.org/ns/1.0">Livius</persName> fut le premier à attirer l'attention
-                              des spectateurs sur les thèmes des pièces. Il jouait ses propres œuvres et, souvent
-                              rappelé par le public, il en avait la voix enrouée. Il fit donc venir un garçon et
-                              un
-                              flûtiste pour jouer de la musique pendant qu'il mimait en silence.</q>
-                           <span class="source">Donat</span> écrit également qu’il n’est pas certain de savoir
-                           qui, chez les Latins, inventa le premier la poésie : <q data-highlight="off">Il est toutefois certain, dit-il,
-                              que 
-                              <persName xmlns="http://www.tei-c.org/ns/1.0">Livius Andronicus</persName> fut l’inventeur à la fois de la tragédie et de
-                              la comédie.</q> Il ajoute que <q data-highlight="off">la comédie est le miroir de la vie quotidienne</q>.
-                           <span class="source">Fabius Quintilien</span>, pour sa part, déclare : <q data-highlight="off">Chez les
-                              poètes, nous n’avons rien au-delà de 
-                              <persName xmlns="http://www.tei-c.org/ns/1.0">Livius Andronicus</persName>.</q> Que
-                           
-                           <persName xmlns="http://www.tei-c.org/ns/1.0">Livius</persName> ait aussi écrit une épopée, le grammairien <span class="source">Diomède</span> en est témoin, en ces termes : <q data-highlight="off">L’épopée, dit-il, fut
-                              écrite pour la première fois dignement par 
-                              <persName xmlns="http://www.tei-c.org/ns/1.0">Livius</persName>, celui qui embrassa
-                              en huit livres les hauts faits des Romains, livres qui portent le titre
-                              d’<em>Annales</em>, parce qu’ils contiennent à peu près les événements de chaque
-                              année</q>. Mais beaucoup estiment qu’il faut observer attentivement que, dans ces paroles
-                           de <span class="source">Diomède</span>, on ne doive pas lire 
-                           <persName xmlns="http://www.tei-c.org/ns/1.0" role="autre_poete">Ennius</persName> au lieu de 
-                           <persName xmlns="http://www.tei-c.org/ns/1.0">Livius</persName>, ou qu’il
-                           n’existe pas un autre 
-                           <persName xmlns="http://www.tei-c.org/ns/1.0">Livius</persName>. Il composa aussi des hymnes aux dieux ;
-                           de ceux-ci, <span class="source">Terentianus Maurus</span> cite plusieurs hexamètres
-                           finissant par un iambe, notamment un hymne à Diane. Il écrivit également une
-                           <em>Odyssée</em>, dont, entre autres passages, on cite celui-ci : <q data-highlight="off">
-                              <l xmlns="http://www.tei-c.org/ns/1.0">Mais la
-                                 lance rapide, volant, perça la poitrine de son fer</l></q>. Les vers de
-                           
-                           <persName xmlns="http://www.tei-c.org/ns/1.0">Livius</persName> sont très fréquemment cités par les écrivains, notamment par
-                           <span class="source">Aulu-Gelle</span>, <span class="source">Macrobe</span>,
-                           <span class="source">Terentianus</span>, <span class="source">Nonius</span>,
-                           <span class="source">Priscien</span> et d’autres. <span class="source">Tite-Live</span> et <span class="source">Valère Maxime</span> rapportent
-                           qu’
-                           <persName xmlns="http://www.tei-c.org/ns/1.0">Andronicus</persName> composa des vers en l’honneur de Junon Reine, lesquels
-                           furent célébrés dans la ville par vingt-sept jeunes filles, faisant passer, comme
-                           on dit,
-                           une corde par leurs mains. On dit aussi que 
-                           <persName xmlns="http://www.tei-c.org/ns/1.0" role="autre_poete">Publius Licinius
-                              Tegula</persName> composa plus tard des vers du même genre pour expier des prodiges ; et
-                           <span class="source">Tite-Live</span> a laissé par écrit, au livre XL, que cela fut
-                           fait sur l’avis des décemvirs. Mais ce que nous avons dit qu’
-                           <persName xmlns="http://www.tei-c.org/ns/1.0">Andronicus</persName>
-                           a fait, <span class="source">Sextus Pompée</span> et les historiens que nous avons
-                           cités un peu plus haut rapportent que cela eut lieu durant la deuxième guerre punique,
-                           époque à laquelle, pour reprendre les mots de <span class="source">Licinius</span>,
-                           <q data-highlight="off">
-                              <l xmlns="http://www.tei-c.org/ns/1.0">la Muse, d'un pas rapide, s’introduisit dans la nation belliqueuse de
-                                 Romulus.</l></q> Mais alors que la situation du peuple romain commençait à devenir plus
-                           prospère, on construisit au frais de l’État sur l’Aventin un temple de Minerve, dans
-                           lequel
-                           il était permis aux scribae (c’est ainsi qu’autrefois, selon le même <span class="source">Pompée</span>, on appelait les poètes) et aux histrions de se réunir et de déposer
-                           des offrandes en l’honneur de 
-                           <persName xmlns="http://www.tei-c.org/ns/1.0">Livius</persName>, parce que celui-ci écrivait des
-                           pièces et les jouait lui-même. Assurément, 
-                           <persName xmlns="http://www.tei-c.org/ns/1.0">Livius</persName>, lorsqu’il était
-                           auparavant esclave, s’appelait 
-                           <persName xmlns="http://www.tei-c.org/ns/1.0">Andronicus</persName> ; une fois affranchi,
-                           
-                           <persName xmlns="http://www.tei-c.org/ns/1.0">Andronicus</persName> devint un cognomen tiré de son nom, ce qui, dirons-nous un
-                           peu plus loin, arriva aussi à 
-                           <persName xmlns="http://www.tei-c.org/ns/1.0" role="autre_poete">Caecilius Statius</persName>.
-                           C’est pourquoi <span class="source">Terentianus</span> parle ainsi de
-                           
-                           <persName xmlns="http://www.tei-c.org/ns/1.0">Livius</persName> : <q data-highlight="off">
-                              <l xmlns="http://www.tei-c.org/ns/1.0">Le célèbre 
-                                 <persName>Livius</persName> de l'Antiquité,
-                                 celui qui portait un nom grec…</l></q>
-                           
-                           <persName xmlns="http://www.tei-c.org/ns/1.0">Andronicus</persName>, en effet, comme vous le voyez, est un mot grec : car il
-                           reçut de 
-                           <persName xmlns="http://www.tei-c.org/ns/1.0" role="historique">Livius Salinator</persName> à la fois le nom de
-                           
-                           <persName xmlns="http://www.tei-c.org/ns/1.0">Livius</persName> et la liberté, ce qu’<span class="source">Eusèbe</span>
-                           indique dans la <em>Chronique</em>, dont nous parlions à l’instant, à moins que vous
-                           n’admettiez peut-être l’opinion de ceux qui raisonnent en termes de prénom, de nom
-                           et de
-                           cognomen, en contradiction avec la définition des anciens grammairiens, définition
-                           que, pour
-                           ma part, je ne réfute pas, parce que l’autorité de certains écrivains anciens semble
-                           plaider
-                           en leur faveur. Et sur ce point, voilà tout ce dont je me souviens pour l’instant
-                           au sujet
-                           de 
-                           <persName xmlns="http://www.tei-c.org/ns/1.0">Livius</persName>. Il y eut aussi un autre 
-                           <persName xmlns="http://www.tei-c.org/ns/1.0" role="autre_poete">Andronicus</persName>, poète à l’époque de l’empereur 
-                           <persName xmlns="http://www.tei-c.org/ns/1.0" role="historique">Jules
-                              César</persName>, lequel, comme l’écrit <span class="source">Marcellin</span>,
-                           était connu pour ses études libérales et l’éclat de ses poèmes ; néanmoins, ayant
-                           été accusé
-                           et traduit en justice, alors qu’il conservait un esprit calme et intrépide et qu’aucun
-                           soupçon sérieux ne pesait sur lui, il se défendit toujours avec assurance, réfutant
-                           les
-                           accusations portées contre lui, et fut acquitté. Il y eut également un grammairien
-                           célèbre
-                           nommé 
-                           <persName xmlns="http://www.tei-c.org/ns/1.0" role="historique">Andronicus</persName>, Syrien d’origine, qui enseigna à
-                           Rome, puis vécut dans le loisir à Cumes ; sa vie a été racontée par <span class="source">Suétone</span>. </div>
-                     </td>
-                  </tr>
-               </tbody>
-            </table>
+                                    <persName xmlns="http://www.tei-c.org/ns/1.0">Livius</persName> de l'Antiquité, celui qui portait un nom grec,<br> a
+                                    inséré tous ces vers, je crois, le modèle suivant :<br> à un hexamètre héroïque
+                                    précédent, il ajoute un hexamètre fini par un iambe<br>au moment où le chœur, de
+                                    voix joyeuses, chante l’hymne de Trivia.<br></q></seg> Voilà ce que nous avons jugé
+                              digne d’être rapporté au sujet de 
+                              <persName xmlns="http://www.tei-c.org/ns/1.0">Livius Andronicus</persName>. 
+                              <seg class="theme-mort" ana="#mort" data-highlight="off">Quant à sa mort, nous ne lisons rien à ce sujet chez les auteurs anciens.</seg>
+                           </div>
+                        </td>
+                        <td>
+                           <div class="ab orig">Primus igitur inter Latinos scenae poetas fuit
+                              Livius Andronicus, qui, ut Cicero et Gellius scribunt, apud Romanos primus fabulam
+                              docuit,
+                              Q. Claudio Cethego Appii Caeci filio, et M. Sempronio Tuditano consulibus, anno ipso
+                              antequam natus est Ennius. M. Cato apud Tullium : Vidi, inquit, etiam senem Livium,
+                              qui, cum
+                              septem annos antequam ego natus sum fabulam docuisset Cethego Tuditanoque consulibus,
+                              usque
+                              ad adolescentiam meam processit. Post Romam autem conditam annis D plus minus, non
+                              CCCC ut
+                              perperam quidam legunt apud M. Tullium, et post Sophoclis et Euripidis mortem annis
+                              plus
+                              fere centum et sexaginta, post Menandri vero annis circiter quinquaginta duobus. Est
+                              tamen
+                              inter scriptores de Livii tempore ac annorum numero controversia, teste Cicerone,
+                              qui rem
+                              hanc diligentissime perpendit in eo, qui Brutus, uel de claris oratoribus inscribitur.
+                              Docuisse enim fabulam Livium Accio placuit, C. Cornelio, Q. Minutio consulibus, ludis
+                              Luctatiis, quos Salinator Senensi praelio uouerat. In quo tantus error Actii fuit,
+                              ut his
+                              consulibus triginta annos natus Ennius fuerit. In quem etiam errorem, ut mihi quidem
+                              uidetur, lapsus est Eusebius, uel qui eum uertit Hieronymus, qui in libro de temporibus,
+                              Naevium et Plautum ante Livium commemorat. Quem quidem Livium ita a Livio Salinatore
+                              amatum
+                              tradit ob ingenii meritum, cuius et liberos erudiebat, ut ab eo cum prius servus esset,
+                              libertate et familia donatus sit. Suetonius Tranquillus ait latinas fabulas primum
+                              a Livuo
+                              Andronico scriptas esse ad cunctas res, etiam cum ipse poeta et actor suarum fabularum
+                              fuerit. Idem Donatus et Diomedes fere. Valerius uero Maximus : Paulatim, inquit, deinde
+                              ludicra ars ad Satyrarym modos perrexit, a quibus primus omnium poeta Livius ad fabularum
+                              argumenta spectantium oculos et animos transtulit, isque sui operis actor, cum saepius
+                              a
+                              populo revocatus uocem obtudisset, adhibito pueri et tibicinis concentu, gesticulationem
+                              tacitus peregit. Donatus item incertum esse scribit, quis primus inuenerit apud Latinos
+                              poemata : certum tamen, inquit, est et tragoediam et comoediam Livium Andronicum reperisse.
+                              Qui ait comoediam esse quotidianae vitae speculum. Fabius uero Quintilianus : Nihil,
+                              inquit,
+                              in poetis supra Livium Andronicum habemus. Scripsisse et epos quoque Livium, testis
+                              est
+                              Diomedes grammaticus his verbis : Epos, inquit, primus digne scripsit Livius is, qui
+                              Romanorum gesta octo complexus est libris, qui et Annales inscribuntur, quod fere
+                              singulorum
+                              annorum actus contineant. Sed videndum plerique aiunt, ne in iis Diomedis uerbis,
+                              pro Livio
+                              Ennium legendum sit, uel alius fuerit Livius. Composuit et hymnos in deos, ex quibus
+                              de
+                              Diana Maurus Terentianus versus miuros affert. Scripsit et Odysseam, ex qua praeter
+                              alia
+                              illud circumfertur: At celer hasta volans perrupit pectora ferro<br>. Frequenter omnino
+                              Livii uersus citantur a scriptoribus, Gellio, Macrobio, Terentiano, Nonio, Prisciano,
+                              aliis.
+                              Titus Livius et Valerius Maximus Andronicum prodidere uersus fecisse in honorem Iunonis
+                              reginae, qui a ter novenis puellis per urbem celebrati fuere, data (ut aiunt) per
+                              manus
+                              reste. Huiusmodi quoque versus ad expianda prodigia, P. Licinius Tegula post etiam
+                              condidisse dicitur ; idque factum ex decemuirali responso, T. Livius libro XL scriptum
+                              reliquit. Sed quae ab Andronico facta diximus, Sextus Pompeius, et quos paulo ante
+                              citavimus
+                              historici, secundo bello Punico facta scribunt, quo tempore, ut Licinii verbis utar,
+                              Musa
+                              pennato gradu intulit sese bellicosam in Romuli gentem. Cum vero prosperius res populi
+                              Romani geri coepta esset, publice in Aventino aedes Minervae constructa fuit, in qua
+                              liceret
+                              scribis (sic enim antiquitus poetae eodem Pompeio autore vocabantur) et histrionibus
+                              consistere, ac dona ponere in honore Livii, quia is etiam et scribebat fabulas et
+                              agebat.
+                              Sane Livius, cum prius servus esset, Andronicus vocabatur : donatus libertate, Andronicus
+                              ex
+                              nomine cognomen factum est, id quod et Cecilio Statio contigisse paulo post dicemus.
+                              Hinc de
+                              Livio ita Terentianus: Livius ille vetus graio cognomine suae<br>. ἀνδρονικὸς enim, ut
+                              videtis, graeca est dictio: nam a Livio Salinatore, et Livii nomine et libertate donatus
+                              est, id quod in Temporibus, quod modo dicebamus, innuit Eusebius, nisi et vos eorum
+                              forte
+                              admittatis de praenomine, nomine et cognomine opinionem, contra antiquorum grammaticorum
+                              definitionem, quos ego ea ratione non refello, quod scriptorum quorundam veterum pro
+                              ipsis
+                              stare videtur autoritas. Atque hactenus vobis, quae in praesentia de Livio memini,
+                              recensui.
+                              Fuit et alter Andronicus poeta tempore Iuliani Caesaris Imperatoris, qui, ut Marcellinus
+                              scribit, studiis liberalibus et carminum splendore notus ; nihilominus accusatus,
+                              et in
+                              iudicium adductus, cum secura et intrepida mente nullisque suspicionibus urgeretur,
+                              purgando
+                              se semper et objecta diluendo fidentius, absolutus est. Fuit et grammaticus Andronicus
+                              celebris, qui Syrus cum esset, Romae docuit, dein Cumis agens in ocio uixit, eius
+                              vitam
+                              Suetonius est executus.</div>
+                           <div class="ab trad">Le premier, donc, parmi les Latins, des poètes
+                              de théâtre fut 
+                              <persName xmlns="http://www.tei-c.org/ns/1.0">Livius Andronicus</persName>. Comme l’écrivent <span class="source">Cicéron</span> et <span class="source">Aulu-Gelle</span>, il fut
+                              le premier, chez les Romains, à faire représenter une pièce, sous le consulat de 
+                              <persName xmlns="http://www.tei-c.org/ns/1.0" role="historique">Quintus Claudius Cethegus</persName>, fils d’
+                              <persName xmlns="http://www.tei-c.org/ns/1.0" role="historique">Appius Caecus</persName>, et de 
+                              <persName xmlns="http://www.tei-c.org/ns/1.0" role="historique">Marcus Sempronius
+                                 Tuditanus</persName>, l’année même qui précéda la naissance d’
+                              <persName xmlns="http://www.tei-c.org/ns/1.0" role="autre_poete">Ennius</persName>. 
+                              <persName xmlns="http://www.tei-c.org/ns/1.0" role="historique">Marcus Caton</persName> rapporte chez
+                              <span class="source">Tullius</span> : <q data-highlight="off">J’ai vu 
+                                 <persName xmlns="http://www.tei-c.org/ns/1.0">Livius</persName> déjà
+                                 vieux, lui qui, alors qu’il avait fait représenter une pièce sept ans avant ma naissance,
+                                 sous le consulat de 
+                                 <persName xmlns="http://www.tei-c.org/ns/1.0" role="historique">Cethegus</persName> et de 
+                                 <persName xmlns="http://www.tei-c.org/ns/1.0" role="historique">Tuditanus</persName>, vécut jusqu’à mon adolescence.</q> Cela se
+                              produisit environ cinq cents ans après la fondation de Rome, et non pas quatre cents,
+                              comme
+                              certains le lisent à tort chez <span class="source">Marcus Tullius</span>, et environ
+                              cent soixante ans après la mort de 
+                              <persName xmlns="http://www.tei-c.org/ns/1.0" role="autre_poete">Sophocle</persName> et
+                              d’
+                              <persName xmlns="http://www.tei-c.org/ns/1.0" role="autre_poete">Euripide</persName>, et à peu près cinquante-deux ans après
+                              celle de 
+                              <persName xmlns="http://www.tei-c.org/ns/1.0" role="autre_poete">Ménandre</persName>. Il existe toutefois, parmi les
+                              auteurs, une controverse au sujet de l’époque et de l’âge de 
+                              <persName xmlns="http://www.tei-c.org/ns/1.0">Livius</persName>,
+                              comme en témoigne <span class="source">Cicéron</span>, qui a examiné cette question
+                              avec le plus grand soin dans l’ouvrage qu’il intitule <em>Brutus</em>, ou <em>Des
+                                 orateurs illustres</em>. <span class="source">Accius</span> a en effet jugé que
+                              
+                              <persName xmlns="http://www.tei-c.org/ns/1.0">Livius</persName> avait fait représenter une pièce à l’occasion des Jeux
+                              Luctatiens, sous le consulat de 
+                              <persName xmlns="http://www.tei-c.org/ns/1.0" role="historique">Caius Cornelius</persName> et de
+                              
+                              <persName xmlns="http://www.tei-c.org/ns/1.0" role="historique">Quintus Minucius</persName>, jeux que 
+                              <persName xmlns="http://www.tei-c.org/ns/1.0" role="historique">Salinator</persName> avait fait vœu d’instituer durant la bataille de
+                              Sienne. Or, sur ce point, <span class="source">Accius</span> se trompe lourdement,
+                              puisque, sous ces consuls, 
+                              <persName xmlns="http://www.tei-c.org/ns/1.0" role="autre_poete">Ennius</persName> avait trente ans.
+                              Dans cette même erreur, à mon avis, est tombé <span class="source">Eusèbe</span> (ou
+                              <span class="source">Jérôme</span>, qui l’a traduit), lequel, dans sa
+                              <em>Chronique</em>, mentionne 
+                              <persName xmlns="http://www.tei-c.org/ns/1.0" role="autre_poete">Naevius</persName> et
+                              
+                              <persName xmlns="http://www.tei-c.org/ns/1.0" role="autre_poete">Plaute</persName> avant 
+                              <persName xmlns="http://www.tei-c.org/ns/1.0">Livius</persName>. Il
+                              rapporte aussi que ce 
+                              <persName xmlns="http://www.tei-c.org/ns/1.0">Livius</persName> fut à ce point aimé de 
+                              <persName xmlns="http://www.tei-c.org/ns/1.0" role="historique">Livius Salinator</persName>, dont il instruisait les enfants, en raison
+                              de son mérite et de son talent que, alors qu’il était auparavant esclave, il reçut
+                              de lui la
+                              liberté et l’intégration dans sa maison. <span class="source">Suétone
+                                 Tranquillus</span> affirme que les pièces latines furent d’abord écrites par
+                              
+                              <persName xmlns="http://www.tei-c.org/ns/1.0">Livius Andronicus</persName> pour toutes sortes de représentations, et cela
+                              alors même qu’il était lui-même à la fois le poète et l’acteur de ses propres pièces.
+                              <span class="source">Donat</span> et <span class="source">Diomède</span>
+                              disent à peu près la même chose. <span class="source">Valère Maxime</span>, en
+                              revanche, écrit : <q data-highlight="off">Peu à peu, l'art mimique s'est lentement adapté aux rythmes des
+                                 Satyres, dont le poète 
+                                 <persName xmlns="http://www.tei-c.org/ns/1.0">Livius</persName> fut le premier à attirer l'attention
+                                 des spectateurs sur les thèmes des pièces. Il jouait ses propres œuvres et, souvent
+                                 rappelé par le public, il en avait la voix enrouée. Il fit donc venir un garçon et
+                                 un
+                                 flûtiste pour jouer de la musique pendant qu'il mimait en silence.</q>
+                              <span class="source">Donat</span> écrit également qu’il n’est pas certain de savoir
+                              qui, chez les Latins, inventa le premier la poésie : <q data-highlight="off">Il est toutefois certain, dit-il,
+                                 que 
+                                 <persName xmlns="http://www.tei-c.org/ns/1.0">Livius Andronicus</persName> fut l’inventeur à la fois de la tragédie et de
+                                 la comédie.</q> Il ajoute que <q data-highlight="off">la comédie est le miroir de la vie quotidienne</q>.
+                              <span class="source">Fabius Quintilien</span>, pour sa part, déclare : <q data-highlight="off">Chez les
+                                 poètes, nous n’avons rien au-delà de 
+                                 <persName xmlns="http://www.tei-c.org/ns/1.0">Livius Andronicus</persName>.</q> Que
+                              
+                              <persName xmlns="http://www.tei-c.org/ns/1.0">Livius</persName> ait aussi écrit une épopée, le grammairien <span class="source">Diomède</span> en est témoin, en ces termes : <q data-highlight="off">L’épopée, dit-il, fut
+                                 écrite pour la première fois dignement par 
+                                 <persName xmlns="http://www.tei-c.org/ns/1.0">Livius</persName>, celui qui embrassa
+                                 en huit livres les hauts faits des Romains, livres qui portent le titre
+                                 d’<em>Annales</em>, parce qu’ils contiennent à peu près les événements de chaque
+                                 année</q>. Mais beaucoup estiment qu’il faut observer attentivement que, dans ces paroles
+                              de <span class="source">Diomède</span>, on ne doive pas lire 
+                              <persName xmlns="http://www.tei-c.org/ns/1.0" role="autre_poete">Ennius</persName> au lieu de 
+                              <persName xmlns="http://www.tei-c.org/ns/1.0">Livius</persName>, ou qu’il
+                              n’existe pas un autre 
+                              <persName xmlns="http://www.tei-c.org/ns/1.0">Livius</persName>. Il composa aussi des hymnes aux dieux ;
+                              de ceux-ci, <span class="source">Terentianus Maurus</span> cite plusieurs hexamètres
+                              finissant par un iambe, notamment un hymne à Diane. Il écrivit également une
+                              <em>Odyssée</em>, dont, entre autres passages, on cite celui-ci : <q data-highlight="off">Mais la
+                                 lance rapide, volant, perça la poitrine de son fer<br></q>. Les vers de
+                              
+                              <persName xmlns="http://www.tei-c.org/ns/1.0">Livius</persName> sont très fréquemment cités par les écrivains, notamment par
+                              <span class="source">Aulu-Gelle</span>, <span class="source">Macrobe</span>,
+                              <span class="source">Terentianus</span>, <span class="source">Nonius</span>,
+                              <span class="source">Priscien</span> et d’autres. <span class="source">Tite-Live</span> et <span class="source">Valère Maxime</span> rapportent
+                              qu’
+                              <persName xmlns="http://www.tei-c.org/ns/1.0">Andronicus</persName> composa des vers en l’honneur de Junon Reine, lesquels
+                              furent célébrés dans la ville par vingt-sept jeunes filles, faisant passer, comme
+                              on dit,
+                              une corde par leurs mains. On dit aussi que 
+                              <persName xmlns="http://www.tei-c.org/ns/1.0" role="autre_poete">Publius Licinius
+                                 Tegula</persName> composa plus tard des vers du même genre pour expier des prodiges ; et
+                              <span class="source">Tite-Live</span> a laissé par écrit, au livre XL, que cela fut
+                              fait sur l’avis des décemvirs. Mais ce que nous avons dit qu’
+                              <persName xmlns="http://www.tei-c.org/ns/1.0">Andronicus</persName>
+                              a fait, <span class="source">Sextus Pompée</span> et les historiens que nous avons
+                              cités un peu plus haut rapportent que cela eut lieu durant la deuxième guerre punique,
+                              époque à laquelle, pour reprendre les mots de <span class="source">Licinius</span>,
+                              <q data-highlight="off">la Muse, d'un pas rapide, s’introduisit dans la nation belliqueuse de
+                                 Romulus.<br></q> Mais alors que la situation du peuple romain commençait à devenir plus
+                              prospère, on construisit au frais de l’État sur l’Aventin un temple de Minerve, dans
+                              lequel
+                              il était permis aux scribae (c’est ainsi qu’autrefois, selon le même <span class="source">Pompée</span>, on appelait les poètes) et aux histrions de se réunir et de déposer
+                              des offrandes en l’honneur de 
+                              <persName xmlns="http://www.tei-c.org/ns/1.0">Livius</persName>, parce que celui-ci écrivait des
+                              pièces et les jouait lui-même. Assurément, 
+                              <persName xmlns="http://www.tei-c.org/ns/1.0">Livius</persName>, lorsqu’il était
+                              auparavant esclave, s’appelait 
+                              <persName xmlns="http://www.tei-c.org/ns/1.0">Andronicus</persName> ; une fois affranchi,
+                              
+                              <persName xmlns="http://www.tei-c.org/ns/1.0">Andronicus</persName> devint un cognomen tiré de son nom, ce qui, dirons-nous un
+                              peu plus loin, arriva aussi à 
+                              <persName xmlns="http://www.tei-c.org/ns/1.0" role="autre_poete">Caecilius Statius</persName>.
+                              C’est pourquoi <span class="source">Terentianus</span> parle ainsi de
+                              
+                              <persName xmlns="http://www.tei-c.org/ns/1.0">Livius</persName> : <q data-highlight="off">Le célèbre 
+                                 <persName xmlns="http://www.tei-c.org/ns/1.0">Livius</persName> de l'Antiquité,
+                                 celui qui portait un nom grec…<br></q>
+                              
+                              <persName xmlns="http://www.tei-c.org/ns/1.0">Andronicus</persName>, en effet, comme vous le voyez, est un mot grec : car il
+                              reçut de 
+                              <persName xmlns="http://www.tei-c.org/ns/1.0" role="historique">Livius Salinator</persName> à la fois le nom de
+                              
+                              <persName xmlns="http://www.tei-c.org/ns/1.0">Livius</persName> et la liberté, ce qu’<span class="source">Eusèbe</span>
+                              indique dans la <em>Chronique</em>, dont nous parlions à l’instant, à moins que vous
+                              n’admettiez peut-être l’opinion de ceux qui raisonnent en termes de prénom, de nom
+                              et de
+                              cognomen, en contradiction avec la définition des anciens grammairiens, définition
+                              que, pour
+                              ma part, je ne réfute pas, parce que l’autorité de certains écrivains anciens semble
+                              plaider
+                              en leur faveur. Et sur ce point, voilà tout ce dont je me souviens pour l’instant
+                              au sujet
+                              de 
+                              <persName xmlns="http://www.tei-c.org/ns/1.0">Livius</persName>. Il y eut aussi un autre 
+                              <persName xmlns="http://www.tei-c.org/ns/1.0" role="autre_poete">Andronicus</persName>, poète à l’époque de l’empereur 
+                              <persName xmlns="http://www.tei-c.org/ns/1.0" role="historique">Jules
+                                 César</persName>, lequel, comme l’écrit <span class="source">Marcellin</span>,
+                              était connu pour ses études libérales et l’éclat de ses poèmes ; néanmoins, ayant
+                              été accusé
+                              et traduit en justice, alors qu’il conservait un esprit calme et intrépide et qu’aucun
+                              soupçon sérieux ne pesait sur lui, il se défendit toujours avec assurance, réfutant
+                              les
+                              accusations portées contre lui, et fut acquitté. Il y eut également un grammairien
+                              célèbre
+                              nommé 
+                              <persName xmlns="http://www.tei-c.org/ns/1.0" role="historique">Andronicus</persName>, Syrien d’origine, qui enseigna à
+                              Rome, puis vécut dans le loisir à Cumes ; sa vie a été racontée par <span class="source">Suétone</span>. </div>
+                        </td>
+                     </tr>
+                  </tbody>
+               </table>
+            </div>
          </div>
       </div>
    </body>
