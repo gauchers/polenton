@@ -2,89 +2,152 @@
 <html xmlns:tei="http://www.tei-c.org/ns/1.0" lang="fr">
    <head>
       <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-      <title>Traductions comparées</title>
+      <title>Vies de Plautus</title>
       <style type="text/css">
+                    :root {
+                        --uga-blue: #003a8f;
+                        --uga-light-blue: #5b7dbb;
+                        --uga-grey: #e6e9ef;
+                        --uga-dark-grey: #555;
+                    }
+                    
                     body {
                         font-family: serif;
-                        margin: 30px;
+                        margin: 0;
+                        color: #111;
                     }
                     
                     /* ===================== */
-                    /* Style commun boutons */
+                    /* Marges décoratives */
+                    /* ===================== */
+                    .marge {
+                        position: fixed;
+                        top: 0;
+                        width: 120px;
+                        height: 100%;
+                        background-image: url("../images/marge.png");
+                        background-repeat: repeat;
+                        pointer-events: none;
+                        z-index: -1;
+                    }
+                    
+                    .marge.left {
+                        left: 0;
+                    }
+                    .marge.right {
+                        right: 0;
+                    }
+                    
+                    /* ===================== */
+                    /* Wrapper principal */
+                    /* ===================== */
+                    .page-wrapper {
+                        padding: 50px 140px;
+                        box-sizing: border-box;
+                    }
+                    
+                    /* ===================== */
+                    /* Titre principal */
+                    /* ===================== */
+                    h1 {
+                        text-align: center;
+                        font-size: 30px;
+                        margin-bottom: 25px;
+                        color: var(--uga-blue);
+                    }
+                    
+                    /* ===================== */
+                    /* Boutons */
                     /* ===================== */
                     button {
                         padding: 6px 12px;
                         font-size: 14px;
                         cursor: pointer;
-                        border: 1px solid #888;
+                        border: 1px solid var(--uga-light-blue);
                         border-radius: 4px;
+                        background-color: #f4f7fc;
                         font-family: serif;
-                        transition: all 0.3s;
+                        transition: all 0.2s;
+                        color: var(--uga-blue);
                     }
                     
                     button:hover {
-                        filter: brightness(90%);
+                        background-color: var(--uga-light-blue);
+                        color: #fff;
                     }
                     
-                    /* Boutons Sources / Orig-Trad neutres */
-                    button#sources-btn,
-                    button#orig-trad-btn {
-                        background-color: #f8f8f8;
-                        margin-right: 10px;
+                    /* ===================== */
+                    /* Zone thématique */
+                    /* ===================== */
+                    #theme-buttons {
+                        display: flex;
+                        flex-direction: column;
+                        margin-right: 30px;
+                        min-width: 150px;
                     }
                     
-                    button#sources-btn:hover,
-                    button#orig-trad-btn:hover {
-                        background-color: #e0e0e0;
+                    #theme-buttons > div:first-child {
+                        font-weight: bold;
+                        margin-bottom: 15px;
+                        color: var(--uga-blue);
                     }
                     
-                    /* Boutons thématiques verticaux + Citation */
-                    button.theme-btn {
-                        margin-bottom: 8px;
-                        color: #000;
-                        border: 1px solid #888;
-                        border-radius: 4px;
-                        padding: 6px 10px;
-                        font-family: serif;
+                    /* ===================== */
+                    /* Toolbar */
+                    /* ===================== */
+                    .toolbar {
+                        display: flex;
+                        justify-content: space-between;
+                        align-items: center;
+                        margin-bottom: 18px;
                     }
                     
+                    /* ===================== */
                     /* Tableau */
+                    /* ===================== */
                     table {
-                        width: calc(100% - 1cm);
-                        margin-right: 1cm;
-                        margin-left: 0;
+                        width: 100%;
                         border-collapse: collapse;
                         table-layout: fixed;
                     }
+                    
                     th,
                     td {
-                        border: 1px solid #999;
+                        border: 1px solid #ccc;
                         vertical-align: top;
                     }
+                    
+                    th {
+                        background-color: var(--uga-grey);
+                        text-align: center;
+                        font-weight: bold;
+                        padding: 10px;
+                    }
+                    
                     td {
-                        padding: 8px 10px;
+                        padding: 10px;
                         text-align: justify;
-                        word-wrap: break-word;
                         hyphens: auto;
                     }
-                    th {
-                        background-color: #f0f0f0;
-                        text-align: center;
-                    }
                     
-                    /* Sources */
+                    /* ===================== */
+                    /* Sources / citations */
+                    /* ===================== */
                     .source {
-                        background-color: transparent;
                         transition: background-color 0.3s;
                     }
+                    
                     .highlight {
-                        background-color: #ffe066;
+                        background-color: #ffe8a3;
                     }
                     
+                    /* ===================== */
                     /* Orig / Trad */
+                    /* ===================== */
                     .orig {
                         display: none;
                     }
+                    
                     body.show-orig .trad {
                         display: none;
                     }
@@ -92,36 +155,8 @@
                         display: block;
                     }
                     
-                    /* Zone thématiques */
-                    #theme-buttons {
-                        display: flex;
-                        flex-direction: column;
-                        margin-right: 20px;
-                        min-width: 120px;
-                        /* décaler le titre et boutons plus bas */
-                        margin-top: 30px;
-                    }
-                    
-                    #theme-buttons > div:first-child {
-                        font-weight: bold;
-                        margin-bottom: 12px;
-                    }
-                    
-                    /* Toolbar horizontal boutons */
-                    .toolbar {
-                        display: flex;
-                        justify-content: space-between;
-                        align-items: center;
-                        margin-bottom: 15px;
-                    }
-                    
-                    .toolbar div > button {
-                        margin-right: 10px;
-                    }
-                    
                     .citation-vers {
-                        display: block;
-                        margin: 8px 0 8px 10px;
+                        margin: 8px 0 8px 15px;
                     }</style><script type="text/javascript">
                     
                     function toggleSources() {
@@ -162,634 +197,639 @@
                     }//
                 </script></head>
    <body>
-      <div style="display:flex; align-items:flex-start;">
-         <div id="theme-buttons">
-            <div>Rubriques</div>
-         </div>
-         <div style="flex:1">
-            <div class="toolbar">
-               <div><button id="sources-btn" onclick="toggleSources()">Sources</button><button class="theme-btn" onclick="toggleCitation('#ffd699')">Citation</button></div><button id="orig-trad-btn" onclick="toggleOrigTrad()">Original /
-                  Traduction</button></div>
-            <table>
-               <thead>
-                  <tr>
-                     <th>Polenton</th>
-                     <th>Crinitus</th>
-                     <th>Giraldi</th>
-                  </tr>
-               </thead>
-               <tbody>
-                  <tr>
-                     <td>
-                        <div class="ab orig">Sed revertamur ad comicos. Quippe Nigidii
-                           ordine secundus est Plautus. Patria hic Sarsinas fuit. Locus est illa in parte Italiae
-                           quam
-                           veteres Vmbriam, iuniores ducatum Spoleti vocant. Romae habitationem habuit. Florebat
-                           tunc
-                           M. Cato, superioris nepos et orator. Opes nunquam habuit multas Plautus. Senex vero
-                           ac
-                           pauperrimus factus ad eam inopiam venit (pudet dicere nec sine dolore dicam) quod
-                           inedia
-                           cogeretur, qui poeta ac illustris poeta esset (o rem inauditam atque prodigiosam!),
-                           poeta,
-                           inquam, qui esset insignis, macinariam ad operam uti vilicum se locare. Quid dicam
-                           ? Summam
-                           ob egestatem atque victus quaerendi causa pistori famulatus est poeta. Adde quod ita
-                           famulatus est ut aselli vice manu circumageret molas. Nihil dicam ultra ; nam ut Epidicus
-                           apud eum inquit: « Plus scire satius est quam loqui. » Neque vero sine ignominia,
-                           sine
-                           vituperio, sine infamia illius et urbis et temporis haec memorari possunt, quod sit
-                           inventus
-                           nemo qui tanti viri egestatem munere aliquo aut privato aut publico sublevarit. Plautus
-                           enim
-                           ob perditam pecuniam, quam scenicum ad opus habuerat, summa cum egestate ac senectute
-                           certavit sed fortunae paruit suae et summam inopiam summa patientia toleravit. Se
-                           namque
-                           poetam esse oblitus est nunquam. Rem quidem pistrinariam, uti convenerat pacto, egit
-                           ;
-                           deinde collegit quicquid potuit temporis et quibus horis vacare licuit, cum negocio
-                           liberi
-                           alii pilae, quidam aleae, nonnulli spectaculis, multi inertiae, omnes voluptati servirent,
-                           se ipse tacitus abditum quemquam in locum poetandi ad ocium contulit. Comoedias tres
-                           ipso
-                           etiam in pistrino esse ab eo et scriptas et venditas M. Terentius Varro, nominis sui
-                           cultor,
-                           scribit. Annos denique nec multos ante bellum quod tertium ac ultimum populus Romanus
-                           cum
-                           Poenis gessit mortuus est Romae Plautus, P. Claudio et L. Porcio consulibus, Censor
-                           tum erat
-                           Cato superior. Epigramma vero sibi hoc Plautus lapidi incidendum fecit: « Postquam
-                           est morte
-                           captus Plautus, Comoedia luget. Scena est deserta, deinde Risus, Ludus, locusque et
-                           Numeri
-                           innumeri simul omnes collacrimarunt. » Varro quidem suo pro iudicio, quod, quacunque
-                           in re
-                           quae ad litteras et doctrinas attineat, docti esse multi semper faciendum putant,
-                           hoc sibi
-                           laudis attribuit ut Musas Castalii fontis locuturas fuisse Plautino sermone dicat,
-                           si loqui
-                           modo Latine vellent. Parnaso enim in monte fontem esse qui et sacratus sit Musis et
-                           Castalius nomine appellatur constat. Id vero fonti nomen ortum ob demersam in eo virginem
-                           Castaliam Boccacius scribens de Fontibus refert. Age, comoediae Plauti iocis multis
-                           sed
-                           illis refertae iocis qui (Ciceronis haec sententia fuit) haudquaquam obsceni, petulantes,
-                           flagiciosi, sed urbani, ingeniosi, faceti sint. Comoedias vero edidit Plautus multas.
-                           Nam et
-                           longam in aetatem vixit et illa in re quam maxime obversatus est. Quales autem et
-                           quot
-                           essent, quod multae dubii atque incerti nominis vagarentur, magnum inter peritos certamen
-                           fecit. Eas quidem numero esse nonnulli quinque et viginti, multi XL, aliqui centum,
-                           quidam
-                           XXX etiam supra centum putant. Quid autem verius, credi potius quam certo discerni
-                           potest.
-                           Hac enim de re, ut taceam minores, dubitavit Laelius, vir memoria sua doctus et Plauto
-                           tempore proximus ; dubitavit A. Gellius, antiquitatis investigator et ornatus scriptor;
-                           dubitavit Servius, qui et grammaticus fuit optimus et accurate Virgilium ac Terentium
-                           interpretatus est. Quid dixerim? Dubitavit omnium doctissimus M. Varro. Multum hic
-                           curae,
-                           operae, studii istam ad rem investigandam dedit. Librum etiam de comoediis Plauti
-                           fecit. Rem
-                           vero hanc difficilem cognitu factam putant quidam, quod vivens quas scriberet comoedias
-                           Plautus sine titulo ederet, seu metu ut invidiam devitaret, seu spe quod eas cognosci
-                           ipso
-                           gustu et sapore putaret. Comicis quidem id tempus, quod placere populo studerent multi,
-                           quam
-                           maxime floruit. Omnium vero aut princeps, ut sensit Varro, aut secundus dignitate,
-                           ut
-                           Nigidius dixit, comico in genere noster hic Plautus fuit. Inerat enim sibi hoc presertim
-                           in
-                           genere poetandi cum arte tum natura et usu mirus quidam ac incredibilis sermo, qui
-                           esset
-                           adeo facetus iocisque ac risu plenus ut quas ederet fabulas, eas Plauti esse facile
-                           iocus
-                           ipse stillusque ac facetiae indicarent. Accessit quoque ut res dubitatior esset quod
-                           poeta
-                           comicus Plautius fuisset quidam, qui comoedias scripsisset complures quae vicinitate
-                           quadam
-                           et saporis et nominis hoc nostro a Plauto editae viderentur. Auctorem hac in re Varronem
-                           sequor. Hoc enim memorat ipse illo in libro quem, ut dixi, de comoediis Plauti scripsit.
-                           Illius enim fabulas nescia veri posteritas isti attribuit. Nominis quidem ac saporis,
-                           ut
-                           dixi, vicinitate decepti quidam et Plautum fuisse Plautium et quae Plautiae essent
-                           comoediae, easdem Plautinas esse putabant. Neque vero defuerant qui vere scriptas
-                           a Plauto
-                           sua vel temeritate vel arbitrio usurpassent. Constabat item Plautum emendasse multas
-                           quae
-                           aliis a poetis editae ieiunius viderentur. Istis enim tantum stilli sui tantumque
-                           ioci ac
-                           faceti sermonis adiecerat Plautus quod scriptae haudquaquam ab illis sed ipso a Plauto
-                           multorum iudicio putarentur. Has vero ambages dissolvere atque in lucem adducere conatus
-                           est
-                           Varro. Quippe delegit primum ex omnibus unam et viginti quae nulli essent dubiosae
-                           sed
-                           Plauti esse omnium sententia viderentur. Hae quidem Varronianae appellatae sunt, quod
-                           eas
-                           Plauti esse Varronis auctoritas confirmaret. Ex aliis deinde Plauto vendicavit Varro
-                           quasdam, quod saperent Plautum sed, quantum arbitrarentur quidam, aut sine certo auctoris
-                           nomine vagarentur aut falso usurparentur ab his qui suum nomen inscriberent. Enimvero
-                           comoedias Plauti quae incertae ferebantur cognitas de copia verborum etiam Macrobius
-                           memorat.</div>
-                        <div class="ab trad">Revenons aux comiques : selon l’ordre de
-                           Nigidius, Plaute est le second. Il était originaire de Sarsina, dans la région que
-                           les
-                           Anciens appelaient Ombrie, et nommé plus récemment le duché de Spolète. Il résida
-                           à Rome.
-                           Marcus Caton, petit-fils de l'Ancien et orateur, connut à cette époque son floruit.
-                           Plaute
-                           ne posséda jamais de grandes richesses. Devenu vieux et extrêmement pauvre, il en
-                           vint à une
-                           telle misère (j’ai honte de le dire et je ne le dirai pas sans douleur) qu’il fut
-                           contraint
-                           par la faim, lui qui était poète, et poète illustre (ô chose inouïe et monstrueuse
-                           !),
-                           poète, disais-je, remarquable, de se louer comme simple manœuvre pour travailler à
-                           un
-                           moulin. Que dire ? En raison d’une misère extrême et pour gagner de quoi vivre, le
-                           poète
-                           servit chez un boulanger. Ajoute qu'il servit en faisant tourner les meules à la main,
-                           à la
-                           manière d’un petit âne. Je n'en dirai pas plus : comme le dit Epidicus sous sa plume,
-                           « il
-                           vaut mieux savoir que parler ». Et ce n’est pas sans honte, sans blâme et sans infamie
-                           pour
-                           cet homme, pour la cité et pour l’époque que l’on peut rappeler ces faits, puisqu’on
-                           ne
-                           trouva personne pour soulager la misère d’un si grand homme par quelque secours, privé
-                           ou
-                           public. Car Plaute, ayant perdu l’argent qu’il avait consacré à son activité théâtrale,
-                           lutta contre l'extrême pauvreté et la vieillesse ; mais il se soumit à sa destinée
-                           et
-                           supporta la plus grande indigence avec la plus grande patience. Il n’oublia jamais
-                           qu’il
-                           était poète. Il travailla dans le moulin selon l’accord conclu, puis rassembla autant
-                           qu’il
-                           put de moments et d'heures libres, tandis que d’autres s’adonnaient qui aux jeux de
-                           balle,
-                           qui au dés, qui aux spectacles, qui à l’oisiveté, tous au plaisir, lui, en silence,
-                           se
-                           retira volontairement dans quelque lieu retiré pour se consacrer à la poésie dans
-                           le loisir.
-                           Terentius Varron, dévoué à son nom, rapporte que trois comédies de Plaute furent écrites
-                           et
-                           vendues dans le moulin lui-même. Plaute mourut à Rome quelques années avant la troisième
-                           et
-                           dernière guerre punique, sous les consuls Publius Claudius et Lucius Porcius, à l’époque
-                           où
-                           Caton l’Ancien était censeur. Il fit graver cet épigramme sur sa pierre tombale :
-                           « Après la
-                           mort de Plaute, la comédie est en deuil. La scène se vida, puis le Rire, le Jeu, le
-                           Lieu et
-                           le Nombre pleurèrent ensemble. » Quant à Varron, selon son propre jugement, que beaucoup
-                           de
-                           savants estiment devoir toujours suivre pour tout ce qui touche aux lettres et au
-                           savoir, il
-                           lui attribue cette louange : les Muses de la source de Castalie auraient parlé la
-                           langue de
-                           Plaute, si elles avaient voulu parler latin. En effet, on sait que sur le mont Parnasse
-                           existait une source consacrée aux Muses et appelée Castalie. Boccace rapporte, dans
-                           son
-                           ouvrage Des Fontaines, que ce nom de la source vient de la vierge Castalie qui s’y
-                           serait
-                           noyée. Continuons. Plaute a rempli ses comédies d’un grand nombre de jeux de mots,
-                           mais
-                           ceux-ci n’étaient en rien obscènes ou grossiers, selon Cicéron : ils étaient urbains,
-                           ingénieux et spirituels. Plaute produisit en vérité de nombreuses comédies. Car non
-                           seulement il vécut longtemps mais s’adonna avec la plus grande assiduité possible
-                           à cette
-                           activité. Mais, comme beaucoup circulaient sous un nom douteux et incertain, la question
-                           de
-                           leur nature et à leur nombre suscita un vif débat parmi les érudits : quelques-uns
-                           disent
-                           vingt-cinq, beaucoup quarante, certains plus de cent trente. On ne peut établir avec
-                           certitude le chiffre le plus probable. En effet, sur ce point (pour passer sous silence
-                           des
-                           autorités de moindre importance) Laelius, homme savant de son temps et presque contemporain
-                           de Plaute, a hésité, de même qu'Aulu-Gelle, antiquaire et écrivain élégant, de même
-                           Servius
-                           également, qui fut un excellent grammairien et qui commenta avec une grande précision
-                           Virgile et Térence. Que dire ? Le très savant Marcus Varron lui-même a hésité. Il
-                           a consacré
-                           à l’examen de cette question beaucoup de soin, d’effort et d’application. Varro écrivit
-                           même
-                           un ouvrage sur les comédies de Plaute. Certains estiment qu'il est difficile de trancher
-                           cette question parce que, de son vivant, Plaute faisait jouer les comédies qu’il écrivait
-                           sans titre, soit par crainte, afin d'éviter la jalousie, soit dans l’espoir que leur
-                           seul
-                           goût et leur saveur les feraient reconnaître. À cette époque, le genre comique, parce
-                           que
-                           beaucoup cherchaient à plaire au peuple, était particulièrement florissant. Et de
-                           tous les
-                           auteurs, notre Plaute fut dans le genre comique soit le premier, comme l’a pensé Varron,
-                           soit le second en dignité, selon Nigidius. En effet, il avait en lui, surtout dans
-                           ce genre
-                           de poésie, grâce à l’art, à la nature et à la pratique, une manière de s’exprimer
-                           à la fois
-                           admirable et presque incroyable, si pleine de finesse, de plaisanteries et de gaieté
-                           que,
-                           pour les pièces qu’il produisait le simple trait d’esprit, le style et la verve suffisaient
-                           aisément à montrer qu’elles étaient de Plaute. Il s’ajouta encore que le compte devenait
-                           plus incertain du fait qu’il avait existé un certain Plautius, poète comique, qui
-                           avait
-                           écrit plusieurs comédies dont la proximité de style et même de nom faisait croire
-                           qu’elles
-                           avaient été produites par notre Plaute. Sur ce sujet, je suis l’autorité de Varron,
-                           car
-                           c’est lui-même qui rapporte ces faits dans l’ouvrage qu’il a écrit, comme je l’ai
-                           dit, sur
-                           les comédies de Plaute. En effet, la postérité, ignorante de la vérité, attribua à
-                           celui-ci
-                           les pièces de l’autre. Trompés, comme je l'ai dit, par la ressemblance du nom et du
-                           style,
-                           certains crurent que Plaute et Plautius ne faisaient qu’un, et que les comédies de
-                           Plautius
-                           étaient celles de Plaute. Il ne manqua pas non plus de personnes pour s’approprier,
-                           par
-                           témérité ou par bon plaisir, des œuvres en réalité écrites par Plaute. On savait aussi
-                           que
-                           Plaute avait corrigé de nombreuses pièces produites par d’autres poètes, parce qu'elles
-                           semblaient trop fades. Plaute y avait ajouté tant de son propre style, tant de son
-                           humour et
-                           de son langage spirituel, que, de l’avis de beaucoup, on croyait qu’elles avaient
-                           été
-                           écrites non par leurs premiers auteurs, mais par Plaute lui-même. Ces confusions,
-                           Varron
-                           s’efforça de les dissiper et de les mettre en pleine lumière. Il choisit d’abord,
-                           parmi
-                           toutes, vingt-et-une comédies qui n'étaient douteuses à personne et qui, de l'avis
-                           de tous,
-                           semblaient être de Plaute. Celles-ci furent appelées les Varroniennes, parce que l’autorité
-                           de Varron confirmait qu’elles étaient de Plaute. Ensuite, parmi les autres, Varron
-                           en
-                           revendiqua certaines pour Plaute, parce qu’elles avaient la saveur de Plaute, mais
-                           qu’elles
-                           circulaient (selon l’opinion de quelques-uns) soit sans nom d’auteur assuré, soit
-                           sous un
-                           nom faussement usurpé par ceux qui les signaient de leur propre nom. Macrobe rappelle
-                           aussi
-                           que les comédies de Plaute dont l’attribution était incertaine étaient reconnues à
-                           la
-                           richesse du vocabulaire.</div>
-                     </td>
-                     <td>
-                        <div class="ab orig">Marcus Plautus patria Sarsinas fuit ex Vmbria,
-                           quod ipse de se insinuat, in fabula Mostellaria. Et alii ueteres tradunt. Constat
-                           eum his
-                           temporibus Romae uixisse atque in scena praestitisse quibus in ciuitate Pub. Scipio,
-                           Fuluius
-                           Nobilior, et M. Cato excellentes habiti sunt. Ingenio perurbano fuit, et maxime festiuo,
-                           quod cum alia multa indicant, tum Comoediae ipsius plenae iucunditatis ac leporum.
-                           Relata
-                           sunt ab A. Gellio complura in Atticis noctibus de eruditione et fabulis Plautinis,
-                           ex
-                           auctoritate M. Varronis, qui Plautum ait, cum erogasset omnem pecuniam in scenicis
-                           ornamentis ad summam paupertatem fuisse redactum, eaque ratione in Vrbem rediisse
-                           et operam
-                           pistori locasse ad uictum comparandum his molis circumagendis, quas trusatiles uocant.
-                           Hieronymus manuales appellauit. Et cum aliquamdiu in pistrino uersaretur, ibidem fabulas
-                           aliquot dicitur composuisse ut Saturionem et Addictum. M. Varro in libro de Plautinis
-                           Comoediis uerba haec posuit, quae adscribenda existimaui ut a Gellio est obseruatum.
-                           Feruntur sub Plauti nomine Comoediae circiter C. et XXX. Sed homo eruditissimus Laelius
-                           XXV
-                           dumtaxat illius esse censuit. Neque dubium est quin ista etiam, quae a Plauto scripta
-                           non
-                           sunt, ueterum poetarum fuerint, ut M. Accii C. Plautii a quo dictae sunt Plautianae
-                           fabulae,
-                           non Plautinae. Ceterum cum XXV a ueteribus connumerentur M. Plauti Comoediae, sciendum
-                           est
-                           praeter illas XX (quae a nostris grammaticis consensu omnium pro Plautinis habentur)
-                           tres a
-                           Gellio nominari. hoc est Bethiam, Neruulariam, Fretum. Varro et Sex. Pompeius alias
-                           plures
-                           nuncupant, ut Artemonem, Friuolariam, Phagornem, Cestrionem atque Astrabam, easque
-                           inter
-                           Plautinas referunt. De Astraba tamen Gellius et Nonius dubitarunt. In fabulis suis
-                           secutus
-                           est Graecos auctores, maxime Demophilum, Philemonem et Epicharmum Siculum, ut Horatius
-                           Flaccus testatur. Tantumque scribendi elegantia et salibus uisus est praestitisse,
-                           ut Epius
-                           Stolo adfirmare non dubitauerit, musas ipsas plautino sermone fuisse locuturas, si
-                           latine
-                           loqui uoluissent. Quod a Fabio Quintiliano refertur. Quocirca Gellius censor optumus
-                           omnium
-                           scriptorum appellat eundem Plautum parentem ac principem in omni latina elegantia.
-                           Volcatius
-                           Sedigitus, cum de ordine Comicorum scribit, post Caecilium collocauit Plautum, ceterisque
-                           omnibus praetulit. Nomen Plauti deductum est a planitie pedum26, ut est auctor Sex.
-                           Pompeius
-                           ; prius enim M. Plotus dicebatur. Hinc semiplotia calciamenta dicta sunt, quibus in
-                           uenationibus uterentur, sed hac de re suo loco diximus. Obiisse traditur paucis annis
-                           post
-                           Q. Ennium olympiade centesima XLV. Quantum iacturae factum sit in eius obitu, testus
-                           est
-                           idem Poeta his uersibus de se compositis : 
-                           <div class="citation-vers" data-highlight="off">
-                              <lg xmlns="http://www.tei-c.org/ns/1.0">
-                                 Postquam est morte captus Plautus<br xmlns="">
-                                  Comoedia luget, scena est deserta.<br xmlns="">
-                                  Deinde risus, ludus, locusque et numeri<br xmlns="">
-                                  Innumeri simul omnes collachrymarunt.<br xmlns="">
-                                 </lg>
-                           </div>
-                           </div>
-                        <div class="ab trad">Marcus Plautus est originaire de Sarsina, en
-                           Ombrie, ce que lui-même laisse entendre, dans sa pièce Mostellaria. D’autres auteurs
-                           anciens
-                           le rapportent également. Il est certain qu’il vécut à Rome et qu’il s'est distingué
-                           sur la
-                           scène à l’époque où dans la ville, on tenait Publius Scipion, Fulvius Nobilior et
-                           Marcus
-                           Caton pour des personnages éminents. C’était un homme d’esprit affable et tout à fait
-                           charmant, ce que montrent, avec bien d’autres choses, ses propres comédies, pleines
-                           de gaîté
-                           et de grâce. Aulu-Gelle a beaucoup écrit sur la science et l'oeuvre de Plaute dans
-                           les Nuits
-                           Attiques , en s’appuyant sur son érudition, sur les pièces de Plaute et sur l’autorité
-                           de
-                           Marcus Varron qui dit que Plaute, après avoir dépensé tout son argent pour l’organisation
-                           des spectacles, fut réduit à la plus grande pauvreté, et pour cette raison, revint
-                           à Rome et
-                           loua ses services à un boulanger pour gagner sa pitance en faisant tourner la meule
-                           que l’on
-                           dit « à bras » Jérôme les appelle « manuelles ». Et comme il passa un certain temps
-                           dans le
-                           moulin, on dit qu’il composa là quelques pièces, comme le Saturion et l’Addictum.
-                           Marcus
-                           Varron, dans son livre Sur les comédies de Plaute, rapporte ces mots, que j’ai jugé
-                           bon de
-                           reproduire, ainsi qu’Aulu-Gelle l’a mentionné. On dit que l’on attribue à Plaute cent-trente
-                           pièces. Mais Laelius, homme fort savant, ne lui en a attribué que vingt-cinq. Et il
-                           ne fait
-                           guère de doute que ce qui n’a pas été écrit par Plaute l’a été par d’anciens poètes
-                           comme M.
-                           Accius C. Plautius, dont les pièces sont dites « plautiennes », et non « plautiniennes
-                           ». Du
-                           reste, tandis que les anciens comptent vingt-cinq comédies de Plaute, il faut savoir
-                           que,
-                           outre les vingt qui, de l’avis général de nos grammairiens, sont bien de Plaute, trois
-                           autres sont nommées par Aulu-Gelle : Boethia, Nervularia et Fretum. Varron et Festus
-                           Pompeius 18 en nomment d’autres encore : Artemo, Frivolaria, Phago, Cestrio, Astraba
-                           ; et
-                           celles-ci sont comptées au nombre des comédies plautiniennes. A propos d’Astraba,
-                           cependant,
-                           Aulu-Gelle et Nonius ont émis des doutes. Dans ses pièces, Plaute a suivi les auteurs
-                           grecs,
-                           en particulier Démophile, Philémon et le Sicilien Epicharme, comme l’atteste Horace.
-                           Et il a
-                           paru à ce point l’emporter par le sel et l’élégance de son style qu’Epius Stolo 22
-                           n’a pas
-                           hésité à affirmer que « Les muses elles-mêmes auraient parlé la langue de Plaute,
-                           si elles
-                           avaient voulu parler latin » ; C’est ce que rapporte Quintilien. C’est pourquoi Aulu-Gelle,
-                           le meilleur juge pour chaque auteur, appelle ce même Plaute « le père et le prince
-                           de
-                           l’élégance latine ». Volcatius Sedigitus, quand il écrit sur le classement des Comiques,
-                           place Plaute après Caecilius, et il le préfère à tous les autres. Le nom de Plaute
-                           vient des
-                           « pieds plats » (comme le dit Festus Pompeius) ; car d’abord, on l’appelait Marcus
-                           Plotus.
-                           De là vient le nom des chaussures « semiplotia » que portaient les chasseurs. Mais
-                           nous
-                           avons déjà parlé de cela en temps voulu. On rapporte qu’il est mort peu d’années après
-                           Ennius, lors de la 145e olympiade. Quelle perte fut sa mort, le poète lui-même en
-                           témoigne
-                           dans ces vers de sa composition : 
-                           <div class="citation-vers" data-highlight="off">
-                              <lg xmlns="http://www.tei-c.org/ns/1.0">
-                                 Après que Plaute a été emporté par la mort<br xmlns="">
-                                  La Comédie pleure, la scène est déserte,<br xmlns="">
-                                  Enfin les rires, les jeux, les ébats, les vers<br xmlns="">
-                                  La prose, tous, de concert, ont versé des larmes.<br xmlns="">
-                                 </lg>
-                           </div>
-                           </div>
-                     </td>
-                     <td>
-                        <div class="ab orig">Secus Naevium M. Actius Plautus erat, qui aliquo
-                           cum Naevio tempore vixit. Est vero Plautus appellatus, ut Sex. Pomp. ait, quod hi
-                           qui plani
-                           sunt pedibus, Ploti primum, mox Plauti vocati sunt ; unde ait Actius poeta, qui Vmber
-                           Sarsinas erat, a pedum planicie initio Plotus, postea Plautus est dictus. Sane hoc
-                           vobis
-                           nunc semel dixerim, ne repetendum sit saepius, vario modo scribi video hoc nomen Actius
-                           :
-                           quidam enim per ct notant, quasi ab agendo Actius dicatur ; alii duplici cc, Accius,
-                           ab Acca
-                           videlicet ; demum alii duplici tt, Attius, ab Aty Troiano, quod innuit Vergilius,
-                           et memini
-                           me saepius in marmoribus et vetustis numismatum inscriptionibus observasse, ut Victorinum
-                           mittam id in Orthographiae libello praecipientem et Graeca Dionis exemplaria. Sed
-                           et nomen
-                           Attys Phrygis pueri, apud Graecos ἄττις scriptum saepius est videre. Ego nihilominus,
-                           quoniam ita pridem a magistris puer institutus fui, Actium scribere perseverabo. Fuit
-                           igitur
-                           Actius Plautus patria Sarsinas, quod Vmbriae est oppidum, ut Hieronymus et Festus
-                           observant,
-                           id quod et ipsemet subinnuit alicubi in Mostellaria fabula. Floruit vero in scena,
-                           teste
-                           Gellio, anno ferme XV postquam bellum Punicum secundum inceptum est, cum iam Romani
-                           Poenos
-                           ipsos vincere coepissent, id quod innuit ipse in Poenulo his verbis: Vincite, ut fecistis
-                           antehac, et Poeni victi poenas sufferant. In fabulis componendis, etsi alios Graecos
-                           est
-                           imitatus, Diphilum et Philemonem, alios, ut vel ex ipso facile est videre, tamen Horatii
-                           Flacci sententia, Plautus ad exemplum Siculi properare Epicharmi dicitur. Quaestum
-                           quoque in
-                           fabulis fecisse dictus est, adeo ut etiam mercaturam exercere voluerit. Quae cum ei
-                           male
-                           cessisset pecuniamque omnem perdidisset, Romam inops reversus, ob quaerendum victum
-                           ad
-                           circumagendas molas, quae trusatiles appellantur, operam pistori locavit. Tametsi
-                           apud
-                           Eusebium Hieronymus id annonae caritate fecisse prodiderit ipsumque ait Gellius tres
-                           fabulas
-                           in pistrino scripsisse, Saturionem, Addictum aliamque, cuius nomen nec ipse rettulit.
-                           Anno
-                           vero vigesimo Plautus, ut M. Cicero observat, post Cethegi et Tuditani consulatum,
-                           P.
-                           Claudio et L. Portio Consulibus, Catone Censore, mortuus est, non multo post Ennium,
-                           Olympiade videlicet CXLV, epitaphiumque sibi ipse composuit, quod a Marco Varrone
-                           in libro
-                           de Poetis positum affert Gellius: 
-                           <div class="citation-vers" data-highlight="off">
-                              <lg xmlns="http://www.tei-c.org/ns/1.0">
-                                 Postquam est morte captus Plautus,<br xmlns="">
-                                  Comoedia luget, scena est deserta,<br xmlns="">
-                                  Deinde risus, ludus, iocusque et numeri<br xmlns="">
-                                  Innumeri simul omnes collachrumarunt.<br xmlns="">
-                                 </lg>
-                           </div> De numero vero fabularum Plauti dubitatum est. Servius ait ab aliquibus viginti
-                           et unam existimatas, ab aliis quadraginta, a nonnullis centum. Varro quidem et ipse
-                           viginti
-                           et unam legitimas prodidit, quae et ab eo Varronianae cognominatae fuerunt. Sed Laelius
-                           homo
-                           eruditissimus, eas quinque et viginti existimavit. Gellius vero sua aetate centum
-                           et
-                           triginta ipsius Plauti nomine circumferri tradidit. Sedenim Varro in libro de Plautinis
-                           Comoediis quasdam enumerat quae non Plauti sunt, sed M. Aquilii, ut ego lego, quod
-                           alii M.
-                           Accii, id quod M. Acutici perperam apud Gellium legitur. Subiungit idem, Plautium
-                           quempiam
-                           Comoediarum poetam fuisse, cuius fabulae, quod Plautii inscribebantur, acceptae fuerunt
-                           quasi Plautinae, cum essent non a Plauto Plautinae, sed a Plautio Plautianae. Alii
-                           quidem
-                           illas non Plauti fuisse, at veterum quorundam poetarum, ab eoque retractatas ac refarcitas
-                           nomen Plauti recepisse, quod mihi vix verisimile videtur, nullis celebratis poetis
-                           ante
-                           Livium et Ennium. Tantae vero autoritatis apud antiquos fuit Plautus, ut Quintilianus
-                           Varronem scripsisse affirmet, Musas Aelii Stolonis sententia Plautino sermone locuturas
-                           fuisse, si latine loqui voluissent. Cicero mirum in modum, ut scitis, Plautum commendat.
-                           Volcatius vir in poetica illustris, secundas in Comoedia Plauto attribuit. Macrobius
-                           Plautum
-                           ait in iocorum venustate praecelluisse, ut alios pene innumerabiles hoc loco mittam,
-                           qui
-                           Plautum summis laudibus prosequuntur. Quorum me movet autoritas, ut non tam facile
-                           cum
-                           Horatio sentiam, qui eum eosque qui illum laudavere, his versibus perstringit: At
-                           vestri,
-                           inquit, proavi Plautinos et numeros, et Laudavere sales, nimium patienter utrunque.
-                           Ne dicam
-                           stulte mirati. Ego utique, ut vobiscum quod sentio loquar, non inficias ierim pleraque
-                           in
-                           Plauti fabulis legi, quae si e scena non exciperent, fortassis frigida et in numerum
-                           redigenda forent. Sed nunquid ego cum Horatio poeta tanti iudicii in Poetica, quanti
-                           hactenus quisquam alius, nunc certem ? Minime. Vtram vos in partem velitis inclinate
-                           idque
-                           sine piaculo. Summae certe doctrinae et aestimationis viri in re literaria commentaria
-                           in
-                           Plauti fabulas composuere, M. Varro, L. Sisenna, et Asper aliique, et nostra hac aetate
-                           quidam sane bene docti. Quin et hodie video elegantissimos et doctissimos homines
-                           amicos
-                           meos libentissime in eius poetae lectione, post graviora studia, conquiescere. </div>
-                        <div class="ab trad">Différement de Naevius, Marcus Accius Plautus
-                           vécut à la même époque que lui. Plaute fut ainsi nommé, selon Sextus Pompeius, parce
-                           que
-                           ceux qui ont les pieds plats furent d’abord appelés Ploti, puis Plauti ; d’où, dit-il,
-                           le
-                           poète Actius, ombrie riginaire de Sarsina fut d’abord appelé Plotus à cause de la
-                           platitude
-                           de ses pieds, puis Plautus. Je vous le dirais un bonne fois pour toutes, afin de ne
-                           pas y
-                           revenir sans cesse : je vois que le nom Actius s’écrit de diverses manières : certains
-                           l’écrivent avec ct, comme si Actius venait de agere ; d’autres avec un double c, Accius,
-                           comme dérivé d’Acca ; d’autres enfin avec un double t, Attius, à partir du Troyen
-                           Atys, ce
-                           qu’indique Virgile, et je me souviens avoir assez souvent observé cette graphie sur
-                           des
-                           marbres et de vieilles inscriptions monétaires, sans parler de Victorinus qui l’enseigne
-                           dans son traité d’orthographe, ni des manuscrits grecs de Dion. On voit aussi assez
-                           fréquemment chez les Grecs le nom du jeune Phrygien Attys écrit Ἄττις. Pour ma part
-                           toutefois, puisque j’ai été formé dès l’enfance par mes maîtres à cette graphie, je
-                           persisterai à écrire Actius. Actius Plautus était donc originaire de Sarsina, ville
-                           d’Ombrie, comme l’observent Jérôme et Festus, ce que Plaute lui-même laisse entendre
-                           en
-                           quelque endroit de la comédie Mostellaria. Il fleurit sur la scène, selon le témoignage
-                           d’Aulu-Gelle, environ quinze ans après le début de la seconde guerre punique, lorsque
-                           les
-                           Romains avaient déjà commencé à vaincre les Carthaginois, ce qu’il indique lui-même
-                           dans le
-                           Poenulus par ces mots : « Vainquez, comme vous l’avez fait autrefois, et que les Puniques,
-                           une fois vaincus, subissent le châtiment. » Dans la composition de ses pièces, bien
-                           qu’il
-                           ait imité divers auteurs grecs (Diphile, Philémon et d’autres, comme on peut aisément
-                           le
-                           voir) Plaute, selon l’opinion d’Horace cependant, on dit que Plaute se hâtait surtout
-                           à
-                           l’exemple du Sicilien Épicharme. On dit aussi qu’il tira profit de ses comédies, au
-                           point
-                           même de vouloir se livrer au commerce. Mais comme cette entreprise tourna mal et qu’il
-                           y
-                           perdit toute sa fortune, il revint pauvre à Rome et, pour gagner sa vie, se mit au
-                           service
-                           d’un meunier à faire tourner les moulins qu’on appelle trusatiles. Toutefois, Jérôme,
-                           d’après Eusèbe, aurait montré qu’il le fit à cause de la cherté du blé et Aulu-Gelle
-                           affirme
-                           que Plaute composa trois pièces au moulin : Saturio, Addictus et une autre dont il
-                           n’a pas
-                           rapporté pas le nom. Plaute mourut, comme le note Marcus Cicéron, la vingtième année
-                           après
-                           le consulat de Cethegus et de Tuditanus, sous le consulat de Publius Claudius et de
-                           Lucius
-                           Portius, Caton étant censeur, peu de temps après Ennius, lors de la 145ᵉ Olympiade
-                           et il
-                           composa lui-même son épitaphe, qu’Aulu-Gelle rapporte d’après le livre Des Poètes
-                           de Marcus
-                           Varron : 
-                           <div class="citation-vers" data-highlight="off">
-                              <lg xmlns="http://www.tei-c.org/ns/1.0">
-                                 Après que Plaute a été emporté par la mort<br xmlns="">
-                                  La Comédie pleure, la scène est déserte,<br xmlns="">
-                                  Enfin les rires, les jeux, les ébats, les vers<br xmlns="">
-                                  La prose, tous, de concert, ont versé des larmes.<br xmlns="">
-                                 </lg>
-                           </div> On hésite sur le nombre des comédies de Plaute. Servius rapporte que certains en
-                           ont estimé le nombre à vingt-et-une, d’autres à quarante, et quelques-uns à cent.
-                           Varron,
-                           pour sa part, reconnut lui-même comme authentiques vingt-et-une pièces, qui furent
-                           d’ailleurs surnommées Varroniennes d’après lui. Mais Laelius, homme très savant, en
-                           compta
-                           vingt-cinq. Aulu-Gelle rapporte qu’à son époque cent trente pièces circulaient sous
-                           le nom
-                           même de Plaute. Mais en effet, Varron, dans son livre sur les Comédies de Plaute,
-                           en énumère
-                           certaines qui ne sont pas de Plaute, mais de Marcus Aquilius, selon ma lecture, là
-                           où
-                           d'autres lisent Marcus Accius, ce qui est lu par erreur Marcus Acuticus chez Aulu-Gelle.
-                           Le
-                           même auteur ajoute qu’il y eut un certain Plautius, poète comique, dont les pièces,
-                           parce
-                           qu’elles portaient le nom de Plautii, furent reçues comme plautiniennes, alors qu’elles
-                           n’étaient pas Plautinae de Plaute, mais Plautianae de Plautius. D’autres pensent que
-                           ces
-                           pièces n’étaient pas de Plaute, mais de certains anciens poètes, et qu’après avoir
-                           été
-                           reprises et remaniées par lui, elles reçurent le nom de Plaute ; ce qui me paraît
-                           difficile
-                           à croire, puisqu’il n’y eut pas de poètes célèbres avant Livius et Ennius. Plaute
-                           jouissait
-                           cependant d’une autorité si grande chez les Anciens que Quintilien affirme que Varron
-                           a
-                           écrit que, selon l’opinion d’Aelius Stolon, les Muses elles-mêmes auraient parlé le
-                           langage
-                           de Plaute, si elles avaient voulu parler latin. Cicéron, comme vous le savez, recommande
-                           Plaute d’une manière admirable. Volcacius, homme illustre en matière de poésie, attribue
-                           à
-                           Plaute la seconde place dans la comédie. Macrobe affirme que Plaute excellait dans
-                           la grâce
-                           de la plaisanterie, pour passer sous silence presque d’innombrables autres auteurs
-                           qui, en
-                           cet endroit, couvrent Plaute des plus grands éloges. Leur autorité m’incline à ne
-                           pas me
-                           ranger trop facilement à l’avis d’Horace, qui attaque Plaute et ceux qui l’ont loué
-                           en ces
-                           vers : « Mais vos ancêtres, dit-il, ont loué chez Plaute les mètres et les saillies
-                           d’esprit, supportant avec trop de patience l’un et l’autre, pour ne pas dire en les
-                           admirant
-                           sottement. » Pour moi, afin de vous dire franchement ce que je pense, je ne nierai
-                           pas avoir
-                           lu dans les comédies de Plaute bien des passages qui, s’ils n’étaient pas tirés de
-                           la scène,
-                           paraîtraient peut-être froids et devraient être ramenés à une mesure plus stricte.
-                           Mais
-                           voudrais-je maintenant me mesurer à Horace, poète d’un jugement éminent en matière
-                           de poésie
-                           comme nul autre jusqu’à présent ? Certainement pas. Inclinez-vous donc du côté qu’il
-                           vous
-                           plaira, et cela sans scrupule. Inclinez-vous donc du côté qu’il vous plaira, et cela
-                           sans
-                           scrupule. Il est certain toutefois que des hommes d’une très haute érudition et d’une
-                           grande
-                           autorité littéraire ont composé des commentaires sur les comédies de Plaute : Marcus
-                           Varron,
-                           Lucius Sisenna, Asper, d’autres encore, et même à notre époque, quelques savants
-                           remarquables. Bien plus, je vois encore aujourd’hui des hommes d’un goût très sûr
-                           et d’un
-                           très grand savoir, mes amis, se reposer avec le plus grand plaisir, après des études
-                           plus
-                           sérieuses, dans la lecture de ce poète. </div>
-                     </td>
-                  </tr>
-               </tbody>
-            </table>
+      <div class="marge left"></div>
+      <div class="marge right"></div>
+      <div class="page-wrapper">
+         <h1>Vies de Plautus</h1>
+         <div style="display:flex; align-items:flex-start;">
+            <div id="theme-buttons">
+               <div>Rubriques</div>
+            </div>
+            <div style="flex:1">
+               <div class="toolbar">
+                  <div><button id="sources-btn" onclick="toggleSources()">Sources</button><button onclick="toggleCitation('#e0d7ff')">Citations</button></div><button id="orig-trad-btn" onclick="toggleOrigTrad()">Original /
+                     Traduction</button></div>
+               <table>
+                  <thead>
+                     <tr>
+                        <th>Polenton</th>
+                        <th>Crinitus</th>
+                        <th>Giraldi</th>
+                     </tr>
+                  </thead>
+                  <tbody>
+                     <tr>
+                        <td>
+                           <div class="ab orig">Sed revertamur ad comicos. Quippe Nigidii
+                              ordine secundus est Plautus. Patria hic Sarsinas fuit. Locus est illa in parte Italiae
+                              quam
+                              veteres Vmbriam, iuniores ducatum Spoleti vocant. Romae habitationem habuit. Florebat
+                              tunc
+                              M. Cato, superioris nepos et orator. Opes nunquam habuit multas Plautus. Senex vero
+                              ac
+                              pauperrimus factus ad eam inopiam venit (pudet dicere nec sine dolore dicam) quod
+                              inedia
+                              cogeretur, qui poeta ac illustris poeta esset (o rem inauditam atque prodigiosam!),
+                              poeta,
+                              inquam, qui esset insignis, macinariam ad operam uti vilicum se locare. Quid dicam
+                              ? Summam
+                              ob egestatem atque victus quaerendi causa pistori famulatus est poeta. Adde quod ita
+                              famulatus est ut aselli vice manu circumageret molas. Nihil dicam ultra ; nam ut Epidicus
+                              apud eum inquit: « Plus scire satius est quam loqui. » Neque vero sine ignominia,
+                              sine
+                              vituperio, sine infamia illius et urbis et temporis haec memorari possunt, quod sit
+                              inventus
+                              nemo qui tanti viri egestatem munere aliquo aut privato aut publico sublevarit. Plautus
+                              enim
+                              ob perditam pecuniam, quam scenicum ad opus habuerat, summa cum egestate ac senectute
+                              certavit sed fortunae paruit suae et summam inopiam summa patientia toleravit. Se
+                              namque
+                              poetam esse oblitus est nunquam. Rem quidem pistrinariam, uti convenerat pacto, egit
+                              ;
+                              deinde collegit quicquid potuit temporis et quibus horis vacare licuit, cum negocio
+                              liberi
+                              alii pilae, quidam aleae, nonnulli spectaculis, multi inertiae, omnes voluptati servirent,
+                              se ipse tacitus abditum quemquam in locum poetandi ad ocium contulit. Comoedias tres
+                              ipso
+                              etiam in pistrino esse ab eo et scriptas et venditas M. Terentius Varro, nominis sui
+                              cultor,
+                              scribit. Annos denique nec multos ante bellum quod tertium ac ultimum populus Romanus
+                              cum
+                              Poenis gessit mortuus est Romae Plautus, P. Claudio et L. Porcio consulibus, Censor
+                              tum erat
+                              Cato superior. Epigramma vero sibi hoc Plautus lapidi incidendum fecit: « Postquam
+                              est morte
+                              captus Plautus, Comoedia luget. Scena est deserta, deinde Risus, Ludus, locusque et
+                              Numeri
+                              innumeri simul omnes collacrimarunt. » Varro quidem suo pro iudicio, quod, quacunque
+                              in re
+                              quae ad litteras et doctrinas attineat, docti esse multi semper faciendum putant,
+                              hoc sibi
+                              laudis attribuit ut Musas Castalii fontis locuturas fuisse Plautino sermone dicat,
+                              si loqui
+                              modo Latine vellent. Parnaso enim in monte fontem esse qui et sacratus sit Musis et
+                              Castalius nomine appellatur constat. Id vero fonti nomen ortum ob demersam in eo virginem
+                              Castaliam Boccacius scribens de Fontibus refert. Age, comoediae Plauti iocis multis
+                              sed
+                              illis refertae iocis qui (Ciceronis haec sententia fuit) haudquaquam obsceni, petulantes,
+                              flagiciosi, sed urbani, ingeniosi, faceti sint. Comoedias vero edidit Plautus multas.
+                              Nam et
+                              longam in aetatem vixit et illa in re quam maxime obversatus est. Quales autem et
+                              quot
+                              essent, quod multae dubii atque incerti nominis vagarentur, magnum inter peritos certamen
+                              fecit. Eas quidem numero esse nonnulli quinque et viginti, multi XL, aliqui centum,
+                              quidam
+                              XXX etiam supra centum putant. Quid autem verius, credi potius quam certo discerni
+                              potest.
+                              Hac enim de re, ut taceam minores, dubitavit Laelius, vir memoria sua doctus et Plauto
+                              tempore proximus ; dubitavit A. Gellius, antiquitatis investigator et ornatus scriptor;
+                              dubitavit Servius, qui et grammaticus fuit optimus et accurate Virgilium ac Terentium
+                              interpretatus est. Quid dixerim? Dubitavit omnium doctissimus M. Varro. Multum hic
+                              curae,
+                              operae, studii istam ad rem investigandam dedit. Librum etiam de comoediis Plauti
+                              fecit. Rem
+                              vero hanc difficilem cognitu factam putant quidam, quod vivens quas scriberet comoedias
+                              Plautus sine titulo ederet, seu metu ut invidiam devitaret, seu spe quod eas cognosci
+                              ipso
+                              gustu et sapore putaret. Comicis quidem id tempus, quod placere populo studerent multi,
+                              quam
+                              maxime floruit. Omnium vero aut princeps, ut sensit Varro, aut secundus dignitate,
+                              ut
+                              Nigidius dixit, comico in genere noster hic Plautus fuit. Inerat enim sibi hoc presertim
+                              in
+                              genere poetandi cum arte tum natura et usu mirus quidam ac incredibilis sermo, qui
+                              esset
+                              adeo facetus iocisque ac risu plenus ut quas ederet fabulas, eas Plauti esse facile
+                              iocus
+                              ipse stillusque ac facetiae indicarent. Accessit quoque ut res dubitatior esset quod
+                              poeta
+                              comicus Plautius fuisset quidam, qui comoedias scripsisset complures quae vicinitate
+                              quadam
+                              et saporis et nominis hoc nostro a Plauto editae viderentur. Auctorem hac in re Varronem
+                              sequor. Hoc enim memorat ipse illo in libro quem, ut dixi, de comoediis Plauti scripsit.
+                              Illius enim fabulas nescia veri posteritas isti attribuit. Nominis quidem ac saporis,
+                              ut
+                              dixi, vicinitate decepti quidam et Plautum fuisse Plautium et quae Plautiae essent
+                              comoediae, easdem Plautinas esse putabant. Neque vero defuerant qui vere scriptas
+                              a Plauto
+                              sua vel temeritate vel arbitrio usurpassent. Constabat item Plautum emendasse multas
+                              quae
+                              aliis a poetis editae ieiunius viderentur. Istis enim tantum stilli sui tantumque
+                              ioci ac
+                              faceti sermonis adiecerat Plautus quod scriptae haudquaquam ab illis sed ipso a Plauto
+                              multorum iudicio putarentur. Has vero ambages dissolvere atque in lucem adducere conatus
+                              est
+                              Varro. Quippe delegit primum ex omnibus unam et viginti quae nulli essent dubiosae
+                              sed
+                              Plauti esse omnium sententia viderentur. Hae quidem Varronianae appellatae sunt, quod
+                              eas
+                              Plauti esse Varronis auctoritas confirmaret. Ex aliis deinde Plauto vendicavit Varro
+                              quasdam, quod saperent Plautum sed, quantum arbitrarentur quidam, aut sine certo auctoris
+                              nomine vagarentur aut falso usurparentur ab his qui suum nomen inscriberent. Enimvero
+                              comoedias Plauti quae incertae ferebantur cognitas de copia verborum etiam Macrobius
+                              memorat.</div>
+                           <div class="ab trad">Revenons aux comiques : selon l’ordre de
+                              Nigidius, Plaute est le second. Il était originaire de Sarsina, dans la région que
+                              les
+                              Anciens appelaient Ombrie, et nommé plus récemment le duché de Spolète. Il résida
+                              à Rome.
+                              Marcus Caton, petit-fils de l'Ancien et orateur, connut à cette époque son floruit.
+                              Plaute
+                              ne posséda jamais de grandes richesses. Devenu vieux et extrêmement pauvre, il en
+                              vint à une
+                              telle misère (j’ai honte de le dire et je ne le dirai pas sans douleur) qu’il fut
+                              contraint
+                              par la faim, lui qui était poète, et poète illustre (ô chose inouïe et monstrueuse
+                              !),
+                              poète, disais-je, remarquable, de se louer comme simple manœuvre pour travailler à
+                              un
+                              moulin. Que dire ? En raison d’une misère extrême et pour gagner de quoi vivre, le
+                              poète
+                              servit chez un boulanger. Ajoute qu'il servit en faisant tourner les meules à la main,
+                              à la
+                              manière d’un petit âne. Je n'en dirai pas plus : comme le dit Epidicus sous sa plume,
+                              « il
+                              vaut mieux savoir que parler ». Et ce n’est pas sans honte, sans blâme et sans infamie
+                              pour
+                              cet homme, pour la cité et pour l’époque que l’on peut rappeler ces faits, puisqu’on
+                              ne
+                              trouva personne pour soulager la misère d’un si grand homme par quelque secours, privé
+                              ou
+                              public. Car Plaute, ayant perdu l’argent qu’il avait consacré à son activité théâtrale,
+                              lutta contre l'extrême pauvreté et la vieillesse ; mais il se soumit à sa destinée
+                              et
+                              supporta la plus grande indigence avec la plus grande patience. Il n’oublia jamais
+                              qu’il
+                              était poète. Il travailla dans le moulin selon l’accord conclu, puis rassembla autant
+                              qu’il
+                              put de moments et d'heures libres, tandis que d’autres s’adonnaient qui aux jeux de
+                              balle,
+                              qui au dés, qui aux spectacles, qui à l’oisiveté, tous au plaisir, lui, en silence,
+                              se
+                              retira volontairement dans quelque lieu retiré pour se consacrer à la poésie dans
+                              le loisir.
+                              Terentius Varron, dévoué à son nom, rapporte que trois comédies de Plaute furent écrites
+                              et
+                              vendues dans le moulin lui-même. Plaute mourut à Rome quelques années avant la troisième
+                              et
+                              dernière guerre punique, sous les consuls Publius Claudius et Lucius Porcius, à l’époque
+                              où
+                              Caton l’Ancien était censeur. Il fit graver cet épigramme sur sa pierre tombale :
+                              « Après la
+                              mort de Plaute, la comédie est en deuil. La scène se vida, puis le Rire, le Jeu, le
+                              Lieu et
+                              le Nombre pleurèrent ensemble. » Quant à Varron, selon son propre jugement, que beaucoup
+                              de
+                              savants estiment devoir toujours suivre pour tout ce qui touche aux lettres et au
+                              savoir, il
+                              lui attribue cette louange : les Muses de la source de Castalie auraient parlé la
+                              langue de
+                              Plaute, si elles avaient voulu parler latin. En effet, on sait que sur le mont Parnasse
+                              existait une source consacrée aux Muses et appelée Castalie. Boccace rapporte, dans
+                              son
+                              ouvrage Des Fontaines, que ce nom de la source vient de la vierge Castalie qui s’y
+                              serait
+                              noyée. Continuons. Plaute a rempli ses comédies d’un grand nombre de jeux de mots,
+                              mais
+                              ceux-ci n’étaient en rien obscènes ou grossiers, selon Cicéron : ils étaient urbains,
+                              ingénieux et spirituels. Plaute produisit en vérité de nombreuses comédies. Car non
+                              seulement il vécut longtemps mais s’adonna avec la plus grande assiduité possible
+                              à cette
+                              activité. Mais, comme beaucoup circulaient sous un nom douteux et incertain, la question
+                              de
+                              leur nature et à leur nombre suscita un vif débat parmi les érudits : quelques-uns
+                              disent
+                              vingt-cinq, beaucoup quarante, certains plus de cent trente. On ne peut établir avec
+                              certitude le chiffre le plus probable. En effet, sur ce point (pour passer sous silence
+                              des
+                              autorités de moindre importance) Laelius, homme savant de son temps et presque contemporain
+                              de Plaute, a hésité, de même qu'Aulu-Gelle, antiquaire et écrivain élégant, de même
+                              Servius
+                              également, qui fut un excellent grammairien et qui commenta avec une grande précision
+                              Virgile et Térence. Que dire ? Le très savant Marcus Varron lui-même a hésité. Il
+                              a consacré
+                              à l’examen de cette question beaucoup de soin, d’effort et d’application. Varro écrivit
+                              même
+                              un ouvrage sur les comédies de Plaute. Certains estiment qu'il est difficile de trancher
+                              cette question parce que, de son vivant, Plaute faisait jouer les comédies qu’il écrivait
+                              sans titre, soit par crainte, afin d'éviter la jalousie, soit dans l’espoir que leur
+                              seul
+                              goût et leur saveur les feraient reconnaître. À cette époque, le genre comique, parce
+                              que
+                              beaucoup cherchaient à plaire au peuple, était particulièrement florissant. Et de
+                              tous les
+                              auteurs, notre Plaute fut dans le genre comique soit le premier, comme l’a pensé Varron,
+                              soit le second en dignité, selon Nigidius. En effet, il avait en lui, surtout dans
+                              ce genre
+                              de poésie, grâce à l’art, à la nature et à la pratique, une manière de s’exprimer
+                              à la fois
+                              admirable et presque incroyable, si pleine de finesse, de plaisanteries et de gaieté
+                              que,
+                              pour les pièces qu’il produisait le simple trait d’esprit, le style et la verve suffisaient
+                              aisément à montrer qu’elles étaient de Plaute. Il s’ajouta encore que le compte devenait
+                              plus incertain du fait qu’il avait existé un certain Plautius, poète comique, qui
+                              avait
+                              écrit plusieurs comédies dont la proximité de style et même de nom faisait croire
+                              qu’elles
+                              avaient été produites par notre Plaute. Sur ce sujet, je suis l’autorité de Varron,
+                              car
+                              c’est lui-même qui rapporte ces faits dans l’ouvrage qu’il a écrit, comme je l’ai
+                              dit, sur
+                              les comédies de Plaute. En effet, la postérité, ignorante de la vérité, attribua à
+                              celui-ci
+                              les pièces de l’autre. Trompés, comme je l'ai dit, par la ressemblance du nom et du
+                              style,
+                              certains crurent que Plaute et Plautius ne faisaient qu’un, et que les comédies de
+                              Plautius
+                              étaient celles de Plaute. Il ne manqua pas non plus de personnes pour s’approprier,
+                              par
+                              témérité ou par bon plaisir, des œuvres en réalité écrites par Plaute. On savait aussi
+                              que
+                              Plaute avait corrigé de nombreuses pièces produites par d’autres poètes, parce qu'elles
+                              semblaient trop fades. Plaute y avait ajouté tant de son propre style, tant de son
+                              humour et
+                              de son langage spirituel, que, de l’avis de beaucoup, on croyait qu’elles avaient
+                              été
+                              écrites non par leurs premiers auteurs, mais par Plaute lui-même. Ces confusions,
+                              Varron
+                              s’efforça de les dissiper et de les mettre en pleine lumière. Il choisit d’abord,
+                              parmi
+                              toutes, vingt-et-une comédies qui n'étaient douteuses à personne et qui, de l'avis
+                              de tous,
+                              semblaient être de Plaute. Celles-ci furent appelées les Varroniennes, parce que l’autorité
+                              de Varron confirmait qu’elles étaient de Plaute. Ensuite, parmi les autres, Varron
+                              en
+                              revendiqua certaines pour Plaute, parce qu’elles avaient la saveur de Plaute, mais
+                              qu’elles
+                              circulaient (selon l’opinion de quelques-uns) soit sans nom d’auteur assuré, soit
+                              sous un
+                              nom faussement usurpé par ceux qui les signaient de leur propre nom. Macrobe rappelle
+                              aussi
+                              que les comédies de Plaute dont l’attribution était incertaine étaient reconnues à
+                              la
+                              richesse du vocabulaire.</div>
+                        </td>
+                        <td>
+                           <div class="ab orig">Marcus Plautus patria Sarsinas fuit ex Vmbria,
+                              quod ipse de se insinuat, in fabula Mostellaria. Et alii ueteres tradunt. Constat
+                              eum his
+                              temporibus Romae uixisse atque in scena praestitisse quibus in ciuitate Pub. Scipio,
+                              Fuluius
+                              Nobilior, et M. Cato excellentes habiti sunt. Ingenio perurbano fuit, et maxime festiuo,
+                              quod cum alia multa indicant, tum Comoediae ipsius plenae iucunditatis ac leporum.
+                              Relata
+                              sunt ab A. Gellio complura in Atticis noctibus de eruditione et fabulis Plautinis,
+                              ex
+                              auctoritate M. Varronis, qui Plautum ait, cum erogasset omnem pecuniam in scenicis
+                              ornamentis ad summam paupertatem fuisse redactum, eaque ratione in Vrbem rediisse
+                              et operam
+                              pistori locasse ad uictum comparandum his molis circumagendis, quas trusatiles uocant.
+                              Hieronymus manuales appellauit. Et cum aliquamdiu in pistrino uersaretur, ibidem fabulas
+                              aliquot dicitur composuisse ut Saturionem et Addictum. M. Varro in libro de Plautinis
+                              Comoediis uerba haec posuit, quae adscribenda existimaui ut a Gellio est obseruatum.
+                              Feruntur sub Plauti nomine Comoediae circiter C. et XXX. Sed homo eruditissimus Laelius
+                              XXV
+                              dumtaxat illius esse censuit. Neque dubium est quin ista etiam, quae a Plauto scripta
+                              non
+                              sunt, ueterum poetarum fuerint, ut M. Accii C. Plautii a quo dictae sunt Plautianae
+                              fabulae,
+                              non Plautinae. Ceterum cum XXV a ueteribus connumerentur M. Plauti Comoediae, sciendum
+                              est
+                              praeter illas XX (quae a nostris grammaticis consensu omnium pro Plautinis habentur)
+                              tres a
+                              Gellio nominari. hoc est Bethiam, Neruulariam, Fretum. Varro et Sex. Pompeius alias
+                              plures
+                              nuncupant, ut Artemonem, Friuolariam, Phagornem, Cestrionem atque Astrabam, easque
+                              inter
+                              Plautinas referunt. De Astraba tamen Gellius et Nonius dubitarunt. In fabulis suis
+                              secutus
+                              est Graecos auctores, maxime Demophilum, Philemonem et Epicharmum Siculum, ut Horatius
+                              Flaccus testatur. Tantumque scribendi elegantia et salibus uisus est praestitisse,
+                              ut Epius
+                              Stolo adfirmare non dubitauerit, musas ipsas plautino sermone fuisse locuturas, si
+                              latine
+                              loqui uoluissent. Quod a Fabio Quintiliano refertur. Quocirca Gellius censor optumus
+                              omnium
+                              scriptorum appellat eundem Plautum parentem ac principem in omni latina elegantia.
+                              Volcatius
+                              Sedigitus, cum de ordine Comicorum scribit, post Caecilium collocauit Plautum, ceterisque
+                              omnibus praetulit. Nomen Plauti deductum est a planitie pedum26, ut est auctor Sex.
+                              Pompeius
+                              ; prius enim M. Plotus dicebatur. Hinc semiplotia calciamenta dicta sunt, quibus in
+                              uenationibus uterentur, sed hac de re suo loco diximus. Obiisse traditur paucis annis
+                              post
+                              Q. Ennium olympiade centesima XLV. Quantum iacturae factum sit in eius obitu, testus
+                              est
+                              idem Poeta his uersibus de se compositis : 
+                              <div class="citation-vers" data-highlight="off">
+                                 <lg xmlns="http://www.tei-c.org/ns/1.0">
+                                    Postquam est morte captus Plautus<br xmlns="">
+                                     Comoedia luget, scena est deserta.<br xmlns="">
+                                     Deinde risus, ludus, locusque et numeri<br xmlns="">
+                                     Innumeri simul omnes collachrymarunt.<br xmlns="">
+                                    </lg>
+                              </div>
+                              </div>
+                           <div class="ab trad">Marcus Plautus est originaire de Sarsina, en
+                              Ombrie, ce que lui-même laisse entendre, dans sa pièce Mostellaria. D’autres auteurs
+                              anciens
+                              le rapportent également. Il est certain qu’il vécut à Rome et qu’il s'est distingué
+                              sur la
+                              scène à l’époque où dans la ville, on tenait Publius Scipion, Fulvius Nobilior et
+                              Marcus
+                              Caton pour des personnages éminents. C’était un homme d’esprit affable et tout à fait
+                              charmant, ce que montrent, avec bien d’autres choses, ses propres comédies, pleines
+                              de gaîté
+                              et de grâce. Aulu-Gelle a beaucoup écrit sur la science et l'oeuvre de Plaute dans
+                              les Nuits
+                              Attiques , en s’appuyant sur son érudition, sur les pièces de Plaute et sur l’autorité
+                              de
+                              Marcus Varron qui dit que Plaute, après avoir dépensé tout son argent pour l’organisation
+                              des spectacles, fut réduit à la plus grande pauvreté, et pour cette raison, revint
+                              à Rome et
+                              loua ses services à un boulanger pour gagner sa pitance en faisant tourner la meule
+                              que l’on
+                              dit « à bras » Jérôme les appelle « manuelles ». Et comme il passa un certain temps
+                              dans le
+                              moulin, on dit qu’il composa là quelques pièces, comme le Saturion et l’Addictum.
+                              Marcus
+                              Varron, dans son livre Sur les comédies de Plaute, rapporte ces mots, que j’ai jugé
+                              bon de
+                              reproduire, ainsi qu’Aulu-Gelle l’a mentionné. On dit que l’on attribue à Plaute cent-trente
+                              pièces. Mais Laelius, homme fort savant, ne lui en a attribué que vingt-cinq. Et il
+                              ne fait
+                              guère de doute que ce qui n’a pas été écrit par Plaute l’a été par d’anciens poètes
+                              comme M.
+                              Accius C. Plautius, dont les pièces sont dites « plautiennes », et non « plautiniennes
+                              ». Du
+                              reste, tandis que les anciens comptent vingt-cinq comédies de Plaute, il faut savoir
+                              que,
+                              outre les vingt qui, de l’avis général de nos grammairiens, sont bien de Plaute, trois
+                              autres sont nommées par Aulu-Gelle : Boethia, Nervularia et Fretum. Varron et Festus
+                              Pompeius 18 en nomment d’autres encore : Artemo, Frivolaria, Phago, Cestrio, Astraba
+                              ; et
+                              celles-ci sont comptées au nombre des comédies plautiniennes. A propos d’Astraba,
+                              cependant,
+                              Aulu-Gelle et Nonius ont émis des doutes. Dans ses pièces, Plaute a suivi les auteurs
+                              grecs,
+                              en particulier Démophile, Philémon et le Sicilien Epicharme, comme l’atteste Horace.
+                              Et il a
+                              paru à ce point l’emporter par le sel et l’élégance de son style qu’Epius Stolo 22
+                              n’a pas
+                              hésité à affirmer que « Les muses elles-mêmes auraient parlé la langue de Plaute,
+                              si elles
+                              avaient voulu parler latin » ; C’est ce que rapporte Quintilien. C’est pourquoi Aulu-Gelle,
+                              le meilleur juge pour chaque auteur, appelle ce même Plaute « le père et le prince
+                              de
+                              l’élégance latine ». Volcatius Sedigitus, quand il écrit sur le classement des Comiques,
+                              place Plaute après Caecilius, et il le préfère à tous les autres. Le nom de Plaute
+                              vient des
+                              « pieds plats » (comme le dit Festus Pompeius) ; car d’abord, on l’appelait Marcus
+                              Plotus.
+                              De là vient le nom des chaussures « semiplotia » que portaient les chasseurs. Mais
+                              nous
+                              avons déjà parlé de cela en temps voulu. On rapporte qu’il est mort peu d’années après
+                              Ennius, lors de la 145e olympiade. Quelle perte fut sa mort, le poète lui-même en
+                              témoigne
+                              dans ces vers de sa composition : 
+                              <div class="citation-vers" data-highlight="off">
+                                 <lg xmlns="http://www.tei-c.org/ns/1.0">
+                                    Après que Plaute a été emporté par la mort<br xmlns="">
+                                     La Comédie pleure, la scène est déserte,<br xmlns="">
+                                     Enfin les rires, les jeux, les ébats, les vers<br xmlns="">
+                                     La prose, tous, de concert, ont versé des larmes.<br xmlns="">
+                                    </lg>
+                              </div>
+                              </div>
+                        </td>
+                        <td>
+                           <div class="ab orig">Secus Naevium M. Actius Plautus erat, qui aliquo
+                              cum Naevio tempore vixit. Est vero Plautus appellatus, ut Sex. Pomp. ait, quod hi
+                              qui plani
+                              sunt pedibus, Ploti primum, mox Plauti vocati sunt ; unde ait Actius poeta, qui Vmber
+                              Sarsinas erat, a pedum planicie initio Plotus, postea Plautus est dictus. Sane hoc
+                              vobis
+                              nunc semel dixerim, ne repetendum sit saepius, vario modo scribi video hoc nomen Actius
+                              :
+                              quidam enim per ct notant, quasi ab agendo Actius dicatur ; alii duplici cc, Accius,
+                              ab Acca
+                              videlicet ; demum alii duplici tt, Attius, ab Aty Troiano, quod innuit Vergilius,
+                              et memini
+                              me saepius in marmoribus et vetustis numismatum inscriptionibus observasse, ut Victorinum
+                              mittam id in Orthographiae libello praecipientem et Graeca Dionis exemplaria. Sed
+                              et nomen
+                              Attys Phrygis pueri, apud Graecos ἄττις scriptum saepius est videre. Ego nihilominus,
+                              quoniam ita pridem a magistris puer institutus fui, Actium scribere perseverabo. Fuit
+                              igitur
+                              Actius Plautus patria Sarsinas, quod Vmbriae est oppidum, ut Hieronymus et Festus
+                              observant,
+                              id quod et ipsemet subinnuit alicubi in Mostellaria fabula. Floruit vero in scena,
+                              teste
+                              Gellio, anno ferme XV postquam bellum Punicum secundum inceptum est, cum iam Romani
+                              Poenos
+                              ipsos vincere coepissent, id quod innuit ipse in Poenulo his verbis: Vincite, ut fecistis
+                              antehac, et Poeni victi poenas sufferant. In fabulis componendis, etsi alios Graecos
+                              est
+                              imitatus, Diphilum et Philemonem, alios, ut vel ex ipso facile est videre, tamen Horatii
+                              Flacci sententia, Plautus ad exemplum Siculi properare Epicharmi dicitur. Quaestum
+                              quoque in
+                              fabulis fecisse dictus est, adeo ut etiam mercaturam exercere voluerit. Quae cum ei
+                              male
+                              cessisset pecuniamque omnem perdidisset, Romam inops reversus, ob quaerendum victum
+                              ad
+                              circumagendas molas, quae trusatiles appellantur, operam pistori locavit. Tametsi
+                              apud
+                              Eusebium Hieronymus id annonae caritate fecisse prodiderit ipsumque ait Gellius tres
+                              fabulas
+                              in pistrino scripsisse, Saturionem, Addictum aliamque, cuius nomen nec ipse rettulit.
+                              Anno
+                              vero vigesimo Plautus, ut M. Cicero observat, post Cethegi et Tuditani consulatum,
+                              P.
+                              Claudio et L. Portio Consulibus, Catone Censore, mortuus est, non multo post Ennium,
+                              Olympiade videlicet CXLV, epitaphiumque sibi ipse composuit, quod a Marco Varrone
+                              in libro
+                              de Poetis positum affert Gellius: 
+                              <div class="citation-vers" data-highlight="off">
+                                 <lg xmlns="http://www.tei-c.org/ns/1.0">
+                                    Postquam est morte captus Plautus,<br xmlns="">
+                                     Comoedia luget, scena est deserta,<br xmlns="">
+                                     Deinde risus, ludus, iocusque et numeri<br xmlns="">
+                                     Innumeri simul omnes collachrumarunt.<br xmlns="">
+                                    </lg>
+                              </div> De numero vero fabularum Plauti dubitatum est. Servius ait ab aliquibus viginti
+                              et unam existimatas, ab aliis quadraginta, a nonnullis centum. Varro quidem et ipse
+                              viginti
+                              et unam legitimas prodidit, quae et ab eo Varronianae cognominatae fuerunt. Sed Laelius
+                              homo
+                              eruditissimus, eas quinque et viginti existimavit. Gellius vero sua aetate centum
+                              et
+                              triginta ipsius Plauti nomine circumferri tradidit. Sedenim Varro in libro de Plautinis
+                              Comoediis quasdam enumerat quae non Plauti sunt, sed M. Aquilii, ut ego lego, quod
+                              alii M.
+                              Accii, id quod M. Acutici perperam apud Gellium legitur. Subiungit idem, Plautium
+                              quempiam
+                              Comoediarum poetam fuisse, cuius fabulae, quod Plautii inscribebantur, acceptae fuerunt
+                              quasi Plautinae, cum essent non a Plauto Plautinae, sed a Plautio Plautianae. Alii
+                              quidem
+                              illas non Plauti fuisse, at veterum quorundam poetarum, ab eoque retractatas ac refarcitas
+                              nomen Plauti recepisse, quod mihi vix verisimile videtur, nullis celebratis poetis
+                              ante
+                              Livium et Ennium. Tantae vero autoritatis apud antiquos fuit Plautus, ut Quintilianus
+                              Varronem scripsisse affirmet, Musas Aelii Stolonis sententia Plautino sermone locuturas
+                              fuisse, si latine loqui voluissent. Cicero mirum in modum, ut scitis, Plautum commendat.
+                              Volcatius vir in poetica illustris, secundas in Comoedia Plauto attribuit. Macrobius
+                              Plautum
+                              ait in iocorum venustate praecelluisse, ut alios pene innumerabiles hoc loco mittam,
+                              qui
+                              Plautum summis laudibus prosequuntur. Quorum me movet autoritas, ut non tam facile
+                              cum
+                              Horatio sentiam, qui eum eosque qui illum laudavere, his versibus perstringit: At
+                              vestri,
+                              inquit, proavi Plautinos et numeros, et Laudavere sales, nimium patienter utrunque.
+                              Ne dicam
+                              stulte mirati. Ego utique, ut vobiscum quod sentio loquar, non inficias ierim pleraque
+                              in
+                              Plauti fabulis legi, quae si e scena non exciperent, fortassis frigida et in numerum
+                              redigenda forent. Sed nunquid ego cum Horatio poeta tanti iudicii in Poetica, quanti
+                              hactenus quisquam alius, nunc certem ? Minime. Vtram vos in partem velitis inclinate
+                              idque
+                              sine piaculo. Summae certe doctrinae et aestimationis viri in re literaria commentaria
+                              in
+                              Plauti fabulas composuere, M. Varro, L. Sisenna, et Asper aliique, et nostra hac aetate
+                              quidam sane bene docti. Quin et hodie video elegantissimos et doctissimos homines
+                              amicos
+                              meos libentissime in eius poetae lectione, post graviora studia, conquiescere. </div>
+                           <div class="ab trad">Différement de Naevius, Marcus Accius Plautus
+                              vécut à la même époque que lui. Plaute fut ainsi nommé, selon Sextus Pompeius, parce
+                              que
+                              ceux qui ont les pieds plats furent d’abord appelés Ploti, puis Plauti ; d’où, dit-il,
+                              le
+                              poète Actius, ombrie riginaire de Sarsina fut d’abord appelé Plotus à cause de la
+                              platitude
+                              de ses pieds, puis Plautus. Je vous le dirais un bonne fois pour toutes, afin de ne
+                              pas y
+                              revenir sans cesse : je vois que le nom Actius s’écrit de diverses manières : certains
+                              l’écrivent avec ct, comme si Actius venait de agere ; d’autres avec un double c, Accius,
+                              comme dérivé d’Acca ; d’autres enfin avec un double t, Attius, à partir du Troyen
+                              Atys, ce
+                              qu’indique Virgile, et je me souviens avoir assez souvent observé cette graphie sur
+                              des
+                              marbres et de vieilles inscriptions monétaires, sans parler de Victorinus qui l’enseigne
+                              dans son traité d’orthographe, ni des manuscrits grecs de Dion. On voit aussi assez
+                              fréquemment chez les Grecs le nom du jeune Phrygien Attys écrit Ἄττις. Pour ma part
+                              toutefois, puisque j’ai été formé dès l’enfance par mes maîtres à cette graphie, je
+                              persisterai à écrire Actius. Actius Plautus était donc originaire de Sarsina, ville
+                              d’Ombrie, comme l’observent Jérôme et Festus, ce que Plaute lui-même laisse entendre
+                              en
+                              quelque endroit de la comédie Mostellaria. Il fleurit sur la scène, selon le témoignage
+                              d’Aulu-Gelle, environ quinze ans après le début de la seconde guerre punique, lorsque
+                              les
+                              Romains avaient déjà commencé à vaincre les Carthaginois, ce qu’il indique lui-même
+                              dans le
+                              Poenulus par ces mots : « Vainquez, comme vous l’avez fait autrefois, et que les Puniques,
+                              une fois vaincus, subissent le châtiment. » Dans la composition de ses pièces, bien
+                              qu’il
+                              ait imité divers auteurs grecs (Diphile, Philémon et d’autres, comme on peut aisément
+                              le
+                              voir) Plaute, selon l’opinion d’Horace cependant, on dit que Plaute se hâtait surtout
+                              à
+                              l’exemple du Sicilien Épicharme. On dit aussi qu’il tira profit de ses comédies, au
+                              point
+                              même de vouloir se livrer au commerce. Mais comme cette entreprise tourna mal et qu’il
+                              y
+                              perdit toute sa fortune, il revint pauvre à Rome et, pour gagner sa vie, se mit au
+                              service
+                              d’un meunier à faire tourner les moulins qu’on appelle trusatiles. Toutefois, Jérôme,
+                              d’après Eusèbe, aurait montré qu’il le fit à cause de la cherté du blé et Aulu-Gelle
+                              affirme
+                              que Plaute composa trois pièces au moulin : Saturio, Addictus et une autre dont il
+                              n’a pas
+                              rapporté pas le nom. Plaute mourut, comme le note Marcus Cicéron, la vingtième année
+                              après
+                              le consulat de Cethegus et de Tuditanus, sous le consulat de Publius Claudius et de
+                              Lucius
+                              Portius, Caton étant censeur, peu de temps après Ennius, lors de la 145ᵉ Olympiade
+                              et il
+                              composa lui-même son épitaphe, qu’Aulu-Gelle rapporte d’après le livre Des Poètes
+                              de Marcus
+                              Varron : 
+                              <div class="citation-vers" data-highlight="off">
+                                 <lg xmlns="http://www.tei-c.org/ns/1.0">
+                                    Après que Plaute a été emporté par la mort<br xmlns="">
+                                     La Comédie pleure, la scène est déserte,<br xmlns="">
+                                     Enfin les rires, les jeux, les ébats, les vers<br xmlns="">
+                                     La prose, tous, de concert, ont versé des larmes.<br xmlns="">
+                                    </lg>
+                              </div> On hésite sur le nombre des comédies de Plaute. Servius rapporte que certains en
+                              ont estimé le nombre à vingt-et-une, d’autres à quarante, et quelques-uns à cent.
+                              Varron,
+                              pour sa part, reconnut lui-même comme authentiques vingt-et-une pièces, qui furent
+                              d’ailleurs surnommées Varroniennes d’après lui. Mais Laelius, homme très savant, en
+                              compta
+                              vingt-cinq. Aulu-Gelle rapporte qu’à son époque cent trente pièces circulaient sous
+                              le nom
+                              même de Plaute. Mais en effet, Varron, dans son livre sur les Comédies de Plaute,
+                              en énumère
+                              certaines qui ne sont pas de Plaute, mais de Marcus Aquilius, selon ma lecture, là
+                              où
+                              d'autres lisent Marcus Accius, ce qui est lu par erreur Marcus Acuticus chez Aulu-Gelle.
+                              Le
+                              même auteur ajoute qu’il y eut un certain Plautius, poète comique, dont les pièces,
+                              parce
+                              qu’elles portaient le nom de Plautii, furent reçues comme plautiniennes, alors qu’elles
+                              n’étaient pas Plautinae de Plaute, mais Plautianae de Plautius. D’autres pensent que
+                              ces
+                              pièces n’étaient pas de Plaute, mais de certains anciens poètes, et qu’après avoir
+                              été
+                              reprises et remaniées par lui, elles reçurent le nom de Plaute ; ce qui me paraît
+                              difficile
+                              à croire, puisqu’il n’y eut pas de poètes célèbres avant Livius et Ennius. Plaute
+                              jouissait
+                              cependant d’une autorité si grande chez les Anciens que Quintilien affirme que Varron
+                              a
+                              écrit que, selon l’opinion d’Aelius Stolon, les Muses elles-mêmes auraient parlé le
+                              langage
+                              de Plaute, si elles avaient voulu parler latin. Cicéron, comme vous le savez, recommande
+                              Plaute d’une manière admirable. Volcacius, homme illustre en matière de poésie, attribue
+                              à
+                              Plaute la seconde place dans la comédie. Macrobe affirme que Plaute excellait dans
+                              la grâce
+                              de la plaisanterie, pour passer sous silence presque d’innombrables autres auteurs
+                              qui, en
+                              cet endroit, couvrent Plaute des plus grands éloges. Leur autorité m’incline à ne
+                              pas me
+                              ranger trop facilement à l’avis d’Horace, qui attaque Plaute et ceux qui l’ont loué
+                              en ces
+                              vers : « Mais vos ancêtres, dit-il, ont loué chez Plaute les mètres et les saillies
+                              d’esprit, supportant avec trop de patience l’un et l’autre, pour ne pas dire en les
+                              admirant
+                              sottement. » Pour moi, afin de vous dire franchement ce que je pense, je ne nierai
+                              pas avoir
+                              lu dans les comédies de Plaute bien des passages qui, s’ils n’étaient pas tirés de
+                              la scène,
+                              paraîtraient peut-être froids et devraient être ramenés à une mesure plus stricte.
+                              Mais
+                              voudrais-je maintenant me mesurer à Horace, poète d’un jugement éminent en matière
+                              de poésie
+                              comme nul autre jusqu’à présent ? Certainement pas. Inclinez-vous donc du côté qu’il
+                              vous
+                              plaira, et cela sans scrupule. Inclinez-vous donc du côté qu’il vous plaira, et cela
+                              sans
+                              scrupule. Il est certain toutefois que des hommes d’une très haute érudition et d’une
+                              grande
+                              autorité littéraire ont composé des commentaires sur les comédies de Plaute : Marcus
+                              Varron,
+                              Lucius Sisenna, Asper, d’autres encore, et même à notre époque, quelques savants
+                              remarquables. Bien plus, je vois encore aujourd’hui des hommes d’un goût très sûr
+                              et d’un
+                              très grand savoir, mes amis, se reposer avec le plus grand plaisir, après des études
+                              plus
+                              sérieuses, dans la lecture de ce poète. </div>
+                        </td>
+                     </tr>
+                  </tbody>
+               </table>
+            </div>
          </div>
       </div>
    </body>
