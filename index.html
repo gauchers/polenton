@@ -1,91 +1,185 @@
 <!DOCTYPE html>
 <html lang="fr">
-<head>
-    <meta charset="UTF-8">
-    <title>Navigation</title>
+   <head>
+      <meta charset="UTF-8">
+      <title>Accueil</title>
+      
+      <style>
+:root {
+    --uga-blue: #003a8f;
+    --uga-light-blue: #5b7dbb;
+    --uga-grey: #e6e9ef;
+    --uga-dark-grey: #555;
+}
 
-    <style>
-        body {
-            font-family: serif;
-            margin: 0;
-        }
+body {
+    font-family: serif;
+    margin: 0;
+    color: #111;
+}
 
-        /* Cadre général avec marges et décalage vertical */
-        .page {
-            max-width: 900px;
-            margin: 80px auto;   /* ↕ espace haut / bas + centrage horizontal */
-            padding: 0 40px;     /* ↔ marges par rapport à la fenêtre */
-        }
+/* ===================== */
+/* Marges décoratives */
+/* ===================== */
+.marge {
+    position: fixed;
+    top: 0;
+    width: 200px;              /* ⬅️ marges plus larges */
+    height: 100%;
+    background-image: url("images/marge.png");
+    background-repeat: repeat;
+    pointer-events: none;
+    z-index: -1;
+}
 
-        /* Deux colonnes égales */
-        .container {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            column-gap: 40px;
-            align-items: start;
-        }
+.marge.left { left: 0; }
+.marge.right { right: 0; }
 
-        /* Boutons-liens */
-        .btn {
-            display: block;
-            width: 100%;
-            padding: 12px 16px;
-            font-size: 16px;
-            border: 1px solid #888;
-            border-radius: 4px;
-            background-color: #f8f8f8;
-            text-align: center;
-            text-decoration: none;
-            color: #000;
-            margin-bottom: 14px;
-            transition: background-color 0.2s;
-        }
+/* ===================== */
+/* Wrapper principal */
+/* ===================== */
+.page-wrapper {
+    padding: 60px 140px;       /* ⬅️ espace pour les marges */
+    box-sizing: border-box;
+}
 
-        .btn:hover {
-            background-color: #e0e0e0;
-        }
-    </style>
-</head>
+/* ===================== */
+/* Titres */
+/* ===================== */
+h1 {
+    text-align: center;
+    margin-top: 20px;
+    margin-bottom: 12px;
+    font-size: 34px;
+    color: var(--uga-blue);
+}
 
-<body>
+h2 {
+    text-align: center;
+    font-weight: normal;
+    font-size: 20px;
+    margin-top: 0;
+    margin-bottom: 30px;
+    color: var(--uga-dark-grey);
+}
 
-    <div class="page">
+/* ===================== */
+/* Résumé */
+/* ===================== */
+.description {
+    max-width: 820px;
+    margin: 0 auto 30px auto;
+    padding: 18px 24px;
+    border: 1px solid var(--uga-light-blue);
+    background-color: #f9fbff;
+    font-size: 14.5px;
+    line-height: 1.6;
+    text-align: justify;
+}
 
-        <div class="container">
+/* ===================== */
+/* Cadre général */
+/* ===================== */
+.page {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 0 30px;
+}
 
-            <!-- Colonne gauche -->
-            <div>
-                <a class="btn" href="polenton_libri/polenton_002.html">
-                    Sicco Polenton
-                </a>
+/* ===================== */
+/* Deux colonnes */
+/* ===================== */
+.container {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    column-gap: 50px;
+    align-items: start;
+}
+
+.column-title {
+    text-align: center;
+    font-weight: bold;
+    font-size: 19px;
+    margin-bottom: 22px;
+    color: var(--uga-blue);
+}
+
+/* ===================== */
+/* Boutons */
+/* ===================== */
+.btn {
+    display: block;
+    width: 100%;
+    padding: 12px 16px;
+    font-size: 16px;
+    border: 1px solid var(--uga-light-blue);
+    border-radius: 4px;
+    background-color: #f4f7fc;
+    text-align: center;
+    text-decoration: none;
+    color: var(--uga-blue);
+    margin-bottom: 14px;
+    transition: all 0.2s;
+}
+
+.btn:hover {
+    background-color: var(--uga-light-blue);
+    color: #fff;
+}
+</style>
+   </head>
+   
+   <body>
+      
+      <!-- Marges décoratives -->
+      <div class="marge left"></div>
+      <div class="marge right"></div>
+      
+      <div class="page-wrapper">
+         
+         <h1>Réception de l’Antiquité</h1>
+         
+         <h2>
+            Sources antiques et représentation des auteurs dans le livre II des
+            <em>Scriptorum illustrium Latinae linguae libri</em> de Sicco Polenton
+         </h2>
+         
+         <div class="description">
+            Les <em>Scriptorum illustrium Latinae linguae libri</em> de l’humaniste
+            vénitien Sicco Polenton (1376–1447) peuvent être considérés, à bien des
+            égards, comme la première histoire organique de la littérature latine
+            antique produite à l’époque moderne. Cet ouvrage est le fruit d’un travail
+            colossal, qui a duré plus de vingt-cinq ans, de lecture et de
+            réorganisation du matériel biographique et historico-littéraire provenant
+            des auteurs latins eux-mêmes, mis en relation avec la tradition savante
+            médiévale et les chantiers de recherche philologique ouverts au début de
+            l’humanisme. Le livre II ouvre la série des livres consacrés à la poésie
+            latine : il se concentre sur les débuts de la poésie à Rome et sur les
+            premiers auteurs, essentiellement fragmentaires, connus par
+            l’intermédiaire de sources secondaires.
+         </div>
+         
+         <div class="page">
+            <div class="container">
+               
+               <div>
+                  <div class="column-title">Sicco Polenton</div>
+                  <a class="btn" href="polenton_libri/polenton_002.html">Livre II</a>
+               </div>
+               
+               <div>
+                  <div class="column-title">Vies</div>
+                  <a class="btn" href="uitae/uita_liuius.html">Vie de Livius Andronicus</a>
+                  <a class="btn" href="uitae/uita_ennius.html">Vie d’Ennius</a>
+                  <a class="btn" href="uitae/uita_caecilius.html">Vie de Caecilius</a>
+                  <a class="btn" href="uitae/uita_plautus.html">Vie de Plaute</a>
+                  <a class="btn" href="uitae/uita_naeuius.html">Vie de Naevius</a>
+               </div>
+               
             </div>
-
-            <!-- Colonne droite -->
-            <div>
-                <a class="btn" href="uitae/uita_liuius.html">
-                    Vie de Livius Andronicus
-                </a>
-
-                <a class="btn" href="uitae/uita_ennius.html">
-                    Vie d’Ennius
-                </a>
-
-                 <a class="btn" href="uitae/uita_caecilius.html">
-                    Vie de Caecilius
-                </a>
-
-                 <a class="btn" href="uitae/uita_plautus.html">
-                    Vie de Plaute
-                </a>
-
-                     <a class="btn" href="uitae/uita_naeuius.html">
-                    Vie de Naevius
-                </a>
-            </div>
-
-        </div>
-
-    </div>
-
-</body>
+         </div>
+         
+      </div>
+      
+   </body>
 </html>
