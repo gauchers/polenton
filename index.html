@@ -3,7 +3,7 @@
    <head>
       <meta charset="UTF-8">
       <title>Accueil</title>
-      
+
       <style>
 :root {
     --uga-blue: #003a8f;
@@ -17,6 +17,7 @@ body {
     margin: 0;
     color: #111;
 }
+
 
 /* ===================== */
 /* Marges décoratives */
@@ -126,24 +127,48 @@ h2 {
     background-color: var(--uga-light-blue);
     color: #fff;
 }
+
+/* ===================== */
+/* Bouton navigation secondaire */
+/* ===================== */
+.btn-secondary {
+    display: block;
+    width: 100%;
+    padding: 10px 16px;
+    margin-top: 20px;
+    font-size: 15px;
+    border: 1px dashed var(--uga-blue);
+    border-radius: 4px;
+    background-color: transparent;
+    text-align: center;
+    text-decoration: none;
+    color: var(--uga-blue);
+    transition: all 0.2s;
+}
+
+.btn-secondary:hover {
+    background-color: var(--uga-blue);
+    color: #fff;
+}
+
 </style>
    </head>
-   
+
    <body>
-      
+
       <!-- Marges décoratives -->
       <div class="marge left"></div>
       <div class="marge right"></div>
-      
+
       <div class="page-wrapper">
-         
+
          <h1>Réception de l’Antiquité</h1>
-         
+
          <h2>
             Sources antiques et représentation des auteurs dans le livre II des
             <em>Scriptorum illustrium Latinae linguae libri</em> de Sicco Polenton
          </h2>
-         
+
          <div class="description">
             Les <em>Scriptorum illustrium Latinae linguae libri</em> de l’humaniste
             vénitien Sicco Polenton (1376–1447) peuvent être considérés, à bien des
@@ -158,15 +183,15 @@ h2 {
             premiers auteurs, essentiellement fragmentaires, connus par
             l’intermédiaire de sources secondaires.
          </div>
-         
+
          <div class="page">
             <div class="container">
-               
+
                <div>
                   <div class="column-title">Sicco Polenton</div>
                   <a class="btn" href="polenton_libri/polenton_002.html">Livre II</a>
                </div>
-               
+
                <div>
                   <div class="column-title">Vies</div>
                   <a class="btn" href="uitae/uita_liuius.html">Vie de Livius Andronicus</a>
@@ -174,12 +199,16 @@ h2 {
                   <a class="btn" href="uitae/uita_caecilius.html">Vie de Caecilius</a>
                   <a class="btn" href="uitae/uita_plautus.html">Vie de Plaute</a>
                   <a class="btn" href="uitae/uita_naeuius.html">Vie de Naevius</a>
+
+                  <a class="btn-secondary" href="liste_item.html">
+      Checklist pour <i>Vitae</i>
+  </a>
                </div>
-               
+
             </div>
          </div>
-         
+
       </div>
-      
+
    </body>
 </html>
