@@ -2,7 +2,10 @@
 <html lang="fr">
 <head>
 <meta charset="UTF-8">
-<title>Vie – Fiche biographique</title>
+<title>Fiche biographique – Formulaire</title>
+
+<!-- jsPDF -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 
 <style>
 :root {
@@ -19,9 +22,7 @@ body {
     background-color: #fff;
 }
 
-/* ===================== */
 /* Marges décoratives */
-/* ===================== */
 .marge {
     position: fixed;
     top: 0;
@@ -32,52 +33,86 @@ body {
     pointer-events: none;
     z-index: -1;
 }
-
 .marge.left { left: 0; }
 .marge.right { right: 0; }
 
-/* ===================== */
-/* Wrapper principal */
-/* ===================== */
+/* Wrapper */
 .page-wrapper {
     padding: 60px 140px;
     box-sizing: border-box;
 }
 
-/* ===================== */
-/* Titres */
-/* ===================== */
 h1 {
     text-align: center;
-    margin-bottom: 30px;
+    margin-bottom: 40px;
     font-size: 34px;
     color: var(--uga-blue);
 }
 
-/* ===================== */
-/* Contenu */
-/* ===================== */
-.page {
-    max-width: 900px;
-    margin: 0 auto;
-}
-
-/* ===================== */
 /* Sections */
-/* ===================== */
 .section {
-    margin-bottom: 36px;
+    max-width: 900px;
+    margin: 0 auto 40px auto;
 }
 
 .section-title {
     font-weight: bold;
     font-size: 18px;
-    letter-spacing: 1px;
+    text-transform: uppercase;
     color: var(--uga-blue);
     border-bottom: 1px solid var(--uga-light-blue);
+    margin-bottom: 18px;
     padding-bottom: 6px;
+}
+
+/* Champs */
+.field {
     margin-bottom: 14px;
-    text-transform: uppercase;
+       font-weight: 700;
+}
+
+.field label {
+    display: block;
+    font-size: 14px;
+    color: var(--uga-dark-grey);
+    margin-bottom: 4px;
+}
+
+.field input,
+.field textarea {
+    width: 100%;
+    font-family: serif;
+    font-size: 15px;
+    padding: 6px 8px;
+    border: 1px solid var(--uga-grey);
+    border-radius: 3px;
+    box-sizing: border-box;
+}
+
+.field textarea {
+    min-height: 60px;
+    resize: vertical;
+}
+
+/* Bouton */
+.actions {
+    text-align: center;
+    margin: 50px 0;
+}
+
+button {
+    padding: 12px 24px;
+    font-size: 16px;
+    border: 1px solid var(--uga-light-blue);
+    background-color: #f4f7fc;
+    color: var(--uga-blue);
+    cursor: pointer;
+    border-radius: 4px;
+}
+
+button:hover {
+    background-color: var(--uga-light-blue);
+    color: #fff;
 }
 
 /* ===================== */
@@ -98,141 +133,182 @@ h1 {
     color: var(--uga-blue);
 }
 
-
-/* ===================== */
-/* Listes */
-/* ===================== */
-.section ul {
-    list-style: none;
-    padding-left: 0;
-    margin: 0;
-}
-
-.section li {
-    margin-bottom: 6px;
-    padding-left: 16px;
-    position: relative;
-}
-
-.section li::before {
-    content: "–";
-    position: absolute;
-    left: 0;
-    color: var(--uga-dark-grey);
-}
 </style>
 </head>
 
 <body>
 
-<!-- Marges décoratives -->
 <div class="marge left"></div>
 <div class="marge right"></div>
 
 <div class="page-wrapper">
 
-<h1>Checklist <i>Vitae<i></h1>
+<h1>Fiche biographique – Checklist</h1>
 
-  <div class="consigne">
-      <strong>Consigne.</strong>
-      Pour chacune des vies d’un même auteur, procéder aux éléments suivants et
-    renseigner systématiquement les sources antiques ou contemporaines utilisées par les humanistes.
-  </div>
+<div class="consigne">
+    <strong>Consigne.</strong>
+    <p>Pour chacune des vies d’un même auteur, renseigner les éléments suivants
+  en notant pour chacun des items les sources antiques ou contemporaines
+    utilisées par les humanistes.</p>
+    <p>En fin de remplissage, procédez à l'enregistrement en cliquant sur le bouton "Exporter en PDF".</p>
+    <p>Attention ! Pensez à renommer vos fichiers. On renommera les fichiers selon les normes suivantes : poète_humaniste.pdf ; par exemple la vie de Ennius chez Polenton sera nommée ennius_polenton.pdf</p>
+</div>
 
 
-<div class="page">
+<form id="vita-form">
 
-  <!-- NAISSANCE -->
   <div class="section">
-      <div class="section-title">Identité</div>
-      <ul>
-          <li>Nom du poète</li>
-          <li>Origine du nom</li>
-          <li>Homonymes éventuels</li>
-      </ul>
+      <div class="section-title">Nom</div>
+
+      <div class="field">
+          <label>Nom du poète</label>
+          <input type="text" data-label="Nom du poète">
+      </div>
+
+      <div class="field">
+          <label>Origine du nom</label>
+          <input type="text" data-label="Origine du nom">
+      </div>
+
+      <div class="field">
+          <label>Homonymes éventuels</label>
+          <input type="text" data-label="Homonymes éventuels">
+      </div>
   </div>
 
 <!-- NAISSANCE -->
 <div class="section">
     <div class="section-title">Naissance</div>
-    <ul>
-        <li>Date (consuls et/ou époque)</li>
-        <li>Lieu</li>
-    </ul>
+
+    <div class="field">
+        <label>Date (consuls ou époque)</label>
+        <input type="text" data-label="Date (consuls ou époque)">
+    </div>
+
+    <div class="field">
+        <label>Lieu</label>
+        <input type="text" data-label="Lieu">
+    </div>
 </div>
 
 <!-- ENFANCE -->
 <div class="section">
     <div class="section-title">Enfance</div>
-    <ul>
-        <li>Condition</li>
-        <li>Formation</li>
-    </ul>
+
+    <div class="field">
+        <label>Condition</label>
+        <input type="text" data-label="Condition">
+    </div>
+
+    <div class="field">
+        <label>Formation</label>
+        <textarea data-label="Formation"></textarea>
+    </div>
 </div>
 
 <!-- VIE -->
 <div class="section">
     <div class="section-title">Vie</div>
-    <ul>
-        <li>Profession</li>
-        <li>Condition</li>
-        <li>Vie publique / militaire</li>
-        <li>Vie privée</li>
-        <li>Entourage</li>
-        <li>Évènements marquants</li>
-    </ul>
+
+    <div class="field"><label>Profession</label><input type="text" data-label="Profession"></div>
+    <div class="field"><label>Condition</label><input type="text" data-label="Condition"></div>
+    <div class="field"><label>Vie publique / militaire</label><textarea data-label="Vie publique / militaire"></textarea></div>
+    <div class="field"><label>Vie privée</label><textarea data-label="Vie privée"></textarea></div>
+    <div class="field"><label>Entourage</label><textarea data-label="Entourage"></textarea></div>
+    <div class="field"><label>Évènements marquants</label><textarea data-label="Évènements marquants"></textarea></div>
 </div>
 
 <!-- MORT -->
 <div class="section">
     <div class="section-title">Mort</div>
-    <ul>
-        <li>Date (consuls et/ou époque)</li>
-        <li>Âge</li>
-        <li>Cause</li>
-        <li>Lieu</li>
-        <li>Lieu de sépulture</li>
-        <li>Épitaphe</li>
-        <li>Hommages</li>
-    </ul>
+
+    <div class="field"><label>Date</label><input type="text" data-label="Date"></div>
+    <div class="field"><label>Âge</label><input type="text" data-label="Âge"></div>
+    <div class="field"><label>Cause</label><input type="text" data-label="Cause"></div>
+    <div class="field"><label>Lieu</label><input type="text" data-label="Lieu"></div>
+    <div class="field"><label>Lieu de sépulture</label><input type="text" data-label="Lieu de sépulture"></div>
+    <div class="field"><label>Épitaphe</label><textarea data-label="Épitaphe"></textarea>
+    <div class="field"><label>Hommages</label><textarea data-label="Hommages"></textarea></div></div>
 </div>
 
 <!-- ŒUVRE -->
 <div class="section">
     <div class="section-title">Œuvre</div>
-    <ul>
-        <li>Genre poétiques pratiqués</li>
-        <li>Titres cités</li>
-        <li>Principaux aspects de l’œuvre</li>
-        <li>Citations du poète</li>
-        <li>Lien avec d’autres poètes / auteurs / œuvres</li>
-            </ul>
+
+    <div class="field"><label>Genre poétiques pratiqués</label><input type="text" data-label="Genres poétiques pratiqués"></div>
+    <div class="field"><label>Titres cités</label><textarea data-label="Titres cités"></textarea></div>
+    <div class="field"><label>Principaux aspects de l’œuvre</label><textarea data-label="Principaux aspects de l’œuvre"></textarea></div>
+    <div class="field"><label>Citations du poète</label><textarea data-label="Citations du poète"></textarea></div>
+    <div class="field"><label>Liens avec d’autres auteurs / œuvres</label><textarea data-label="Liens avec d’autres auteurs / œuvres"></textarea></div>
 </div>
 
 <!-- RÉCEPTION -->
 <div class="section">
     <div class="section-title">Réception</div>
-    <ul>
-        <li>Renommée</li>
-        <li>Jugements positifs</li>
-        <li>Jugements négatifs</li>
-    </ul>
+
+    <div class="field"><label>Renommée</label><textarea data-label="Renommée"></textarea></div>
+    <div class="field"><label>Jugements positifs</label><textarea data-label="Jugements positifs"></textarea></div>
+    <div class="field"><label>Jugements négatifs</label><textarea data-label="Jugements négatifs"></textarea></div>
 </div>
 
 <!-- TRAVAIL DE L’HUMANISTE -->
 <div class="section">
     <div class="section-title">Travail de l’humaniste</div>
-    <ul>
-        <li>Débats</li>
-        <li>Avis de l’humaniste</li>
-        <li>Sources antiques citées</li>
-        <li>Sources humanistes citées</li>
-        <li>Présence de développements annexes</li>
-    </ul>
+
+    <div class="field"><label>Débats</label><textarea data-label="Débats"></textarea></div>
+    <div class="field"><label>Avis de l’humaniste</label><textarea data-label="Avis de l’humaniste"></textarea></div>
+    <div class="field"><label>Sources antiques citées</label><textarea data-label="Sources antiques citées"></textarea></div>
+    <div class="field"><label>Sources humanistes citées</label><textarea data-label="Sources humanistes citées"></textarea></div>
+    <div class="field"><label>Développements annexes</label><textarea data-label="Développements annexes"></textarea></div>
 </div>
 
+<div class="section">
+    <div class="section-title">Autres</div>
+
+        <div class="field"><label>Informations supplémentaires</label><textarea data-label="Informations supplémentaires"></textarea></div>
+    <div class="field"><label>Champs manquants</label><textarea data-label="Champs manquants"></textarea></div>
 </div>
+
+<div class="actions">
+    <button type="button" onclick="exportPDF()">Exporter en PDF</button>
 </div>
+
+</form>
+
+</div>
+
+<script>
+function exportPDF() {
+    const { jsPDF } = window.jspdf;
+    const pdf = new jsPDF();
+    let y = 15;
+
+    pdf.setFont("Times", "Normal");
+    pdf.setFontSize(14);
+    pdf.text("Fiche biographique", 10, y);
+    y += 10;
+
+    document.querySelectorAll(".section").forEach(section => {
+        const title = section.querySelector(".section-title").innerText;
+        pdf.setFontSize(12);
+        pdf.text(title, 10, y);
+        y += 6;
+
+        section.querySelectorAll("[data-label]").forEach(field => {
+            if (field.value.trim()) {
+                pdf.setFontSize(10);
+                pdf.text(`– ${field.dataset.label} : ${field.value}`, 12, y, { maxWidth: 180 });
+                y += 6;
+                if (y > 280) { pdf.addPage(); y = 15; }
+            }
+        });
+
+        y += 4;
+    });
+
+    pdf.save("fiche_biographique.pdf");
+}
+</script>
 
 </body>
 </html>
