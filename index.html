@@ -1,10 +1,10 @@
 <!DOCTYPE html>
 <html lang="fr">
-   <head>
-      <meta charset="UTF-8">
-      <title>Accueil</title>
+<head>
+<meta charset="UTF-8">
+<title>Accueil</title>
 
-      <style>
+<style>
 :root {
     --uga-blue: #003a8f;
     --uga-light-blue: #5b7dbb;
@@ -18,21 +18,19 @@ body {
     color: #111;
 }
 
-
 /* ===================== */
 /* Marges décoratives */
 /* ===================== */
 .marge {
     position: fixed;
     top: 0;
-    width: 200px;              /* ⬅️ marges plus larges */
+    width: 200px;
     height: 100%;
     background-image: url("images/marge.png");
     background-repeat: repeat;
     pointer-events: none;
     z-index: -1;
 }
-
 .marge.left { left: 0; }
 .marge.right { right: 0; }
 
@@ -40,7 +38,7 @@ body {
 /* Wrapper principal */
 /* ===================== */
 .page-wrapper {
-    padding: 60px 140px;       /* ⬅️ espace pour les marges */
+    padding: 60px 140px;
     box-sizing: border-box;
 }
 
@@ -106,7 +104,7 @@ h2 {
 }
 
 /* ===================== */
-/* Boutons */
+/* Boutons principaux */
 /* ===================== */
 .btn {
     display: block;
@@ -129,17 +127,42 @@ h2 {
 }
 
 /* ===================== */
-/* Bouton navigation secondaire */
+/* Bloc outils */
 /* ===================== */
+.tools {
+    margin-top: 35px;
+    padding-top: 25px;
+    position: relative;
+}
+
+.tools::before {
+    content: "";
+    display: block;
+    width: 60%;
+    margin: 0 auto 25px auto;
+    border-top: 2px solid var(--uga-light-blue);
+}
+
+
+.tools-title {
+    text-align: center;
+    font-weight: bold;
+    font-size: 19px;              /* même taille que Vies */
+    margin-bottom: 22px;
+    color: var(--uga-blue);
+}
+
+
+/* Boutons outils */
 .btn-secondary {
     display: block;
     width: 100%;
-    padding: 10px 16px;
-    margin-top: 20px;
+    padding: 11px 16px;
+    margin-bottom: 14px;
     font-size: 15px;
     border: 1px dashed var(--uga-blue);
     border-radius: 4px;
-    background-color: transparent;
+    background-color: #eef2fa;   /* ⬅️ fond doux distinct */
     text-align: center;
     text-decoration: none;
     color: var(--uga-blue);
@@ -152,63 +175,75 @@ h2 {
 }
 
 </style>
-   </head>
+</head>
 
-   <body>
+<body>
 
-      <!-- Marges décoratives -->
-      <div class="marge left"></div>
-      <div class="marge right"></div>
+<!-- Marges décoratives -->
+<div class="marge left"></div>
+<div class="marge right"></div>
 
-      <div class="page-wrapper">
+<div class="page-wrapper">
 
-         <h1>Réception de l’Antiquité</h1>
+<h1>Réception de l’Antiquité</h1>
 
-         <h2>
-            Sources antiques et représentation des auteurs dans le livre II des
-            <em>Scriptorum illustrium Latinae linguae libri</em> de Sicco Polenton
-         </h2>
+<h2>
+    Sources antiques et représentation des auteurs dans le livre II des
+    <em>Scriptorum illustrium Latinae linguae libri</em> de Sicco Polenton
+</h2>
 
-         <div class="description">
-            Les <em>Scriptorum illustrium Latinae linguae libri</em> de l’humaniste
-            vénitien Sicco Polenton (1376–1447) peuvent être considérés, à bien des
-            égards, comme la première histoire organique de la littérature latine
-            antique produite à l’époque moderne. Cet ouvrage est le fruit d’un travail
-            colossal, qui a duré plus de vingt-cinq ans, de lecture et de
-            réorganisation du matériel biographique et historico-littéraire provenant
-            des auteurs latins eux-mêmes, mis en relation avec la tradition savante
-            médiévale et les chantiers de recherche philologique ouverts au début de
-            l’humanisme. Le livre II ouvre la série des livres consacrés à la poésie
-            latine : il se concentre sur les débuts de la poésie à Rome et sur les
-            premiers auteurs, essentiellement fragmentaires, connus par
-            l’intermédiaire de sources secondaires.
-         </div>
+<div class="description">
+  Les <em>Scriptorum illustrium Latinae linguae libri</em> de l’humaniste
+  vénitien Sicco Polenton (1376–1447) peuvent être considérés, à bien des
+  égards, comme la première histoire organique de la littérature latine
+  antique produite à l’époque moderne. Cet ouvrage est le fruit d’un travail
+  colossal, qui a duré plus de vingt-cinq ans, de lecture et de
+  réorganisation du matériel biographique et historico-littéraire provenant
+  des auteurs latins eux-mêmes, mis en relation avec la tradition savante
+  médiévale et les chantiers de recherche philologique ouverts au début de
+  l’humanisme. Le livre II ouvre la série des livres consacrés à la poésie
+  latine : il se concentre sur les débuts de la poésie à Rome et sur les
+  premiers auteurs, essentiellement fragmentaires, connus par
+  l’intermédiaire de sources secondaires.
+</div>
 
-         <div class="page">
-            <div class="container">
+<div class="page">
+<div class="container">
 
-               <div>
-                  <div class="column-title">Sicco Polenton</div>
-                  <a class="btn" href="polenton_libri/polenton_002.html">Livre II</a>
-               </div>
+    <!-- Colonne Polenton -->
+    <div>
+        <div class="column-title">Sicco Polenton</div>
+        <a class="btn" href="polenton_libri/polenton_002.html">Livre II</a>
+    </div>
 
-               <div>
-                  <div class="column-title">Vies</div>
-                  <a class="btn" href="uitae/uita_liuius.html">Vie de Livius Andronicus</a>
-                  <a class="btn" href="uitae/uita_ennius.html">Vie d’Ennius</a>
-                  <a class="btn" href="uitae/uita_caecilius.html">Vie de Caecilius</a>
-                  <a class="btn" href="uitae/uita_plautus.html">Vie de Plaute</a>
-                  <a class="btn" href="uitae/uita_naeuius.html">Vie de Naevius</a>
+    <!-- Colonne Vies + Outils -->
+    <div>
+        <div class="column-title">Vies</div>
 
-                  <a class="btn-secondary" href="liste_item.html">
-      Checklist pour <i>Vitae</i>
-  </a>
-               </div>
+        <a class="btn" href="uitae/uita_liuius.html">Vie de Livius Andronicus</a>
+        <a class="btn" href="uitae/uita_ennius.html">Vie d’Ennius</a>
+        <a class="btn" href="uitae/uita_caecilius.html">Vie de Caecilius</a>
+        <a class="btn" href="uitae/uita_plautus.html">Vie de Plaute</a>
+        <a class="btn" href="uitae/uita_naeuius.html">Vie de Naevius</a>
 
-            </div>
-         </div>
+        <!-- Bloc Outils -->
+        <div class="tools">
+            <div class="tools-title">Outils</div>
 
-      </div>
+            <a class="btn-secondary" href="liste_item.html">
+                Création de fiche biographique
+            </a>
 
-   </body>
+            <a class="btn-secondary" href="liste_annotation.html">
+                Création d’annotations
+            </a>
+        </div>
+    </div>
+
+</div>
+</div>
+
+</div>
+
+</body>
 </html>
