@@ -1,0 +1,746 @@
+<html xmlns:tei="http://www.tei-c.org/ns/1.0" lang="fr">
+   <head>
+      <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+   
+      <title>Vies de T&eacute;rence</title><style type="text/css">
+                    :root {
+                        --uga-blue: #003a8f;
+                        --uga-light-blue: #5b7dbb;
+                        --uga-grey: #e6e9ef;
+                        --uga-dark-grey: #555;
+                    }
+                    
+                    body {
+                        font-family: serif;
+                        margin: 0;
+                        color: #111;
+                    }
+                    
+                    /* ===================== */
+                    /* Marges décoratives */
+                    /* ===================== */
+                    .marge {
+                        position: fixed;
+                        top: 0;
+                        width: 120px;
+                        height: 100%;
+                        background-image: url("../images/marge.png");
+                        background-repeat: repeat;
+                        pointer-events: none;
+                        z-index: -1;
+                    }
+                    
+                    .marge.left {
+                        left: 0;
+                    }
+                    .marge.right {
+                        right: 0;
+                    }
+                    
+                    /* ===================== */
+                    /* Wrapper principal */
+                    /* ===================== */
+                    .page-wrapper {
+                        padding: 50px 140px;
+                        box-sizing: border-box;
+                    }
+                    
+                    /* ===================== */
+                    /* Titre principal */
+                    /* ===================== */
+                    h1 {
+                        text-align: center;
+                        font-size: 30px;
+                        margin-bottom: 25px;
+                        color: var(--uga-blue);
+                    }
+                    
+                    /* ===================== */
+                    /* Boutons */
+                    /* ===================== */
+                    button {
+                        padding: 6px 12px;
+                        font-size: 14px;
+                        cursor: pointer;
+                        border: 1px solid var(--uga-light-blue);
+                        border-radius: 4px;
+                        background-color: #f4f7fc;
+                        font-family: serif;
+                        transition: all 0.2s;
+                        color: var(--uga-blue);
+                        margin-right: 10px;
+                    }
+                    
+                    button:hover {
+                        background-color: var(--uga-light-blue);
+                        color: #fff;
+                    }
+                    
+                    /* ===================== */
+                    /* Zone thématique */
+                    /* ===================== */
+                    #theme-buttons {
+                    display: flex;
+                    flex-direction: column;
+                    gap: 5px;              /* ⬅️ espace ENTRE les boutons */
+                    margin-right: 15px;
+                    min-width: 150px;
+                    }
+                    
+                    #theme-buttons > div:first-child {
+                    font-weight: bold;
+                    margin-bottom: 12px;   /* espace sous le titre */
+                    color: var(--uga-blue);
+                    }
+                    
+                    /* ===================== */
+                    /* Toolbar */
+                    /* ===================== */
+                    .toolbar {
+                        display: flex;
+                        justify-content: space-between;
+                        align-items: center;
+                        margin-bottom: 18px;
+                    }
+                    
+                    /* ===================== */
+                    /* Tableau */
+                    /* ===================== */
+                    table {
+                        width: 100%;
+                        border-collapse: collapse;
+                        table-layout: fixed;
+                    }
+                    
+                    th,
+                    td {
+                        border: 1px solid #ccc;
+                        vertical-align: top;
+                    }
+                    
+                    th {
+                        background-color: var(--uga-grey);
+                        text-align: center;
+                        font-weight: bold;
+                        padding: 10px;
+                    }
+                    
+                    td {
+                        padding: 10px;
+                        text-align: justify;
+                        hyphens: auto;
+                    }
+                    
+                    /* ===================== */
+                    /* Sources / citations */
+                    /* ===================== */
+                    .source {
+                        transition: background-color 0.3s;
+                    }
+                    
+                    .highlight {
+                        background-color: #ffe8a3;
+                    }
+                    
+                    /* ===================== */
+                    /* Orig / Trad */
+                    /* ===================== */
+                    .orig {
+                        display: none;
+                    }
+                    
+                    body.show-orig .trad {
+                        display: none;
+                    }
+                    body.show-orig .orig {
+                        display: block;
+                    }
+                    
+                    .citation-vers {
+                        margin: 8px 0 8px 15px;
+                    }</style><script type="text/javascript">
+                    
+                    function toggleSources() {
+                        var sources = document.getElementsByClassName("source");
+                        for (var i = 0; i < sources.length; i++) {
+                            sources[i].classList.toggle("highlight");
+                        }
+                    }
+                    
+                    function toggleOrigTrad() {
+                        document.body.classList.toggle("show-orig");
+                    }
+                    
+                    function toggleTheme(themeId, color) {
+                        var segs = document.querySelectorAll("seg.theme-" + themeId);
+                        for (var i = 0; i < segs.length; i++) {
+                            if (segs[i].getAttribute("data-highlight") === "on") {
+                                segs[i].style.backgroundColor = "";
+                                segs[i].setAttribute("data-highlight", "off");
+                            } else {
+                                segs[i].style.backgroundColor = color;
+                                segs[i].setAttribute("data-highlight", "on");
+                            }
+                        }
+                    }
+                    
+                    function toggleCitation(color) {
+                        var elems = document.querySelectorAll("q, .citation-vers");
+                        for (var i = 0; i < elems.length; i++) {
+                            if (elems[i].getAttribute("data-highlight") === "on") {
+                                elems[i].style.backgroundColor = "";
+                                elems[i].setAttribute("data-highlight", "off");
+                            } else {
+                                elems[i].style.backgroundColor = color;
+                                elems[i].setAttribute("data-highlight", "on");
+                            }
+                        }
+                    }//
+                </script></head>
+   <body>
+      <div class="marge left"></div>
+      <div class="marge right"></div>
+      <div class="page-wrapper">
+         <h1>Vies de T&eacute;rence</h1>
+         <div style="display:flex; align-items:flex-start;">
+            <div id="theme-buttons">
+               <div>Rubriques</div><button class="theme-btn" style="background-color:#CDF7F6" onclick="toggleTheme('reception','#CDF7F6')">R&eacute;ception</button><button class="theme-btn" style="background-color:#8FB8DE" onclick="toggleTheme('condition','#8FB8DE')">Condition</button><button class="theme-btn" style="background-color:#9A94BC" onclick="toggleTheme('origine','#9A94BC')">Origine</button><button class="theme-btn" style="background-color:#BA78B3" onclick="toggleTheme('mort','#BA78B3')">Mort</button><button class="theme-btn" style="background-color:#E3A69D" onclick="toggleTheme('datation','#E3A69D')">Datation</button><button class="theme-btn" style="background-color:#BAE1E0" onclick="toggleTheme('homonyme','#BAE1E0')">Homonyme</button><button class="theme-btn" style="background-color:#A6C8B6" onclick="toggleTheme('oeuvre','#A6C8B6')">&#338;uvre</button></div>
+            <div style="flex:1">
+               <div class="toolbar">
+                  <div><button id="sources-btn" onclick="toggleSources()">Sources</button><button onclick="toggleCitation('#e0d7ff')">Citations</button></div><button id="orig-trad-btn" onclick="toggleOrigTrad()">Original /
+                     Traduction</button></div>
+               <table>
+                  <thead>
+                     <tr>
+                        <th>Polenton</th>
+                        <th>Crinitus</th>
+                        <th>Giraldi</th>
+                     </tr>
+                  </thead>
+                  <tbody>
+                     <tr>
+                        <td>
+                           <div class="ab orig">Ipsum autem Nigidii ex ordine Licinius,
+                              Licinium Athilius, Athilium P. Terentius Afer secutus est. Huius de tempore disceptatio
+                              audiri inter studiosos magna solet. Bello quidem omnes Punico ipsum, sed aliqui secundo,
+                              quidam tertio captum atque Romam ductum putant. Proinde res Carthaginensis altius hoc loco
+                              repetenda est. Neque vero impresentia modo tollendum hoc ad dubium sed alias saepe ac multis
+                              in locis percommoda erit ista cognitio. Carthaginem igitur in Africa urbem maximam
+                              opulentissimamque atque imperiosam fuisse eandemque conditam a Didone, pudici et magni animi
+                              femina, et quae vulgatissima est fama dicit et testimonio multorum constat. Annos condita
+                              est Carthago ante Romam conditam duos et LXX. Eam primo Byrsam, deinde Carthaginem
+                              appellatam ferunt. Impetrato enim urbis condendae solo quantum bovis corium caperet, Dido
+                              haudquaquam femineo usu consilio tenuissimas in partes corio diligenter secto longe maius
+                              quam crederetur loci spatium amplexa est. Gens universa modo urbis ex nomine Carthaginenses,
+                              modo Poeni veterum Phoenicum lingua appellati sunt.Brevi nanque urbs haec, quae nova esset
+                              et inter Afros sita, cum virtute tum fortuna crevit mirum in modum adeoque viribus, opibus,
+                              populo aucta est quod non vicinos modo agros sed urbes veteres etiam atque magnas ac pene
+                              quicquid Africa contineret vi metuque subegit. Adde quod non contenta litoribus Africae in
+                              Siciliam transiit. Mare inter utramque, ubi est angustius, haudquaquam multum supra CXXVII
+                              milia passuum interfluens utriusque litora dirimit. Hinc Romanis belli gerendi causa primum
+                              cum Poenis orta. Nihil tum extra Italiam nec quicquam ipsa in Italia inter Padum flumen et
+                              Alpes tenebat Roma. Bellum autem indixit Poenis, quod illi capta Sicilia transire in Italiam
+                              cogitarent, hi ne transirent prohibere omni studio niterentur. Italiae quidem Sicilia ad
+                              passus MVc vicina est. Anno igitur ab urbe condita octavo et septuagesimo supra
+                              quadringentos ortum esse bellum primum Punicum T. Livius refert. Consules vero tunc esse Ap.
+                              Claudium, Appii Caeci fratrem, et M. Fulvium Flaccum A. Gellius scribit. Annos durasse
+                              primum hoc bellum quattuor et viginti Graecus belli huius scriptor Polybius tradit. Pax
+                              tandem Carthaginensibus fessis hac inter caetera condicione data est, quod omni Sicilia
+                              omnibusque insulis quae mediae sunt inter Africam et Italiam Carthaginenses excederent.
+                              Pacem hanc postea annos ad tres et XX Sagunto everso Hannibal violavit. Eo nanque auctore,
+                              quod iuvenis esset ferventis animi nec publico modo sed privato etiam odio populi Romani
+                              hostis, secundum ad bellum ventum est, quod adeo varium eventu et anceps fortuna gessit ut
+                              qui vicit populus Romanus propius periculo fuerit. Multis quidem atque maximis pugnis
+                              superior Hannibal magnam Italiae partem annos prope XVI tenuit. Neque vero dubium est
+                              futurum fuisse quod Romanos domuisset Hannibal, ni P. Scipionis virtus atque fortuna illum
+                              relinquere Italiam atque defendendam ad patriam redire in Africam coegisset. Anno denique
+                              septimo ac decimo posteaquam secundum hoc ceptum est bellum, pacem iterum impetrarunt Poeni.
+                              Tum condicione pacis qui Romani cives apud hostes capti erant omnes libere dimissi sunt. Hos
+                              inter memoratur Q. Terentius Culeo, qui, Romanus civis atque senator, triumphantem Scipionem
+                              more maiorum, ne ingratus beneficii videretur, capite ad signum restitutae libertatis
+                              pilleato secutus est. Fuit Scipio iste ille qui Africanus est postea superior ob devictam
+                              Africam appellatus. Hanc vero pacem annos durasse quidam etiam supra LX, aliqui modo L
+                              scribunt. Imperii namque amissi dolor magnos Carthaginensium animos incitavit tandem ut
+                              contra foedus ac temere moverent arma ; unde ortum bellum est tertium, quo magna Carthago
+                              quadriennium obsessa captaque hostiliter ac funditus eversa est. Romanorum imperator hoc
+                              bello fuit Scipio Africanus, superioris nepos. Partam enim ob victoriam iste quoque
+                              Africanus e vestigio avi, sed inferior ad superioris differentiam appellatus est. Quippe
+                              fato quodam videtur actum ut quam urbem avus secundo bello devicerat, eandem bellum tertio
+                              nepos everteret. Haec Punicis de bellis dixi quae vera sunt et scribentium historiis ac
+                              omnium peritorum testimonio approbantur. Terentium autem poetam nostrum, quem impresentia
+                              memorandum habemus, Carthaginensem fuisse captumque bello Punico ac Romam ductum et qui sunt
+                              docti fatentur omnes et quod habetur suum epigramma testatur. Sed ita differunt aliqui quod
+                              Romam, ut dixi, ductum ipsum et captum pars bello secundo, pars tertio esse putent ; eorum
+                              item qui secundo in bello conveniunt alii, quasi unus modo Terentius fuerit, velint esse
+                              illum ipsum qui superiorem triumphantem Scipionem, ut dixi ac T. Livius memorat, pilleato
+                              capite secutus est. Alii nominis aequivocatione hos falli dicunt, quod haudquaquam unus modo
+                              sed duo ita Terentii fuerint ut ille Romanus civis atque senator, hic poeta et origine
+                              Carthaginensis esset ; ille maturus aetate, hic puer ; ille pacis condicione dimissus de
+                              servitute ad libertatem venit, hic bello captus de libertate ad servitutem ductus est. Nempe
+                              alium Culeonem, alium poetam isti sed utrumque bello secundo fuisse et fatentur et volunt.
+                              Inventi quoque sunt (equidem istis assentior facile) qui Culeonem fuisse bello secundo
+                              poetam vero tertio captum bello dicant. Qua in re illud est maximum argumentum, quod suo in
+                              prologo poeta noster auctores haudquaquam uti aequales sibi sed uti superiores ac veteres
+                              nominat Ennium, Nevium, Plautum, qui et bello secundo viverent et stante pace haud multos
+                              annos ante bellum tertium vita defuncti sunt. Enimvero Terentius, poeta noster, aetate puer
+                              tertio, quantum existimant, Punico bello captus ac Romam ductus est. Sibi autem quod in
+                              patria nomen, qui parentes, quanta parentibus fortuna domi rebus quietis essent, incognitum
+                              habeo. Sed ipsum quae in eo erant facies omnisque habitus corporis ac morum forma nobili e
+                              familia natum esse dicebant. Nihil erat in eo rusticum, nihil plebeium, nihil deforme, nihil
+                              denique quod per contumeliam et ludibrium criminari posset. Ipsum modo fortuna patriae irata
+                              fecerat bello servum. Ea vero in caiamitate, quae magna esset, id solacii ac refugii habuit,
+                              quod servum ipsum Lucanus quidam, qui Terentius nomine vocaretur, homo locuples ac
+                              liberalis, emit. Puerum iste clara e fronte atque indole bona optimum habere ingenium
+                              coniectatus futurumque virum bonum et sapientem, si daretur doctrinis et artibus bonis,
+                              ratus litteris quasi filium erudiendum dedit, eruditumque iuvenem libertate pro ingenii
+                              merito ac stilli forma donavit. Nomen quoque suum ut Terentius appellaretur imposuit. Hunc
+                              enim morem habuit Roma, ut qui servi essent, si praediti modo virtute aliqua viderentur, hi
+                              nomen familiae dominorum haberent. Hinc enim, ut praeteream alios, et, quem peritum habuit
+                              Cicero servum, Tyro Tullius et, qui Latinorum primus poeta fuit, Livius, quod esset M. Livii
+                              Salinatoris servus, appellatus est. Scripsisse multa non memoratur Terentius noster.
+                              Scriptorum eius comoediae sex habentur modo. Earum in quattuor Maenandrum, qui eo in genere
+                              Graecos omnes poetas excelleret, in reliquis, quae duae sunt, Echyra et Phormio Apollodorum,
+                              poetam Corinthium, imitatus est. Ordo illis certus est nullus. Vbique tamen Andria prima
+                              est. Hanc recitante ipso priusquam aedilibus venderetur et audivit et laudavit magna cum
+                              admiratione Caecilius. Eunuchum vendidit Terentius octo milibus nummum. Denique, ut solent
+                              pauperes qui aliena sunt presertim in civitate locati et virtute aliqua praediti, maledictis
+                              invidentium mordebatur saepe. Ipse vero tum ut malivolum linguas et oculos fugeret, tum ut
+                              studia Graeca perquireret ac gustaret, navigavit Athenas. Vrbs erat in Graecia tum illa quae
+                              omnium esset laudatarum artium et doctrinarum parens et antiqua sedes. Neque vero ibi perdiu
+                              moratus est ; redire quidem statuit Romam. Quas igitur habebat sarcinulas ac simul quae
+                              caeteris cariora essent, scripta sua, et quicquid librorum secum habebat in navem imposuit.
+                              Ipse autem navigandi tedio Patras terrestri itinere profectus est hoc consilio, ut tractu
+                              inde brevi in Italiam navigaret. Sed longe secus quam animo cogitasset, ut saepe mortalibus
+                              accidit, res evenit. Navem quidem omnibus cum sarcinis ac scriptis turbatum mare circa
+                              Maliacum sinum adversis ventis obsorbuit. Ipse vero hanc ob rem tanto est dolore percussus
+                              ut profectus in Arcadiam morbo repentino captus diem obierit. Sepultus est de publico et
+                              magno cum honore. Audita enim nominis sui fama commovit Arcades ut munus id suppremum
+                              clarissimo poetae et libere et benigne persolverent. Epitaphium eius hoc esse tradunt: &laquo;
+                              Natus in excelsis tectis Carthaginis altae Romanis ducibus bellica praeda fui. Descripsi
+                              mores hominum iuvenumque senumque, qualiter et servi decipiant dominos, quid meretrix, quid
+                              leno dolis confingat avarus. Haec quicunque legit, sic puto cautus erit. &raquo; Iudicia vero hoc
+                              de poeta apud peritos sunt habita varia. Quippe omnibus qui comico sunt genere usi praestare
+                              ipsum verborum proprietate Servius grammaticus refert. Quintiliani vero sententia est
+                              scripta eius, etsi hoc in genere elegantissima videantur, plus tamen gratiae habitura
+                              fuisse, si intra versus trimetros stetissent. Hieronymus autem, vir doctissimus nec in
+                              sacris modo sed istis etiam ipsis atque omnibus in litteris quae bonos ad mores et
+                              humanitatem pertineant doctissimus, ordine isto Homerum, Virgilium, Menandrum, Terentium
+                              poetas clarissimos nominat, ut Latini modo poetae duo excellere adaequatique duobus summis
+                              poetis Graeciae videantur. Sextum vero ipsum modo comicos inter poetas, ut dixi, Nigidius
+                              Figulus numerat. Petrarcae autem iudicium fuit poetam hunc suo in genere et priores vicisse
+                              omnes et posteros adeo terruisse ut qui genus id tentare sit ausus post eum memoria dignum
+                              neminem habeamus. M. autem Varro, cuius sententiam magni faciunt semper docti, genera
+                              dicendi esse tria dixit. Quod esse in dicendo quidam uberes, aliqui mediocres, nonnulli
+                              graciles videantur. Terentio quidem ipse mediocritatem, Lucillio gracilitatem, Pacuvio
+                              ubertatem attribuit.
+                           </div>
+                           <div class="ab trad">Apr&egrave;s lui, selon l&#8217;ordre &eacute;tabli par
+                              Nigidius, vient Licinius, puis apr&egrave;s Licinius Attilius, puis apr&egrave;s Attilius Publius
+                              Terentius Afer. La question de l&#8217;&eacute;poque de ce dernier suscite encore aujourd&#8217;hui de vifs
+                              d&eacute;bats parmi les &eacute;rudits. Tous s&#8217;accordent &agrave; dire qu&#8217;il fut captur&eacute; et conduit &agrave; Rome lors
+                              d&#8217;une guerre punique, mais les uns pensent que ce fut la seconde, les autres la troisi&egrave;me.
+                              C&#8217;est pourquoi l&#8217;histoire de Carthage doit ici &ecirc;tre reprise plus en profondeur. Et ce
+                              d&eacute;veloppement ne doit pas seulement &ecirc;tre men&eacute; pour la pr&eacute;sente question, mais sera ailleurs
+                              utile souvent et en de nombreux endroits. Il est donc &eacute;tabli par la tradition la plus
+                              r&eacute;pandue et de nombreux t&eacute;moignages que Carthage, en Afrique, fut une ville tr&egrave;s grande,
+                              tr&egrave;s riche et tr&egrave;s puissante ; qu'elle fut fond&eacute;e par Didon, femme chaste et d&#8217;un grand
+                              courage. Carthage fut fond&eacute;e soixante-douze ans avant Rome. On rapporte qu&#8217;elle fut d&#8217;abord
+                              appel&eacute;e Byrsa, puis Carthage. Car Didon, ayant obtenu pour fonder la ville autant de terrain
+                              qu&#8217;une peau de b&#339;uf pouvait en contenir, usa d&#8217;un stratag&egrave;me nullement f&eacute;minin : d&eacute;coupant
+                              soigneusement la peau en lani&egrave;res tr&egrave;s fines, elle embrassa un espace de terrain bien plus
+                              vaste qu&#8217;on ne l&#8217;aurait cru. Tout ce peuple fut appel&eacute; tant&ocirc;t Carthaginois, d&#8217;apr&egrave;s le nom
+                              de la ville, tant&ocirc;t Puniques, selon la langue des anciens Ph&eacute;niciens. En peu de temps, en
+                              effet, cette cit&eacute;, alors r&eacute;cente et situ&eacute;e parmi les peuples d&#8217;Afrique, grandit d&#8217;une
+                              mani&egrave;re &eacute;tonnante, tant par sa valeur que par sa fortune et s&#8217;accrut &agrave; tel point en forces,
+                              en richesses et en population qu&#8217;elle soumit par la force et la crainte non seulement les
+                              campagnes voisines, mais encore des cit&eacute;s anciennes et puissantes, et presque tout ce que
+                              contenait l&#8217;Afrique. Ajoute que, non contente des rivages d&#8217;Afrique, elle passa en Sicile.
+                              La mer qui s&eacute;pare les deux terres, l&agrave; o&ugrave; elle est la plus &eacute;troite, ne d&eacute;passe gu&egrave;re cent
+                              vingt-sept mille pas et distingue les rivages de l&#8217;une et de l&#8217;autre. C&#8217;est de l&agrave; que naquit
+                              d'abord pour les Romains la cause de la guerre contre les Puniques. &Agrave; cette &eacute;poque, Rome ne
+                              poss&eacute;dait rien hors d&#8217;Italie, ni m&ecirc;me en Italie quelque territoire compris entre le P&ocirc; et
+                              les Alpes. Elle d&eacute;clara la guerre aux Puniques parce que ceux-ci, apr&egrave;s avoir pris la
+                              Sicile, projetaient de passer en Italie, tandis que les Romains s&#8217;effor&ccedil;aient de les en
+                              emp&ecirc;cher par tous les moyens. La Sicile est en effet distante de l&#8217;Italie d&#8217;environ mille
+                              cinq cents pas. Tite-Live rapporte que la premi&egrave;re guerre punique &eacute;clata l&#8217;an quatre cent
+                              soixante-dix-huit apr&egrave;s la fondation de Rome. Aulu-Gelle &eacute;crit que les consuls &eacute;taient alors
+                              Appius Claudius, fr&egrave;re d&#8217;Appius Caecus, et Marcus Fulvius Flaccus. Polybe, historien grec de
+                              cette guerre, rapporte que ce premier conflit dura vingt-quatre ans. Enfin, la paix fut
+                              accord&eacute;e aux Carthaginois &eacute;puis&eacute;s, &agrave; cette condition, entre autres, qu&#8217;ils &eacute;vacuassent toute
+                              la Sicile et toutes les &icirc;les situ&eacute;es entre l&#8217;Afrique et l&#8217;Italie. Hannibal viola cette paix
+                              vingt-trois ans apr&egrave;s en renversant Sagonte. Sous son impulsion (car il &eacute;tait jeune, d&#8217;un
+                              temp&eacute;rament ardent, et ennemi du peuple romain non seulement par positionnement politique,
+                              mais aussi par haine personnelle), on en vint &agrave; la seconde guerre, qui fut men&eacute;e avec des
+                              succ&egrave;s si variables et une fortune si incertaine que le peuple romain, bien que victorieux,
+                              fut plus pr&egrave;s du p&eacute;ril. Victorieux lors de nombreuses et tr&egrave;s grandes batailles, Hannibal
+                              occupa une grande partie de l&#8217;Italie pendant pr&egrave;s de seize ans. Il ne fait aucun doute que
+                              Hannibal aurait soumis les Romains, si la valeur et la fortune de Publius Scipion ne
+                              l&#8217;avaient contraint &agrave; quitter l&#8217;Italie et &agrave; retourner en Afrique pour d&eacute;fendre sa patrie.
+                              Enfin, la dix-septi&egrave;me ann&eacute;e apr&egrave;s le d&eacute;but de cette seconde guerre, les Puniques obtinrent
+                              de nouveau la paix. Alors, selon les conditions du trait&eacute;, tous les citoyens romains faits
+                              prisonniers chez l&#8217;ennemi furent rendus &agrave; la libert&eacute;. Parmi eux, on se souvient de Quintus
+                              Terentius Culeo, citoyen romain et s&eacute;nateur, qui suivit Scipion triomphant, la t&ecirc;te couverte
+                              du bonnet symbole de la libert&eacute; retrouv&eacute;e, selon la coutume des anc&ecirc;tres, afin de ne pas
+                              para&icirc;tre ingrat pour le bienfait re&ccedil;u. Ce Scipion &eacute;tait celui qui, pour avoir vaincu
+                              l&#8217;Afrique, fut ensuite appel&eacute; le Premier Africain. Certains &eacute;crivent que cette paix dura
+                              plus de soixante ans, d&#8217;autres seulement cinquante. En effet, la douleur caus&eacute;e par la perte
+                              de l&#8217;empire excita finalement l&#8217;orgueil des Carthaginois au point qu&#8217;ils prirent les armes
+                              contre le trait&eacute; avec t&eacute;m&eacute;rit&eacute; ; de l&agrave; naquit la troisi&egrave;me guerre, au cours de laquelle la
+                              grande Carthage, assi&eacute;g&eacute;e pendant quatre ans, fut prise par la force et enti&egrave;rement
+                              d&eacute;truite. Le commandant romain de cette guerre fut Scipion l&#8217;Africain, petit-fils du
+                              pr&eacute;c&eacute;dent. Celui-ci re&ccedil;ut &agrave; son tour le surnom d&#8217;Africain pour sa victoire, &agrave; l&#8217;exemple de
+                              son a&iuml;eul, mais on l&#8217;appela le Second Africain, pour le distinguer du Premier Africain. Il
+                              semble en effet que le destin ait voulu que la m&ecirc;me ville que le grand-p&egrave;re avait vaincue
+                              lors de la seconde guerre f&ucirc;t d&eacute;truite lors de la troisi&egrave;me par le petit-fils. Voil&agrave; ce que
+                              j&#8217;ai dit des guerres puniques : ce sont des faits vrais et confirm&eacute;s par les historiens et
+                              par le t&eacute;moignage de tous les &eacute;rudits. Quant &agrave; T&eacute;rence, notre po&egrave;te, dont nous avons ici &agrave;
+                              faire m&eacute;moire, tous les savants reconnaissent qu&#8217;il fut Carthaginois, qu&#8217;il fut captur&eacute; lors
+                              d&#8217;une guerre punique et conduit &agrave; Rome et son propre &eacute;pigramme en t&eacute;moigne. Cependant,
+                              certains diff&egrave;rent sur ce point : comme je l'ai dit, les uns pensent qu&#8217;il fut captur&eacute; et
+                              conduit &agrave; Rome lors de la seconde guerre, les autres lors de la troisi&egrave;me. Parmi ceux qui le
+                              rattachent &agrave; la seconde guerre, certains, comme s&#8217;il n&#8217;y avait eu qu&#8217;un seul T&eacute;rence,
+                              veulent qu&#8217;il soit celui-l&agrave; m&ecirc;me qui, comme je l&#8217;ai dit et comme le rapporte Tite-Live,
+                              suivit Scipion triomphant la t&ecirc;te couverte du bonnet de libert&eacute;. D'autres disent que ces
+                              auteurs se trompent &agrave; cause d'une confusion de noms : il n&#8217;y aurait pas eu un seul T&eacute;rence,
+                              mais deux, l&#8217;un citoyen romain et s&eacute;nateur, l&#8217;autre po&egrave;te et d&#8217;origine carthaginoise ; l&#8217;un
+                              m&ucirc;r d&#8217;&acirc;ge, l&#8217;autre enfant ; l&#8217;un affranchi par le trait&eacute; de paix, l&#8217;autre r&eacute;duit en
+                              esclavage par la guerre. Ces derniers reconnaissent et soutiennent que tous deux v&eacute;curent
+                              lors de la seconde guerre. D&#8217;autres encore (et je m&#8217;accorde volontiers avec eux) estiment
+                              que Culeo fut captur&eacute; lors de la seconde guerre, tandis que le po&egrave;te le fut lors de la
+                              troisi&egrave;me. L&#8217;argument principal en faveur de cette th&egrave;se est que, dans le prologue d'une de
+                              ses pi&egrave;ces, notre po&egrave;te cite comme auteurs non pas des contemporains, mais des auteurs
+                              pass&eacute;s plus anciens : Ennius, Naevius, Plaute, qui vivaient encore lors de la seconde guerre
+                              et moururent peu d&#8217;ann&eacute;es avant la troisi&egrave;me, durant la paix. En v&eacute;rit&eacute;, T&eacute;rence, notre
+                              po&egrave;te, encore enfant, fut, selon toute vraisemblance, captur&eacute; lors de la troisi&egrave;me guerre
+                              punique et conduit &agrave; Rome. Je ne sais rien de son nom dans sa patrie, de ses parents ni de
+                              la situation de sa famille chez lui en temps de paix. Mais on disait que son visage, toute
+                              sa tenue corporelle et la noblesse de ses mani&egrave;res t&eacute;moignaient d&#8217;une naissance dans une
+                              famille distingu&eacute;e. Il n&#8217;y avait en lui rien de rustique, rien de vulgaire, rien de
+                              difforme, rien enfin qui p&ucirc;t donner prise &agrave; l&#8217;injure ou &agrave; la raillerie. Seul un destin
+                              hostile &agrave; sa patrie l&#8217;avait rendu esclave &agrave; cause de la guerre. Dans ce grand malheur, il
+                              trouva cependant ce r&eacute;confort et ce refuge : il fut achet&eacute; comme esclave par un certain
+                              Lucanus, appel&eacute; Terentius, homme riche et g&eacute;n&eacute;reux. Celui-ci, jugeant d&#8217;apr&egrave;s le front
+                              lumineux de l&#8217;enfant et la noblesse de son caract&egrave;re qu&#8217;il poss&eacute;dait une excellente
+                              disposition et qu&#8217;il deviendrait un homme bon et sage si on le formait aux savoirs et aux
+                              arts lib&eacute;raux, le fit instruire comme un fils et, devenu jeune homme instruit, lui accorda
+                              la libert&eacute; en r&eacute;compense de son talent et de l&#8217;&eacute;l&eacute;gance de son style. Il lui donna aussi son
+                              propre nom, afin qu&#8217;il s&#8217;appel&acirc;t T&eacute;rence. Rome avait en effet cette coutume que les
+                              esclaves, pourvu qu&#8217;ils paraissent dot&eacute;s de quelque m&eacute;rite, prissent le nom de la famille de
+                              leurs ma&icirc;tres. Ainsi, pour ne citer que ces exemples, le serviteur &eacute;rudit de Cic&eacute;ron, Tiron,
+                              fut appel&eacute; Tullius, et Livius, le premier po&egrave;te latin, re&ccedil;ut ce nom parce qu&#8217;il &eacute;tait
+                              l&#8217;esclave de Marcus Livius Salinator. On ne se souvient pas de beaucoup d'&eacute;crits de T&eacute;rence.
+                              De ses &eacute;crits, on ne poss&egrave;de que six com&eacute;dies. Dans quatre d&#8217;entre elles, il imita M&eacute;nandre,
+                              qui surpassait tous les po&egrave;tes grecs dans ce genre ; dans deux autres, L&#8217;H&eacute;cyre et Phormion,
+                              il imita Apollodore, po&egrave;te de Corinthe. Il n&#8217;y a pas d&#8217;ordre certain entre ces pi&egrave;ces.
+                              Toutefois, l&#8217;Andrienne est partout plac&eacute;e la premi&egrave;re. Avant qu&#8217;elle ne f&ucirc;t vendue aux
+                              &eacute;diles, T&eacute;rence la lut lui-m&ecirc;me en public : Caecilius l&#8217;entendit et la loua avec une grande
+                              admiration. T&eacute;rence vendit L&#8217;Enuque pour huit mille sesterces. Enfin, comme il arrive
+                              d&#8217;ordinaire aux pauvres, surtout &agrave; ceux qui sont &eacute;tablis dans une cit&eacute; &eacute;trang&egrave;re et dou&eacute;s de
+                              quelque m&eacute;rite, il &eacute;tait souvent mordu par les m&eacute;disances des envieux. Lui-m&ecirc;me alors, &agrave; la
+                              fois pour fuir les langues et les regards malveillants et pour rechercher et go&ucirc;ter les
+                              &eacute;tudes grecques, s&#8217;embarqua pour Ath&egrave;nes. Cette ville &eacute;tait alors en Gr&egrave;ce celle qui passait
+                              pour la m&egrave;re et l&#8217;antique demeure de tous les arts et de toutes les sciences dignes de
+                              louange. Il ne s&#8217;y attarda pourtant pas longtemps mais d&eacute;cida de revenir &agrave; Rome. Il chargea
+                              donc avec lui sur un navire ses modestes bagages et, en m&ecirc;me temps, ce qu&#8217;il avait de plus
+                              pr&eacute;cieux : ses &eacute;crits et tous les livres qu&#8217;il poss&eacute;dait. Lui-m&ecirc;me, las de la navigation, se
+                              mit en route par voie terrestre vers Patras, avec l&#8217;intention de s&#8217;embarquer de l&agrave; pour une
+                              courte travers&eacute;e vers l&#8217;Italie. Mais les choses se pass&egrave;rent tout autrement qu&#8217;il ne l&#8217;avait
+                              imagin&eacute;, comme il arrive souvent aux mortels. Le navire, avec tous les bagages et les
+                              manuscrits, fut englouti par une mer d&eacute;mont&eacute;e, sous l&#8217;effet de vents contraires, pr&egrave;s du
+                              golfe Maliaque. Quant &agrave; T&eacute;rence, il fut frapp&eacute; d&#8217;une douleur si violente &agrave; cause de ce
+                              d&eacute;sastre qu'il se rendit en Arcadie o&ugrave;, saisi d&#8217;une maladie soudaine, il mourut. Il fut
+                              enseveli aux frais de la communaut&eacute; et avec de grands honneurs. En effet, la renomm&eacute;e de son
+                              nom, parvenue jusqu&#8217;aux Arcadiens, les poussa &agrave; accomplir librement et g&eacute;n&eacute;reusement ce
+                              dernier devoir envers un po&egrave;te tr&egrave;s illustre. On rapporte que son &eacute;pitaphe fut celle-ci : &laquo;
+                              N&eacute; sous les hauts toits de la noble Carthage, je fus butin de guerre des chefs romains. J&#8217;ai
+                              d&eacute;crit les m&#339;urs des hommes, des jeunes et des vieux, comment les esclaves trompent leurs
+                              ma&icirc;tres, ce que la courtisane, ce que le maquereau avare inventent par ruse. Quiconque lit
+                              ceci, je pense, sera prudent. &raquo; Les jugements port&eacute;s par les &eacute;rudits sur ce po&egrave;te furent
+                              vari&eacute;s. En effet, le grammairien Servius rapporte qu&#8217;il l&#8217;emporte sur tous ceux qui ont
+                              pratiqu&eacute; le genre comique par la justesse du vocabulaire. Quant &agrave; Quintilien, il estime que
+                              ses &eacute;crits, bien qu&#8217;ils paraissent tr&egrave;s &eacute;l&eacute;gants dans ce genre, auraient eu encore plus de
+                              charme s&#8217;ils &eacute;taient rest&eacute;s dans le cadre du vers trim&egrave;tre. J&eacute;r&ocirc;me, homme tr&egrave;s savant non
+                              seulement dans les mati&egrave;res sacr&eacute;es, mais aussi dans ces disciplines m&ecirc;mes et dans toutes
+                              les lettres qui touchent aux bonnes m&#339;urs et &agrave; l&#8217;humanit&eacute;, cite dans cet ordre Hom&egrave;re,
+                              Virgile, M&eacute;nandre et T&eacute;rence comme les po&egrave;tes les plus illustres, de sorte que les deux
+                              po&egrave;tes latins semblent exceller et &eacute;galer les deux plus grands po&egrave;tes de la Gr&egrave;ce. Nigidius
+                              Figulus, pour sa part, compte T&eacute;rence parmi les po&egrave;tes comiques, comme je l&#8217;ai dit. Le
+                              jugement de P&eacute;trarque fut que ce po&egrave;te avait, dans son genre, surpass&eacute; tous ses
+                              pr&eacute;d&eacute;cesseurs et tellement effray&eacute; ses successeurs qu&#8217;apr&egrave;s lui on ne trouve personnepour
+                              oser s&#8217;y essayer de mani&egrave;re digne de m&eacute;moire. Quant &agrave; Marcus Varron, dont l&#8217;opinion est
+                              toujours tenue en grand honneur par les savants, il d&eacute;clara qu&#8217;il existait trois genres de
+                              style. Certains semblent &ecirc;tre abondants, d&#8217;autres mesur&eacute;s d&#8217;autres encore simples. Il
+                              attribuait la mesure &agrave; T&eacute;rence, la simplicit&eacute; &agrave; Lucilius, l&#8217;abondance &agrave; Pacuvius.
+                           </div>
+                        </td>
+                        <td>
+                           <div class="ab orig">P. Terentius poeta comicus carthaginensis
+                              patria fuit. Romam perductus traditur cum in tenera aetate foret. Quibus potissimum bellis
+                              id acciderit parum compertum est, ut refert Aelius Donatus ex Fenestellae commentariis.
+                              Illud pro certo constat eum Romae diligentia Terentii Lucani Patroni accurate institutum
+                              atque liberalibus disciplinis eruditum. Cumque facilitate ingenii et elegantia in primis
+                              excelleret, brevi consecutus est ut a Terentio patrono esset manumissus. Per ea tempora in
+                              scaena floruit quibus praeclari atque egregii cives Romae habiti sunt M. Marcellus Publius
+                              Scipio, Q. Fabius maximus. Neque desunt autores qui scribant eundem Terentium maxima
+                              familiaritate vixisse cum Publio Scipione et C. Laelio saepeque solitum apud nobiliores
+                              civitatis coenitare, qua in re dum placere illis omni opera nititur eorumque commodis
+                              inservire ad summam inopiam traditur redactus. Statium praeterea Caecilium, qui scribendis
+                              comoediis excelluit, magna diligentia observavit eique suas fabulas more veterum recitare
+                              consuevit. Comoedias VI composuit easque ab Apollodoro et Menandro Poetis graecis in
+                              sermonem Latinum convertit. Tanta sermonis elegantia et proprietate ut eruditorum iudicio
+                              nihil perfectius aut absolutius in eo scribendi genere habitum sit apud Latinos. Secutus est
+                              in his Q. Ennium, M. Plautum et Naevium, ut ipse testatur cum suis calumniatoribus
+                              respondet. Phormionem et Hecyram ab Apollodoro transtulit ; reliquas quattuor a Menandro.
+                              Aelius Donatus, qui complura diligentissime de hoc poeta scribit, cum alia multa in eo
+                              commendat, tum praecipuum dicit quod in scribendis fabulis ea arte usus est, ut et morem
+                              antiquum retinuerit, et ita temperaverit affectus ut neque ad tragicam magnitudinem
+                              intumescat neque abiiciatur ad historicam, quod minime factum est, inquit, a Plauto, Afranio
+                              et caeteris comoediarum scriptoribus. M. Cicero in epistola ad T. Atticum refert P.
+                              Terentium esse optimum authorem latinitatis eiusque fabulas multos existimasse propter
+                              elegantiam sermonis a C. Laelio scriptas. Quam opinionem idem Terentius maxime scribitur
+                              confirmasse, quo magis calumniatores suos in odium traheret. Sic enim refert in Adelphis
+                              fabula sub persona prologi. 
+                              <lg xmlns="http://www.tei-c.org/ns/1.0">
+                                 Quod illi maledictum vehemens existimant,<br xmlns="">
+                                  Eam laudem ducit maximam, cum illis placet<br xmlns="">
+                                  Qui vobis universis et populo placent,<br xmlns="">
+                                  Quorum opera in bello, in otio, in negotio<br xmlns="">
+                                  Quisque tempore usus est sine superbia.<br xmlns="">
+                                 
+                              </lg> Horatius Flaccus veterum poetarum optimus censor in Caecilio gravitatem ; in Terentio
+                              artem constituit qua inter caeteros comicos mirifice excelluit. Quod et Quintilianus videtur
+                              sentire in libris ad Marcellum Victorium. Sed idem tamen inquit maiorem gratiam habuisset,
+                              si intra trimetros constitisset. Ausonius quoque Virgilium Homero, Terentium Menandro
+                              adiungit ; eique elegantiam Latini sermonis praecipue tribuit : 
+                              <lg xmlns="http://www.tei-c.org/ns/1.0">
+                                 Tu quoque qui Latium lecto sermone Terenti<br xmlns="">
+                                  Comis et astricto percurris pulpita socco.<br xmlns="">
+                                 
+                              </lg> Traditum est illum post editas aliquot Romae fabulas in graeciam adnavigasse, quo
+                              facilius disciplinas Graecorum atque instituta perciperet plurimasque fabulas a Poeta
+                              Menandro in latinum convertisse quae facto naufragio perierunt. De obitu illius varia
+                              scribunt autores : in Arcadia obiisse cum alii plures testantur, tum poeta Ausonius ob
+                              nimium dolorem amissarum fabularum quas ipse navi praemiserat. De forma illius atque effigie
+                              referuntur complura ab Aelio Donato, qui eiusdem Comoedias magna eruditione interpretatus
+                              est. Argumenta illa quae Terentianis fabulis praeponuntur a Sulpitio Apollinari illustri
+                              grammatico composita sunt. Quod cum aliis multis argumentis, tum maxime antiquitate codicum
+                              probari potest in quibus nomen Sulpitii legitur. 
+                           </div>
+                           <div class="ab trad">Le po&egrave;te comique Publius T&eacute;rence &eacute;tait
+                              originaire de Carthage. On rapporte qu'il fut conduit &agrave; Rome alors qu'il &eacute;tait encore dans
+                              sa tendre enfance ; quant &agrave; savoir pr&eacute;cis&eacute;ment au cours de quelles guerres cela arriva, on
+                              ne le sait gu&egrave;re, comme le rapporte Aelius Donatus d'apr&egrave;s les commentaires de Fenestella.
+                              Ce qui est &eacute;tabli avec certitude, c'est qu'&agrave; Rome, gr&acirc;ce &agrave; la diligence de son patron
+                              Terentius Lucanus, il fut instruit avec soin et form&eacute; aux disciplines lib&eacute;rales. Puisqu&#8217;il
+                              excellait par-dessus tout par la facilit&eacute; de son g&eacute;nie et son &eacute;l&eacute;gance, il obtint rapidement
+                              d'&ecirc;tre affranchi par son patron T&eacute;rence. Il brilla sur la sc&egrave;ne &agrave; une &eacute;poque o&ugrave; l'on
+                              comptait &agrave; Rome des citoyens illustres et &eacute;minents : M. Marcellus, Publius Scipion et Q.
+                              Fabius Maximus. Il ne manque pas d&#8217;auteurs pour &eacute;crire que ce m&ecirc;me T&eacute;rence v&eacute;cut dans la
+                              plus grande familiarit&eacute; avec Publius Scipion et C. Laelius et qu&#8217;il avait souvent l'habitude
+                              de d&icirc;ner chez les plus nobles de la cit&eacute;. Et alors qu'il s'effor&ccedil;ait par tous les moyens de
+                              leur plaire en se mettant au service de leurs int&eacute;r&ecirc;ts, on rapporte qu'il fut r&eacute;duit &agrave; la
+                              plus extr&ecirc;me indigence. Par ailleurs, il observa avec une grande attention Caecilius
+                              Statius, qui excella dans l'&eacute;criture des com&eacute;dies et il avait coutume de lui r&eacute;citer ses
+                              propres pi&egrave;ces, selon la mode des anciens. Il composa six com&eacute;dies et les traduisit du grec
+                              en latin d'apr&egrave;s les po&egrave;tes Apollodore et M&eacute;nandre. Il le fit avec une telle &eacute;l&eacute;gance et une
+                              telle propri&eacute;t&eacute; de langage que, de l'avis des savants, rien de plus parfait ni de plus
+                              achev&eacute; n'a &eacute;t&eacute; produit chez les Latins dans ce genre d'&eacute;criture. Il suivit en cela Q.
+                              Ennius, M. Plaute et Naevius, comme il en t&eacute;moigne lui-m&ecirc;me lorsqu'il r&eacute;pond &agrave; ses
+                              d&eacute;tracteurs. Il traduisit le Phormion et L'H&eacute;cyre d'Apollodore, et les quatre autres de
+                              M&eacute;nandre. Aelius Donatus, qui &eacute;crit fort abondamment et avec la plus grande diligence sur ce
+                              po&egrave;te, lorsqu&#8217;il loue chez lui de nombreuses qualit&eacute;s, dit que la principale r&eacute;side dans
+                              l'art qu'il employa en &eacute;crivant ses pi&egrave;ces : il sut &agrave; la fois conserver la coutume antique
+                              et temp&eacute;rer les affects, de sorte qu'il ne s'enfle jamais jusqu'&agrave; la grandeur tragique, ni
+                              ne s'abaisse au ton de l'historien ; ce qui, dit-il, fut bien peu le cas chez Plaute,
+                              Afranius et les autres auteurs de com&eacute;dies. Marcus Cic&eacute;ron, dans une lettre &agrave; Titus Atticus,
+                              rapporte que Publius T&eacute;rence est le meilleur auteur de la langue latine, et que beaucoup ont
+                              estim&eacute; que ses pi&egrave;ces avaient &eacute;t&eacute; &eacute;crites par C. Laelius en raison de l'&eacute;l&eacute;gance du style.
+                              On &eacute;crit que T&eacute;rence lui-m&ecirc;me confirma surtout cette opinion afin de rendre ses
+                              calomniateurs plus odieux encore. C'est ainsi qu'il s'exprime dans la pi&egrave;ce des Adelphes,
+                              sous le masque du prologue : &laquo; Ce que ces gens-l&agrave; estiment &ecirc;tre une insulte violente, il
+                              juge, lui, que c'est le plus grand des &eacute;loges, puisqu'il pla&icirc;t &agrave; ceux qui plaisent &agrave; vous
+                              tous et au peuple, de l'assistance desquels dans la guerre, dans les loisirs, dans les
+                              affaires, chacun en son temps a us&eacute; sans orgueil. &raquo; Horace, le meilleur juge des anciens
+                              po&egrave;tes, reconna&icirc;t la gravit&eacute; chez Caecilius ; chez T&eacute;rence, il &eacute;tablit l'art par lequel il
+                              excella merveilleusement parmi les autres auteurs comiques. C&#8217;est ce que Quintilien semble
+                              &eacute;galement penser dans ses livres adress&eacute;s &agrave; Marcellus Victorius. Mais ce m&ecirc;me auteur dit
+                              cependant qu&#8217;il aurait eu plus de gr&acirc;ce encore s'il s'en &eacute;tait tenu aux trim&egrave;tres. Ausone,
+                              lui aussi, associe Virgile &agrave; Hom&egrave;re et T&eacute;rence &agrave; M&eacute;nandre ; il attribue &agrave; T&eacute;rence, tout
+                              particuli&egrave;rement, l'&eacute;l&eacute;gance du discours latin : &laquo; Toi aussi, qui pares le Latium d'un
+                              langage choisi, T&eacute;rence, et parcours les tr&eacute;teaux, le pied chauss&eacute; du socque serr&eacute;. &raquo; On
+                              rapporte qu'apr&egrave;s avoir fait jouer quelques pi&egrave;ces &agrave; Rome, il fit voile vers la Gr&egrave;ce afin
+                              de mieux s'impr&eacute;gner des disciplines et des m&#339;urs des Grecs. Il y aurait traduit du po&egrave;te
+                              M&eacute;nandre vers le latin un tr&egrave;s grand nombre de pi&egrave;ces qui p&eacute;rirent dans un naufrage. Sur son
+                              d&eacute;c&egrave;s, les auteurs &eacute;crivent des versions diverses : plusieurs attestent qu'il mourut en
+                              Arcadie, ainsi que le po&egrave;te Ausone, en raison de la douleur excessive caus&eacute;e par la perte
+                              des pi&egrave;ces qu'il avait lui-m&ecirc;me envoy&eacute;es par bateau avant lui. Sur son apparence et ses
+                              traits, de nombreux d&eacute;tails sont rapport&eacute;s par Aelius Donatus, qui a comment&eacute; les com&eacute;dies
+                              de ce m&ecirc;me auteur avec une grande &eacute;rudition. Quant aux arguments qui sont plac&eacute;s en t&ecirc;te des
+                              pi&egrave;ces de T&eacute;rence, ils ont &eacute;t&eacute; compos&eacute;s par l'illustre grammairien Sulpitius Apollinaris.
+                              Cela peut &ecirc;tre prouv&eacute; par de nombreuses preuves, mais surtout par l'anciennet&eacute; des
+                              manuscrits dans lesquels on lit le nom de Sulpitius.
+                           </div>
+                        </td>
+                        <td>
+                           <div class="ab orig">Quem sequebatur P. Terentius Apher ex
+                              Carthagine, ut ait Donatus ; qui quo ipsius vitam copiosius perscribit, eo ego vobis illam
+                              praefsius referam. Fuit ergo Terentius libertinus, ut Metius scribit, vel, ut scribit
+                              Donatus, Terentii Lucani senatoris servus, a quo ob ingenium et formam non institutus modo
+                              liberaliter, sed et mature manumissus. Paulus Orosius captum existimat his verbis : Scipio,
+                              inquit, iam cognomento Africanus, triumphans urbem ingressus est, quem Terentius, qui postea
+                              comicus fuit, ex nobilissimis Carthaginiensibus captivis pileatus, quod indultae libertatis
+                              insigne fuit, triumphantem post currum secutus est. Quam opinionem praeter alios etiam ille
+                              secutus est, quisquis fuit, qui Terentio epitaphium condidit : 
+                              <lg xmlns="http://www.tei-c.org/ns/1.0">
+                                 Natus in excelsis tectis Carthaginis altae,<br xmlns="">
+                                  Romanis ducibus bellica praeda fui.<br xmlns="">
+                                 
+                              </lg> Quam rem Donatus improbat nec fieri ullo modo potuisse Fenestella docere ait, cum in
+                              fine secundi belli Punici et ante initium tertii natus sit et mortuus Terentius. Declarat et
+                              T. Livius et Valerius Maximus eum non fuisse Terentium poetam qui ductus fuerit in triumphum
+                              ; eum enim Terentium Culleonem quempiam fuisse aiunt, Romanum senatorem, qui per aliquod
+                              tempus captivus in servitute apud Poenos fuerat. Neque etiam si a Numidis aut Getulis
+                              Terentius captus esset, ad ducem Romanum pervenire potuisset, nullo commercio inter Italicos
+                              et Aphros adhuc coepto, nisi post deletam Carthaginem. Hic vero poeta Terentius Romae cum
+                              multis ex nobilioribus familiariter vixit, sed maxime cum Scipione Aphricano et cum Laelio.
+                              Quibus etiam corporis gratia et aetatis flore, ut Portius ait, conciliatus existimatur ;
+                              quod et ipsum Fenestella arguit, contendens utroque natu maiorem fuisse, quod et Santra
+                              credidit, ut mox dicam. Cornelius Nepos aequales fuisse tradidit. Hanc tamen suspicionem
+                              Portius poeta suis versibus auxit, qui apud Donarum leguntur. Scripsit in primis Comoedias
+                              sex, quae habentur. Quarum quidem duae Phormio et Hecyra ab Apollodoro, quatuor reliquas a
+                              Menandro transtulit. Quarum primam Andriam cum Aedilibus daret, iussus est eam ante Caecilio
+                              recitare, ut ex Hieronymo didicimus, non Caerio, ut passim apud Donatum legitur. Adiutum
+                              Terentium in fabulis scribendis a Scipione et Laelio constans fama est, quam et ipse auxit,
+                              quod nisi leviter se tutari in Adelphorum prologo visus est. Idque ea causa fecisse fertur,
+                              quia sciebat Laelio et Scipioni hoc non ingratum esse. Quintus etiam Memmius in oratione pro
+                              se, P. Africanum ait a Terentio personam mutuatum esse, ut quae domi luserat, ipse nomine
+                              Terentii in scenam deferret. Valgius idem suo carmine innuit. Nepos item Cornelius Laelium
+                              ait, cum in Puteolano esset, quaedam recitasse a se facta carmina, quae in Heautontimorumeno
+                              leguntur. Cicero quoque, ad Atticum quadam epistola, Terentii fabulas propter elegantiam
+                              sermonis a multis ait existimatum a Laelio scriptas. Nihilominus grammaticus Santra alios
+                              ait Terentio potius operam praestitisse in comoediis scribendis quam Laelium et Scipionem,
+                              quod hi tunc temporis admodum iuvenes essent nominatque inter hos qui viverent, Sulpitium
+                              Gallum, Q. Fabium Labeonem, et M. Pompilium, qui ea tempestate grandiores natu, et poetae,
+                              et clarissimi cives haberentur. Post vero sex editas iam fabulas, quae in manibus habentur,
+                              quintum et trigesimum egressus annum, causa evitandae opinionis, quia videbatur aliena pro
+                              suis edere, in Graeciam nauigauit ; alii tradunt, ut Graecorum instituta ac mores
+                              perciperet, quos perinde in fabulis exprimeret. De morte etiam varia traduntur. Q.
+                              Consentius eum redeuntem e Graecia in mari periisse dicit, cum centum et octo fabulis
+                              conversis a Menandro ; alii Romam rediisse eum prodidere et ob amissas fabulas taedio et
+                              morbo confectum ; alii mortuum esse in Arcadia Stymphali sinu Leucadiae, morbo implicitum
+                              dolore ac taedio amissarum fabularum, Cn. Cornelio Dolabella, et M. Fulvio nobiliore
+                              Consulibus. Id quod et Ausonius subinnuit, cum ait : 
+                              <lg xmlns="http://www.tei-c.org/ns/1.0">
+                                 Sex dramata fabellarum<br xmlns="">
+                                  Arcadiae medio qui iacet in gremio.<br xmlns="">
+                                 
+                              </lg> Volcatius mortuum cecinit cum in Asiam iter faceret : ubi navem conscendisset, nunquam
+                              visum amplius. Fuisse autem statura Terentius dicitur mediocri, gracili corpore, colore
+                              fusco. Filiam reliquit, quae equiti Romano nupsit. Hortos viginti iugerum via Appia habuit
+                              ad Martis villam. Quam ob causam Portium reprehendit Donatus, qui ad eam redactum inopiam
+                              suo carmine dixerat ut ne domum quidem conductitiam haberet. Afranius poeta, cuius infra
+                              imaginem videbimus, Terentium omnibus Comicis praefert, scribens in Compitalibus : 
+                              <lg xmlns="http://www.tei-c.org/ns/1.0">
+                                 Terentio non similem dices quempiam.<br xmlns="">
+                                 
+                              </lg> Volcatius autem, ut est apud Gellium et Donatum, non solum Naevio et Plauto et
+                              Caecilio, sed Licinio quoque et Attilio indigne (ut mihi quidem videtur) postponit.
+                              Terentium etiam permagni fecit M. Tullius : eius enim fabulas pro pugillari habuisse ex ipso
+                              Cicerone didicimus, sciam licet aliter ab aliis locum eum exponi solere. Citat et Donatus
+                              eiusdem Ciceronis poema, cuius titulus Limon, in quo de Terentio hos legi versus ait : 
+                              <lg xmlns="http://www.tei-c.org/ns/1.0">
+                                 Tu quoque, qui solus lecto sermone Terenti<br xmlns="">
+                                  Conversum expressumque latina voce Menandrum<br xmlns="">
+                                  In medio populi sedatis vocibus effers,<br xmlns="">
+                                  Quid, quod come loquens, ac omnia dulcia dicis ?<br xmlns="">
+                                 
+                              </lg> Afferuntur et ab eodem Donato C. Caesaris versus, quos in Caesaris imagine
+                              recensuimus. Alia etiam colliguntur de Terentio, quae in praesentia missa facio. 
+                           </div>
+                           <div class="ab trad">&Agrave; celui-ci [Caecilius] succ&eacute;dait Publius
+                              T&eacute;rence l'Africain, originaire de Carthage, comme le dit Donat ; et plus celui-ci d&eacute;crit sa
+                              vie avec abondance, plus je vous la rapporterai, pour ma part, avec concision. T&eacute;rence fut
+                              donc un affranchi, comme l'&eacute;crit Metius, ou, selon Donat, l'esclave du s&eacute;nateur Terentius
+                              Lucanus, par lequel, en raison de son g&eacute;nie et de sa beaut&eacute;, il fut non seulement instruit
+                              dans les arts lib&eacute;raux, mais aussi affranchi pr&eacute;cocement. Orose estime qu'il fut fait
+                              prisonnier, s'exprimant en ces termes : &laquo; Scipion, dit-il, portant d&eacute;j&agrave; le surnom
+                              d'Africain, entra dans la ville en triomphe ; T&eacute;rence, qui fut plus tard po&egrave;te comique,
+                              figurait parmi les captifs carthaginois les plus nobles et, coiff&eacute; du pileus (ce qui &eacute;tait
+                              l'insigne de la libert&eacute; accord&eacute;e), il suivit le char du triomphateur. &raquo; Cette opinion fut
+                              suivie, entre autres, par l'auteur (quel qu'il soit) qui composa l'&eacute;pitaphe de T&eacute;rence : &laquo;
+                              N&eacute; sous les toits &eacute;lev&eacute;s de la haute Carthage, je fus, pour les chefs romains, une proie de
+                              guerre. &raquo; Pourtant, Donat r&eacute;prouve cette version et affirme, d'apr&egrave;s l'enseignement de
+                              Fenestella, qu'elle n'a pu se produire en aucune mani&egrave;re, puisque T&eacute;rence est n&eacute; et est mort
+                              entre la fin de la seconde guerre punique et le d&eacute;but de la troisi&egrave;me. Tite-Live et Val&egrave;re
+                              Maxime d&eacute;clarent que ce n'est pas le po&egrave;te T&eacute;rence qui fut men&eacute; en triomphe ; ils affirment
+                              en effet qu&#8217;il s&#8217;agissait d&#8217;un certain Terentius Culleo, s&eacute;nateur romain, qui avait &eacute;t&eacute;
+                              pendant un certain temps captif en servitude chez les Carthaginois. De plus, m&ecirc;me si T&eacute;rence
+                              avait &eacute;t&eacute; captur&eacute; par les Numides ou les G&egrave;tes, il n'aurait pu parvenir jusqu'&agrave; un g&eacute;n&eacute;ral
+                              romain, car aucun commerce n'avait encore &eacute;t&eacute; entam&eacute; entre les Italiens et les Africains
+                              avant la destruction de Carthage. En v&eacute;rit&eacute;, notre po&egrave;te T&eacute;rence v&eacute;cut &agrave; Rome dans la
+                              familiarit&eacute; de nombreux personnages parmi les plus nobles, mais surtout avec Scipion
+                              l'Africain et Laelius. Et on estime qu'il s'est concili&eacute; leurs faveurs gr&acirc;ce &agrave; la gr&acirc;ce de
+                              son corps et &agrave; la fleur de son &acirc;ge, comme le dit Porcius ; ce que Fenestella conteste
+                              d'ailleurs, soutenant qu'il &eacute;tait plus &acirc;g&eacute; que l'un et l'autre, ce que Santra crut
+                              &eacute;galement, comme je le dirai bient&ocirc;t. Cornelius Nepos rapporte qu'ils &eacute;taient du m&ecirc;me &acirc;ge.
+                              Cependant, le po&egrave;te Porcius accrut cette suspicion par ses vers, que l'on lit chez Donat. Il
+                              &eacute;crivit principalement six com&eacute;dies, que nous poss&eacute;dons : il traduisit d'Apollodore deux
+                              d'entre elles, le Phormion et L'H&eacute;cyre, et les quatre autres de M&eacute;nandre. Alors qu&#8217;il
+                              pr&eacute;sentait la premi&egrave;re, l'Andrienne, aux &eacute;diles, il re&ccedil;ut l'ordre de la r&eacute;citer d'abord
+                              devant Caecilius, comme nous l'avons appris de J&eacute;r&ocirc;me (et non &agrave; Caerius, comme on le lit
+                              couramment chez Donat). C&#8217;est une rumeur constante que T&eacute;rence fut aid&eacute; dans l'&eacute;criture de
+                              ses pi&egrave;ces par Scipion et Laelius, rumeur qu'il accrut lui-m&ecirc;me, car il ne sembla s'en
+                              d&eacute;fendre que superficiellement dans le prologue des Adelphes. Et on rapporte qu&#8217;il agit
+                              ainsi parce qu&#8217;il savait que cela n'&eacute;tait pas d&eacute;plaisant &agrave; Laelius et Scipion. Quintus
+                              Memmius &eacute;galement, dans son plaidoyer pour lui-m&ecirc;me, dit que Publius l'Africain emprunta le
+                              masque de T&eacute;rence afin de porter sur sc&egrave;ne, sous le nom de ce dernier, les pi&egrave;ces qu'il
+                              avait compos&eacute;es par jeu chez lui. Valgius sugg&egrave;re la m&ecirc;me chose dans son po&egrave;me. De m&ecirc;me,
+                              Cornelius Nepos raconte que Laelius, alors qu'il se trouvait dans sa villa de Pouzzoles,
+                              r&eacute;cita certains vers compos&eacute;s par lui-m&ecirc;me, que l'on retrouve dans l'H&eacute;autontimoroum&eacute;nos.
+                              Cic&eacute;ron aussi, dans une lettre &agrave; Atticus, affirme que beaucoup ont estim&eacute; que les pi&egrave;ces de
+                              T&eacute;rence avaient &eacute;t&eacute; &eacute;crites par Laelius, en raison de l'&eacute;l&eacute;gance du style. N&eacute;anmoins, le
+                              grammairien Santra dit que d'autres personnages ont pr&ecirc;t&eacute; leur concours &agrave; T&eacute;rence pour
+                              l'&eacute;criture de ses com&eacute;dies que Laelius et Scipion, car ces derniers &eacute;taient &agrave; cette &eacute;poque
+                              tout &agrave; fait jeunes ; il nomme parmi ceux qui vivaient alors Sulpitius Gallus, Quintus Fabius
+                              Labeo et Marcus Pompilius, qui &eacute;taient consid&eacute;r&eacute;s en ce temps-l&agrave; comme des hommes plus m&ucirc;rs,
+                              des po&egrave;tes et des citoyens tr&egrave;s illustres. Apr&egrave;s la publication de ses six pi&egrave;ces, celles
+                              que nous avons entre les mains, alors qu'il avait d&eacute;pass&eacute; sa trente-cinqui&egrave;me ann&eacute;e, il fit
+                              voile vers la Gr&egrave;ce afin d'&eacute;chapper &agrave; cette opinion selon laquelle il publiait les &#339;uvres
+                              d'autrui sous son nom ; d'autres rapportent que c'&eacute;tait pour s'impr&eacute;gner des institutions et
+                              des m&#339;urs des Grecs, afin de les exprimer de la m&ecirc;me mani&egrave;re dans ses pi&egrave;ces. Sur sa mort
+                              &eacute;galement, diverses versions sont rapport&eacute;es. Quintus Consentius dit qu'il p&eacute;rit en mer &agrave;
+                              son retour de Gr&egrave;ce, avec cent huit pi&egrave;ces traduites de M&eacute;nandre ; d'autres rapport&egrave;rent
+                              qu'il &eacute;tait revenu &agrave; Rome et qu'il fut consum&eacute; par le chagrin et la maladie &agrave; cause de la
+                              perte de ses pi&egrave;ces ; d'autres encore qu'il mourut en Arcadie, dans le golfe de Stymphale en
+                              Leucadie, pris par la maladie, la douleur et le d&eacute;go&ucirc;t d'avoir perdu ses com&eacute;dies, sous le
+                              consulat de Cnaeus Cornelius Dolabella et Marcus Fulvius Nobilior. C'est ce qu'Ausone
+                              insinue quand il dit : &laquo; Celui qui g&icirc;t au milieu du sein de l'Arcadie, lui et ses six
+                              com&eacute;dies &raquo;. Volcatius a chant&eacute; sa mort alors qu&#8217;il faisait route vers l&#8217;Asie, disant qu&#8217;une
+                              fois mont&eacute; sur le navire, on ne le vit plus jamais. On dit que T&eacute;rence &eacute;tait d'une taille
+                              moyenne, d'un corps svelte et d'un teint sombre. Il laissa une fille qui &eacute;pousa un chevalier
+                              romain. Il poss&eacute;da des jardins de vingt arpents sur la Via Appia, pr&egrave;s du temple de Mars.
+                              Pour cette raison, Donat contredit Porcius qui, dans son po&egrave;me, l'avait dit r&eacute;duit &agrave; une
+                              telle indigence qu'il n'avait m&ecirc;me pas de maison en location. Le po&egrave;te Afranius, dont nous
+                              verrons le portrait plus bas, pr&eacute;f&egrave;re T&eacute;rence &agrave; tous les auteurs comiques, &eacute;crivant dans ses
+                              Compitales : &laquo; Tu ne saurais nommer quiconque soit semblable &agrave; T&eacute;rence. &raquo; Volcatius, en
+                              revanche, comme on le lit chez Aulu-Gelle et Donat, le place de mani&egrave;re indigne (&agrave; mon sens)
+                              apr&egrave;s non seulement Naevius, Plaute et Caecilius, mais aussi apr&egrave;s Licinius et Attilius.
+                              Marcus Tullius fit &eacute;galement grand cas de T&eacute;rence : nous avons appris de Cic&eacute;ron lui-m&ecirc;me
+                              qu&#8217;il gardait ses pi&egrave;ces comme livre de poche, bien que je sache que ce passage soit
+                              habituellement interpr&eacute;t&eacute; diff&eacute;remment par d'autres. Donat cite aussi un po&egrave;me de ce m&ecirc;me
+                              Cic&eacute;ron, intitul&eacute; Le Limon, dans lequel il dit avoir lu ces vers sur T&eacute;rence : &laquo; toi aussi
+                              qui, seul, dans un style choisi, T&eacute;rence, tournes et traduis en latin M&eacute;nandre pour nous
+                              l'offrir &agrave; d&eacute;couvert, sans passions excessives, &eacute;voquant quelque chose de gentil en disant
+                              tout de douce fa&ccedil;on &raquo;. Donat rapporte &eacute;galement des vers de Caius C&eacute;sar, que nous avons
+                              examin&eacute;s dans le portrait de C&eacute;sar. On recueille encore d'autres faits sur T&eacute;rence, que je
+                              laisse de c&ocirc;t&eacute; pour l'instant.
+                           </div>
+                        </td>
+                     </tr>
+                  </tbody>
+               </table>
+            </div>
+         </div>
+      </div>
+   </body>
+</html>
