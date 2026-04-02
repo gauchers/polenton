@@ -1,0 +1,1168 @@
+<html xmlns:tei="http://www.tei-c.org/ns/1.0" lang="fr">
+   <head>
+      <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+   
+      <title>Vies de Ovide</title><style type="text/css">
+                    :root {
+                        --uga-blue: #003a8f;
+                        --uga-light-blue: #5b7dbb;
+                        --uga-grey: #e6e9ef;
+                        --uga-dark-grey: #555;
+                    }
+                    
+                    body {
+                        font-family: serif;
+                        margin: 0;
+                        color: #111;
+                    }
+                    
+                    /* ===================== */
+                    /* Marges décoratives */
+                    /* ===================== */
+                    .marge {
+                        position: fixed;
+                        top: 0;
+                        width: 120px;
+                        height: 100%;
+                        background-image: url("../images/marge.png");
+                        background-repeat: repeat;
+                        pointer-events: none;
+                        z-index: -1;
+                    }
+                    
+                    .marge.left {
+                        left: 0;
+                    }
+                    .marge.right {
+                        right: 0;
+                    }
+                    
+                    /* ===================== */
+                    /* Wrapper principal */
+                    /* ===================== */
+                    .page-wrapper {
+                        padding: 50px 140px;
+                        box-sizing: border-box;
+                    }
+                    
+                    /* ===================== */
+                    /* Titre principal */
+                    /* ===================== */
+                    h1 {
+                        text-align: center;
+                        font-size: 30px;
+                        margin-bottom: 25px;
+                        color: var(--uga-blue);
+                    }
+                    
+                    /* ===================== */
+                    /* Boutons */
+                    /* ===================== */
+                    button {
+                        padding: 6px 12px;
+                        font-size: 14px;
+                        cursor: pointer;
+                        border: 1px solid var(--uga-light-blue);
+                        border-radius: 4px;
+                        background-color: #f4f7fc;
+                        font-family: serif;
+                        transition: all 0.2s;
+                        color: var(--uga-blue);
+                        margin-right: 10px;
+                    }
+                    
+                    button:hover {
+                        background-color: var(--uga-light-blue);
+                        color: #fff;
+                    }
+                    
+                    /* ===================== */
+                    /* Zone thématique */
+                    /* ===================== */
+                    #theme-buttons {
+                    display: flex;
+                    flex-direction: column;
+                    gap: 5px;              /* ⬅️ espace ENTRE les boutons */
+                    margin-right: 15px;
+                    min-width: 150px;
+                    }
+                    
+                    #theme-buttons > div:first-child {
+                    font-weight: bold;
+                    margin-bottom: 12px;   /* espace sous le titre */
+                    color: var(--uga-blue);
+                    }
+                    
+                    /* ===================== */
+                    /* Toolbar */
+                    /* ===================== */
+                    .toolbar {
+                        display: flex;
+                        justify-content: space-between;
+                        align-items: center;
+                        margin-bottom: 18px;
+                    }
+                    
+                    /* ===================== */
+                    /* Tableau */
+                    /* ===================== */
+                    table {
+                        width: 100%;
+                        border-collapse: collapse;
+                        table-layout: fixed;
+                    }
+                    
+                    th,
+                    td {
+                        border: 1px solid #ccc;
+                        vertical-align: top;
+                    }
+                    
+                    th {
+                        background-color: var(--uga-grey);
+                        text-align: center;
+                        font-weight: bold;
+                        padding: 10px;
+                    }
+                    
+                    td {
+                        padding: 10px;
+                        text-align: justify;
+                        hyphens: auto;
+                    }
+                    
+                    /* ===================== */
+                    /* Sources / citations */
+                    /* ===================== */
+                    .source {
+                        transition: background-color 0.3s;
+                    }
+                    
+                    .highlight {
+                        background-color: #ffe8a3;
+                    }
+                    
+                    /* ===================== */
+                    /* Orig / Trad */
+                    /* ===================== */
+                    .orig {
+                        display: none;
+                    }
+                    
+                    body.show-orig .trad {
+                        display: none;
+                    }
+                    body.show-orig .orig {
+                        display: block;
+                    }
+                    
+                    .citation-vers {
+                        margin: 8px 0 8px 15px;
+                    }</style><script type="text/javascript">
+                    
+                    function toggleSources() {
+                        var sources = document.getElementsByClassName("source");
+                        for (var i = 0; i < sources.length; i++) {
+                            sources[i].classList.toggle("highlight");
+                        }
+                    }
+                    
+                    function toggleOrigTrad() {
+                        document.body.classList.toggle("show-orig");
+                    }
+                    
+                    function toggleTheme(themeId, color) {
+                        var segs = document.querySelectorAll("seg.theme-" + themeId);
+                        for (var i = 0; i < segs.length; i++) {
+                            if (segs[i].getAttribute("data-highlight") === "on") {
+                                segs[i].style.backgroundColor = "";
+                                segs[i].setAttribute("data-highlight", "off");
+                            } else {
+                                segs[i].style.backgroundColor = color;
+                                segs[i].setAttribute("data-highlight", "on");
+                            }
+                        }
+                    }
+                    
+                    function toggleCitation(color) {
+                        var elems = document.querySelectorAll("q, .citation-vers");
+                        for (var i = 0; i < elems.length; i++) {
+                            if (elems[i].getAttribute("data-highlight") === "on") {
+                                elems[i].style.backgroundColor = "";
+                                elems[i].setAttribute("data-highlight", "off");
+                            } else {
+                                elems[i].style.backgroundColor = color;
+                                elems[i].setAttribute("data-highlight", "on");
+                            }
+                        }
+                    }//
+                </script></head>
+   <body>
+      <div class="marge left"></div>
+      <div class="marge right"></div>
+      <div class="page-wrapper">
+         <h1>Vies de Ovide</h1>
+         <div style="display:flex; align-items:flex-start;">
+            <div id="theme-buttons">
+               <div>Rubriques</div><button class="theme-btn" style="background-color:#CDF7F6" onclick="toggleTheme('reception','#CDF7F6')">R&eacute;ception</button><button class="theme-btn" style="background-color:#8FB8DE" onclick="toggleTheme('condition','#8FB8DE')">Condition</button><button class="theme-btn" style="background-color:#9A94BC" onclick="toggleTheme('origine','#9A94BC')">Origine</button><button class="theme-btn" style="background-color:#BA78B3" onclick="toggleTheme('mort','#BA78B3')">Mort</button><button class="theme-btn" style="background-color:#E3A69D" onclick="toggleTheme('datation','#E3A69D')">Datation</button><button class="theme-btn" style="background-color:#BAE1E0" onclick="toggleTheme('homonyme','#BAE1E0')">Homonyme</button><button class="theme-btn" style="background-color:#A6C8B6" onclick="toggleTheme('oeuvre','#A6C8B6')">&#338;uvre</button></div>
+            <div style="flex:1">
+               <div class="toolbar">
+                  <div><button id="sources-btn" onclick="toggleSources()">Sources</button><button onclick="toggleCitation('#e0d7ff')">Citations</button></div><button id="orig-trad-btn" onclick="toggleOrigTrad()">Original /
+                     Traduction</button></div>
+               <table>
+                  <thead>
+                     <tr>
+                        <th>Polenton</th>
+                        <th>Crinitus</th>
+                        <th>Giraldi</th>
+                     </tr>
+                  </thead>
+                  <tbody>
+                     <tr>
+                        <td>
+                           <div class="ab orig">Ovidio autem patria Sulmo fuit. Pelignorum id
+                              oppidum erat. Nomine pater P. Ovidius Naso, mater Pelagia appellati. Fratrem poeta noster
+                              Lucillium habuit. Aetate hic minor civili studebat iuri sed mortem iuvenis obiit. Poeta vero
+                              noster patris e nomine P. Ovidius Naso appellatus est. Litteris autem primis haustis ad
+                              Musas suapte natura, delectatione, ingenio ferebatur. Nec ipsum accendebat parum vulgata de
+                              se fama, quod facti ab eo versus laudarentur multum, nec ulli pueriles et fluxi sed
+                              castigati esse plenique bonae spei ac docto a viro editi viderentur. Contra vero solus
+                              adversabatur pater, quod eorum e numero esset quibus et poesis et doctrina omnis quae aurum
+                              non afferret quam maxime displiceret. Musas enim cumulandas non esse ad opes sed quasi
+                              frondosam sine fructu arborem esse putabat. Ius autem civile laudabat summo, quod multi et
+                              honoris et quaestus id esse videret. Patris igitur stimulis coactus Ovidius, ne protervus ac
+                              inobediens appareret, posuit Musas, studuit iuri civili et fecitque tandem, ubi aetas et
+                              facultas exegit, quod delata sibi maiorum more ornamenta docti viri, togam virilem clavumque
+                              latum ac purpuram sumpsit. Rem deinde iudiciariam ad reos puniendos egit. Se autem in ea
+                              ministranda tanta cum prudentia, iusticia, moderatione gessit quod ipso etiam ab Octaviano
+                              principe laudaretur, quod et iuste punisset reos et honeste ditior factus esset. Interea
+                              vero utebatur dictione soluta, quod ne displiceret patri versus facere non auderet. Erat
+                              tamen ad Musas natura pronus nec ulla cum gratia loquebatur prosa. Quicquid autem dicere
+                              attentabat, id versus erat. Denique patris morte sui iuris factus obsecundavit naturae atque
+                              civili posito iure ad quam amabat artem poeticam rediit. Tum quidem Musas caeteris missis
+                              libero animo et omni studio amplexus est. Istam vero ad rem apud amicos, qui eius consilium
+                              increparent, causabatur animum sibi haudquaquam iudiciales ad curas sed cupidum ocii ac
+                              quietis esse. Quos igitur honores et magistratus alii cuperent, ipse contempsit nec deinde
+                              prosa sed metro dicere ac quiete vivere delectatus est. Suppetebant quidem relictae sibi a
+                              patre opes ad sumptus egregie. Poetas vero secutus Naso audivit Horatium Venusinum; audivit
+                              Cornellium Gallum; audivit Macrum Veronensem. Erant hi aetate iam senes et hos ad dies
+                              poetae inter poetas magni nominis ac periti. Cum Macro et in Siciliam et in Asiam navigavit.
+                              Ex his autem qui sibi aequales essent ac eodem in studio versarentur nominatim Propertio ac
+                              Tibullo haesit. Sed Tibulli amicitia uti perdiu vetuerunt fata ; nam mortem iuvenis ille
+                              obiit. Plusculum vixit Propertius. Virgilium autem vidit modo, sed nulla sibi familiaritate
+                              devinctus fuit. Ovidio quidem puero grandis iam erat fama ac aetate Maro. Poetas vero
+                              caeteros qui memoria illa vel Romae vel Athenis essent (nam utrobique studuit) et amavit et
+                              coluit uti deos. Denique instructus artibus illis et doctrinis quibus poeta constaret
+                              incitatusque cupidine laudis et gloriae, ut solet mortalium animus, multa scripsit. Nec
+                              dubium scripturus erat plura, si modo, quae impedit saepe, invidens fortuna liberum, ut
+                              coeperat, ocium tribuisset. Prima quidem inter studia ingenii, reor, experiendi causa
+                              libellos edidisse fertur de Medicamine Faciei, de Medicamine Aurium, de Cuculo, de Culice,
+                              de Nuce, de Philomena, de Scachis, de Vetula, de Puellis, de Vino. Haec iuvenis. Maturior
+                              autem factus bellum Giganteum et tragoedias scribere aggressus est atque illo in genere
+                              potuisset multum, si, ut Quintilianus tradit, ingenio magis obtemperare quam indulgere
+                              voluisset. Id opus cum libros iam quinque scripsisset quasi fessus medio itinere posuit.
+                              Heroidum vero epistolarum duos fecit libros. Amatorii deinde libri ab eo tres editi sunt,
+                              quos alii Sine Titulo, alii Amorum appellant. Pleni quidem amoris sunt. Blanditur enim
+                              amatrici suae eandemque Corinam nomine falso vocat. Erat femina ista litteris supra feminas
+                              erudita adeoque perita etiam in faciendo metro quod versum, ut refert Sidonius, ipso cum
+                              Nasone aliquando compleret. Tres item libros de Arte Amandi scripsit. Res quidem lasciva nec
+                              legi ab ullo digna qui, uti commonet ipse, gravia et pudica velit. Libros deinde de Remedio
+                              Amoris duos, de Fastis XII edidit. Postremo Metamorphoseos opus fecit. Libri sunt isti
+                              quinque ac decem, qui mutatas continent formas quae aut veteribus a poetis fictae aut ab eo
+                              ipso Nasone inventae sint. Illas enim artificio tanto disposuit, enarravit, contexuit ut
+                              profectae uno ab auctore, non a pluribus, videantur. Dum vero quietissimo hoc vitae statu ac
+                              iocundo scribendi ocio frueretur gratusque civitati ac principi videretur, evenit forte ut
+                              regiam, quantum arbitror, familiarius quam liceret ingressus Naso offenderet principem, cum
+                              ea tractaret quae occulta omnibus esse nec videri ab ullo hominum voluisset. Quid autem tunc
+                              ageret princeps inveni nusquam, sed facile mihi animus persuadet tum a Nasone offensum
+                              Augustum cum aut venereis lascivius uteretur aut supra humanum fastigium inter amicos
+                              secrete deorum dearumque habitu caenitaret. Delectatum Augustum re utraque scribit
+                              Tranquillus. Quicquid vero fuerit, id esse visum a Nasone displicuit principi vehementer
+                              atque ita displicuit ut sint mox expositae tabulae quae iuberent Nasonem in exilium ad
+                              Thomitas ire. Dolore autem ingenti actus Ovidius mox quaeecunque haberet scripta, presertim
+                              non emendata, atque nuper editum sed non satis uti cuperet delitium Metamorphoseos opus
+                              ardentes in flammas iecit. Id vero Metamorphoseos ut veniret ad posteros conservavit, quod
+                              exemplar eius qui viderant amici delectati re nova ac pulcherrima iam haberent. Annus ille
+                              et nativitatis Ovidii et imperii Octaviani quinquagesimus erat. Quo enim anno natus est
+                              Naso, eodem, ut dixi iam saepe, consulibus Hircio et Pansa mortuis imperare Octavianus
+                              coepit. Auctore nanque Cicerone Octavianus, ne dux sine imperio esset, iturus Mutinam ad
+                              Brutum liberandum propraetor creatus est. Is enim Octaviano primus ad imperium gradus fuit.
+                              Crimen vero propositae, ut dixi, tabulae continebant nullum. Edictum modo in haec verba erat
+                              : &laquo; Ovidius poeta quoniam displicuit principi in exilium ad Thomitas eat. &raquo; Sic enim
+                              Octavianus, quantum existimo, subita inflammatus ira constituit. Postea vero, ne damnatus
+                              sine causa qui esset civis egregius atque poeta videretur, insimulavit Nasonem in exilium
+                              pelli quod scripsisset libros de Arte Amandi, qui essent moribus bonis adversi ac sibi
+                              nimiam ob turpitudinem quam maxime displicebant. Ita enim vixerat Naso illum in diem quod
+                              iratus princeps nihil obiciendum invenit nisi quod libros amatorios edidisset. Hanc quidem
+                              exilii causam esse, ut affirmabat princeps, et qui audivit tunc quisque credidit facile et,
+                              qui postea res Caesareas scripsit, Sex. Aurelius memoravit. Ovidius quoque id confessus est
+                              saepe, quod negare dictum a principe non auderet, ne quem lenire confitendo speraret, eundem
+                              negando ira maiori ac odio inflammaret. At vero, quantum omni coniectura et ratione
+                              percipio, exilii causa obiecta illa ac vulgo credita haudquaquam vera fuit. Nempe scripserat
+                              libros amatorios ac de Arte Amandi Naso sed annos supra XX iam ante exilium scripserat,
+                              atque illo tempore scripserat cum scribi talia lex prohiberet nulla. Neque vero praeter
+                              ipsum damnatus exilio aut poena ulla mulctatus est quisquam omnium qui huius modi
+                              cecinissent, cum fuisset ac essent multi magnis etiam ac bene moratis in civitatibus et in
+                              Graecia et in Italia atque ipsa in urbe Roma poetae excellentis nominis atque famae qui
+                              amatoria, qui lasciva, qui meretricia sua pro delectatione, exercitio, studio non impune
+                              modo sed libere ac multa cum laude, honore, gratia et cecinissent et canerent. Nec dissimile
+                              id videtur vero, quod tam diu non expectasset Augustus, si haec Nasonis scripta ac vulgo
+                              omnibus cognita sibi tantopere displicebant. Lege quidem scribi talia vetuisset atque
+                              scripta venerea omnia, uti fatidicos libros, qui essent litteris cum Graecis tum Latinis
+                              scripti, supra II milia, quoniam supersticiosi esse viderentur, uno incendio perdidisset.
+                              Denique omnia docent quod exilii causam illam falso insimulavit Augustus. Quae autem vera
+                              esset causa patefecit Ovidius cum de Tristibus scriberet versibus istis : &laquo; Cur aliquid vidi
+                              ? Cur noxia lumina feci ? Cur imprudenti cognita culpa mihi ? Inscius Atheon vidit sine
+                              veste Dianam ; praeda fuit canibus non minus ille suis. &raquo; Hac enim similitudine, quae
+                              artificiosa est atque pulcherrima, poeta usus, cum aperte neque inficiari quae obiceret
+                              princeps neque aperire quae vidisset auderet, loco se idoneo increpat ac poenam exilii se
+                              pati refert, quod, uti Dianam vestibus nudam Atheon, ita principem vidisset ipse, cum se
+                              videri a nemine voluisset. Quaecunque autem exilii causa fuerit, ubi profiscendi datus
+                              advenit dies nec spes ulla reconciliandi principis superesset, uxor quique necessarii
+                              aderant pleni dolore omnes et lacrimis circumstabant eundemque &laquo; vale &raquo; saepius repetentem,
+                              ut moraretur diutius, multis et osculis et amplexibus retinebant. Vxor eius nomine Palles
+                              dicta est, Fabiorum e familia nobilis femina. Gener Fidus Cornellius appellatus est. Denique
+                              pergere ire ac properare iussus domoque ac urbe profectus dolentissime navigavit ad
+                              Thomitas. Sic oppidi e nomine oppidanos vocant ; gens vero universa Gethae appellati sunt.
+                              Europae in finibus hic locus est Bistoniis, Sarmatis, Basternis vicinus. Ibi nix ac hiems
+                              perpetua ; ibi caligo densa atque continua ; ibi rerum bonarum omnium et sterilitas et
+                              caritas maxima; ibi gens fera ac morum civilium penitus nescia. Casas ibi fecere primum
+                              Milesii casu vario e Graecia venientes. Oppidum deinde latronum ad impetus conditum Thomos
+                              appellant. Id Graece dictum sectionem Latine significat, quod inde navigans Medea,
+                              sanguinaria quidem ac venefica femina, quem arripuerat fratrem infantulum studio retardandi
+                              patris iugulavit, dimembravit, dispersit. Exilii vero calamitatem Ovidius animo haudquaquam
+                              satis patienti tulit. Nempe dolorem augebat recordatio amatissimae uxoris, suavissimae
+                              filiae, nobilissimi generi, illustrium amicorum, desideratissimae patriae ; augebat
+                              desperatio reditus, quod iratus princeps nulla prece ad veniam flecteretur ; augebat
+                              consideratio periculi, quod gens nisi rapax ibi et fera esset atque pacis nescia quos posset
+                              vicinos nunc hos nunc illos latrociniis infestaret ; augebat sterilitas loci nec esset
+                              quicquam ibi quod aut prece haberi aut precio emi ad medicinam ac vitae salutem posset ;
+                              augebat dissona lingua, alieni ritus, barbari mores, quod esset omnium nemo quocum loqui ac
+                              versari ulla cum gratia et familiaritate posset. Tantis vero in malis id omnium modo
+                              remedium unum erat, quod litteras sciret, quod poeta esset, quod versus faceret, et quas ad
+                              amicos mitteret epistolas continue scriberet. Ad eos quidem amicos quibuscum versari et
+                              familiariter loqui Romae soleret, cum praesentia non frui nec alloqui eos posset, saltem qua
+                              poterat dulci recordatione dictorum factorumque cum eis ac epistolis loquebatur. His nanque
+                              tristiciam animi repellebat ; his dolorem ut melius poterat mitigabat. Epistolae sunt ab eo
+                              multae inde luctus et commiserationis plenae Romam ipsum ad Augustum, ad uxorem, ad amicos
+                              scriptae. Hac de re libri quinque de Tristibus, totidem de Ponto extant. Librum etiam in
+                              exilio fecit de Hibide unum, quo multa et dura imprecatur illi qui uxorem suam, feminam
+                              pudicissimam, infestaret. Edidit quoque librum de triumpho Caesaris Augusti quem victis de
+                              Germanis Drusi auspiciis ac virtute gessit. Haec metro et Latine apud Gethas scripta.
+                              Gethica item lingua, quam longa mora ac necessitas docuisset, composuit librum de laudibus
+                              Iulii. Hunc frequentissimo populo quanta potuit cum dignitate, gestu, facundia recitavit. Ea
+                              res rudibus populis admirabilis ac stupenda visa est atque mirum in modum barbaros animos
+                              erga poetam ad gratiam, ad benivolentiam, ad liberalitatem flexit. Ipsum nanque celebri
+                              laurea, ampla immunitate, multis opibus donaverunt tantique fecerunt ipsum deinde quod
+                              haudquaquam esse qui soleret illum in diem homo despectus, advena, exul, sed vir egregius,
+                              poeta excellens, ac primarius apud eos honore, auctoritate, reverentia videretur. Diem vero
+                              interea obiit Augustus. Annus erat tum exilii sextus. Neque vero apud Tyberium, qui
+                              Octaviano successit, locus veniae inventus est. Caeterum anno imperii Tyberii Caesaris
+                              quarto Naso iam senex atque sexagenarius apud Thomitas in exilio vita defunctus est. Haec de
+                              Ovidio.
+                           </div>
+                           <div class="ab trad">Quant &agrave; Ovide, sa patrie fut Sulmone. C'est
+                              une ville des P&eacute;ligniens. Son p&egrave;re s&#8217;appelait Publius Ovidius Naso, sa m&egrave;re Pelagia. Notre
+                              po&egrave;te eut un fr&egrave;re nomm&eacute; Lucilius. Ce dernier, dans son jeune &acirc;ge, &eacute;tudia le droit civil,
+                              mais mourut pr&eacute;matur&eacute;ment. Notre po&egrave;te, quant &agrave; lui, porta le nom de son p&egrave;re et fut appel&eacute;
+                              Publius Ovidius Naso. D&egrave;s qu&#8217;il eut go&ucirc;t&eacute; aux premi&egrave;res lettres, il fut entra&icirc;n&eacute; de lui-m&ecirc;me
+                              vers les Muses par sa nature, par plaisir et par talent. Et ce qui ne contribua pas peu &agrave;
+                              nourrir son ardeur, ce fut la renomm&eacute;e d&eacute;j&agrave; r&eacute;pandue &agrave; son sujet : les vers qu&#8217;il composait
+                              &eacute;taient grandement lou&eacute;s et paraissaient non point enfantins ou incons&eacute;quents, mais au
+                              contraire travaill&eacute;s, riches de promesses et produits par un homme instruit. Son p&egrave;re seul
+                              s&#8217;y opposait pourtant, au pr&eacute;texte qu&#8217;il appartenait &agrave; cette cat&eacute;gorie d&#8217;hommes &agrave; qui la
+                              po&eacute;sie et toute forme de savoir qui ne rapporte pas d&#8217;or inspirent la plus vive aversion.
+                              Les Muses, pensait-il, ne servent pas &agrave; amasser des richesses : elles ressemblent &agrave; un arbre
+                              touffu, mais sans fruits. En revanche, il faisait le plus grand &eacute;loge du droit civil, parce
+                              qu&#8217;il voyait qu&#8217;il procurait &agrave; la fois beaucoup d'honneur et de profit. Contraint donc par
+                              les exhortations de son p&egrave;re, afin de ne pas para&icirc;tre insolent et d&eacute;sob&eacute;issant, Ovide
+                              renon&ccedil;a aux Muses, &eacute;tudia le droit civil et fit enfin, lorsque son &acirc;ge et sa situation
+                              l&#8217;exig&egrave;rent, ce que la coutume des anc&ecirc;tres prescrivait : il re&ccedil;ut les insignes de l&#8217;homme
+                              instruit, prit la toge virile, le laticlave et la pourpre. Il exer&ccedil;a ensuite des fonctions
+                              judiciaires pour punir les accus&eacute;s. Dans l&#8217;exercice de cette charge, il se conduisit avec
+                              une prudence, une justice et une mod&eacute;ration si grandes qu&#8217;il fut lou&eacute; par le prince Octavien
+                              lui-m&ecirc;me pour avoir puni les coupables avec &eacute;quit&eacute; et s&#8217;&ecirc;tre enrichi honn&ecirc;tement. Et pendant
+                              ce temps, il employait la prose, car il n&#8217;osait composer des vers de peur de d&eacute;plaire &agrave; son
+                              p&egrave;re. Mais il &eacute;tait par nature port&eacute; vers les Muses et n'avait point d'aisance en prose.
+                              Tout ce qu&#8217;il tentait d&#8217;exprimer devenait vers. Enfin, apr&egrave;s la mort de son p&egrave;re, devenu
+                              ma&icirc;tre de lui-m&ecirc;me, il ob&eacute;it &agrave; sa nature et, abandonnant le droit civil, il revint &agrave; l&#8217;art
+                              po&eacute;tique qu&#8217;il aimait. Alors, d&eacute;laissant tout le reste, il embrassa les Muses d&#8217;un esprit
+                              libre et s&#8217;y consacra enti&egrave;rement. &Agrave; ce sujet, face &agrave; ses amis qui bl&acirc;maient sa r&eacute;solution,
+                              il faisait valoir que son esprit n&#8217;&eacute;tait nullement fait pour les soucis judiciaires, mais
+                              d&eacute;sireux de loisir et de tranquillit&eacute;. Ainsi, les honneurs et les magistratures que d&#8217;autres
+                              convoitaient, lui-m&ecirc;me les m&eacute;prisa ; et il ne trouva point de plaisir &agrave; s&#8217;exprimer en prose
+                              mais en vers et &agrave; mener une vie retir&eacute;e. Les richesses que son p&egrave;re lui avait laiss&eacute;es
+                              suffisaient amplement &agrave; couvrir ses d&eacute;penses avec &eacute;clat. Suivant les po&egrave;tes, Nason entendit
+                              Horace de V&eacute;nouse ; il entendit Cornelius Gallus ; il entendit Macer de V&eacute;rone. Tous &eacute;taient
+                              alors d&eacute;j&agrave; &acirc;g&eacute;s et compt&eacute;s parmi les po&egrave;tes c&eacute;l&egrave;bres et accomplis de ce temps. Avec Macer,
+                              il navigua jusqu'en Sicile et en Asie. Parmi ceux qui &eacute;taient de son &acirc;ge et engag&eacute;s dans la
+                              m&ecirc;me &eacute;tude, il se lia tout particuli&egrave;rement &agrave; Properce et &agrave; Tibulle. Mais le destin ne
+                              permit pas que l&#8217;amiti&eacute; de Tibulle dur&acirc;t longtemps : il mourut jeune. Properce v&eacute;cut un peu
+                              plus longtemps. Quant &agrave; Virgile, il le connut seulement, sans &ecirc;tre li&eacute; &agrave; lui par une
+                              familiarit&eacute; particuli&egrave;re. Quand Ovide &eacute;tait encore enfant, la renomm&eacute;e de Maron &eacute;tait d&eacute;j&agrave;
+                              grande et son &acirc;ge avanc&eacute;. Quant aux autres po&egrave;tes qui vivaient encore de son temps, soit &agrave;
+                              Rome soit &agrave; Ath&egrave;nes (car il &eacute;tudia dans l&#8217;une et l&#8217;autre ville), il les aima et les honora
+                              comme des dieux. Enfin, form&eacute; aux arts et aux disciplines qui constituent le po&egrave;te, et
+                              pouss&eacute; par le d&eacute;sir de louange et de gloire, comme il arrive ordinairement &agrave; l&#8217;&acirc;me des
+                              mortels, il &eacute;crivit beaucoup. Et sans aucun doute il e&ucirc;t &eacute;crit davantage encore, si la
+                              fortune jalouse, qui souvent entrave les entreprises, lui avait laiss&eacute; le loisir libre qu&#8217;il
+                              avait commenc&eacute; &agrave; go&ucirc;ter. &Agrave; ce qu&#8217;on rapporte, parmi ses premiers exercices de talent, il fit
+                              para&icirc;tre, je crois, de petits ouvrages &agrave; titre d'essai : Sur le soin du visage, Sur le soin
+                              des oreilles, Sur le coucou, Sur le moucheron, Sur la noix, Sur Philom&egrave;le, Sur les &eacute;checs,
+                              Sur la Vieille, Sur les jeunes filles, Sur le vin. Cela, dans sa jeunesse. Plus m&ucirc;r ensuite,
+                              il entreprit une Gigantomachie et des trag&eacute;dies ; dans ce genre, il aurait pu aller tr&egrave;s
+                              loin, si, comme le rapporte Quintilien, il avait voulu davantage ob&eacute;ir &agrave; sa disposition
+                              naturelle que s&#8217;y abandonner. Apr&egrave;s avoir &eacute;crit d&eacute;j&agrave; cinq livres, il abandonna cet ouvrage,
+                              comme fatigu&eacute; &agrave; mi-chemin. Il composa ensuite deux livres d&#8217;&eacute;p&icirc;tres h&eacute;ro&iuml;ques. Puis parurent
+                              trois livres d&#8217;&eacute;l&eacute;gies amoureuses, que les uns appellent Sans titre, les autres Les Amours.
+                              Ils sont en effet pleins d&#8217;amour. Il flatte sa ma&icirc;tresse et l&#8217;appelle sous le pseudonyme de
+                              Corinne. Cette femme &eacute;tait d&#8217;une &eacute;rudition exceptionnelle, surpassant de loin les autres
+                              femmes par sa culture, et si habile encore dans l&#8217;art de composer en vers que, selon le
+                              t&eacute;moignage de Sidoine, elle achevait parfois un po&egrave;me en collaboration avec Nason lui-m&ecirc;me.
+                              Il &eacute;crivit aussi trois livres de L&#8217;Art d&#8217;aimer, &#339;uvre lascive et indigne d&#8217;&ecirc;tre lue par
+                              quiconque, comme il le recommande lui-m&ecirc;me, recherche des sujets graves et pudiques. Puis il
+                              publia deux livres des Rem&egrave;des &agrave; l&#8217;amour et douze livres des Fastes. Enfin, il composa
+                              l&#8217;ouvrage des M&eacute;tamorphoses. Ce sont quinze livres qui contiennent des transformations,
+                              tant&ocirc;t invent&eacute;es par les po&egrave;tes anciens, tant&ocirc;t con&ccedil;ues par Ovide lui-m&ecirc;me. Il les a en
+                              effet ordonn&eacute;es, d&eacute;velopp&eacute;es et encha&icirc;n&eacute;es avec un tel art qu&#8217;elles paraissent &eacute;maner d&#8217;un
+                              seul et m&ecirc;me auteur, et non de plusieurs. Or, tandis qu&#8217;il jouissait de cette existence des
+                              plus paisibles et du loisir de l&#8217;&eacute;criture, et qu&#8217;il semblait agr&eacute;able tant &agrave; la cit&eacute; qu&#8217;au
+                              prince, il arriva par hasard qu&#8217;Ovide, ayant p&eacute;n&eacute;tr&eacute;, autant que je puis en juger, au palais
+                              plus famili&egrave;rement qu'il n'&eacute;tait permis, offensa le prince en le surprenant dans des
+                              occupations qu&#8217;il voulait tenir cach&eacute;es &agrave; tous et ne laisser voir &agrave; aucun homme. Ce que
+                              faisait alors le prince, je ne l&#8217;ai trouv&eacute; rapport&eacute; nulle part ; mais mon esprit me persuade
+                              ais&eacute;ment qu&#8217;Auguste, offens&eacute; par Ovide, fut alors surpris soit en des pratiques d&#8217;un
+                              &eacute;rotisme trop libre, soit en train de se livrer, dans un cercle intime d&#8217;amis, &agrave; un banquet
+                              secret o&ugrave; il prenait l&#8217;apparence de dieux et de d&eacute;esses, se hissant au-dessus de la
+                              condition humaine. Su&eacute;tone &eacute;crit qu&#8217;Auguste se plaisait &agrave; l&#8217;un et l&#8217;autre. Quoi que cela
+                              f&ucirc;t, ce que vit Ovide fut jug&eacute; extr&ecirc;mement d&eacute;plaisant par le prince, et fut jug&eacute; si
+                              d&eacute;plaisant que des &eacute;dits furent bient&ocirc;t affich&eacute;s ordonnant &agrave; Nason de partir en exil chez
+                              les Tomitains. Accabl&eacute; d&#8217;une douleur immense, Ovide jeta bient&ocirc;t au feu tout ce qu'il avait
+                              d'&eacute;crits, surtout ceux qui n&#8217;&eacute;taient pas corrig&eacute;s, et m&ecirc;me l&#8217;ouvrage des M&eacute;tamorphoses,
+                              r&eacute;cemment publi&eacute; mais qu&#8217;il n&#8217;avait pas encore retouch&eacute; comme il l&#8217;aurait souhait&eacute;.
+                              Cependant, cet ouvrage parvint &agrave; la post&eacute;rit&eacute;, parce que des amis qui en poss&eacute;daient un
+                              exemplaire, charm&eacute;s par cette &#339;uvre nouvelle et magnifique, l&#8217;avaient d&eacute;j&agrave; conserv&eacute;. Cette
+                              ann&eacute;e &eacute;tait la cinquanti&egrave;me &agrave; la fois depuis la naissance d&#8217;Ovide et depuis le d&eacute;but du
+                              principat d&#8217;Octave. En effet, l&#8217;ann&eacute;e o&ugrave; Nason naquit, comme je l&#8217;ai d&eacute;j&agrave; souvent dit,
+                              Octave commen&ccedil;a &agrave; r&eacute;gner, alors que les consuls Hirtius et Pansa &eacute;taient morts. Sur l'avis
+                              de Cic&eacute;ron, Octave, afin que le chef ne demeur&acirc;t pas sans pouvoir, fut nomm&eacute; propr&eacute;teur pour
+                              se rendre &agrave; Mod&egrave;ne et d&eacute;livrer Brutus. En effet, ce fut la premi&egrave;re &eacute;tape vers le pouvoir
+                              pour Octave. Mais l'affiche pr&eacute;sent&eacute;e ne contenait, comme je l&#8217;ai dit, aucun chef
+                              d'accusation. L&#8217;&eacute;dit disait seulement ces mots : &laquo; Puisque le po&egrave;te Ovide a d&eacute;plu au prince,
+                              qu&#8217;il aille en exil chez les Tomitains. &raquo; Ainsi donc Octavien, &agrave; ce que je pense, prit cette
+                              d&eacute;cision sous l&#8217;effet d&#8217;une col&egrave;re soudaine. Mais par la suite, afin que Nason ne par&ucirc;t pas
+                              condamn&eacute; sans motif, lui qui &eacute;tait un citoyen &eacute;minent et un po&egrave;te, il fit valoir que Nason
+                              &eacute;tait pouss&eacute; &agrave; l'exil au pr&eacute;texte qu&#8217;il avait &eacute;crit les Livres de l&#8217;Art d&#8217;aimer, ouvrages
+                              contraires aux bonnes m&#339;urs et particuli&egrave;rement odieux au prince en raison de leur excessive
+                              ind&eacute;cence. En effet, Ovide avait v&eacute;cu jusque-l&agrave; sans que le prince irrit&eacute; ne trouv&acirc;t rien &agrave;
+                              lui reprocher, sauf le fait d&#8217;avoir publi&eacute; ces livres d&#8217;amour. Que telle f&ucirc;t la cause de
+                              l&#8217;exil, comme l&#8217;affirmait le prince, tous ceux qui l&#8217;entendirent alors le crurent sans
+                              peine, et Sextus Aur&eacute;lius, qui &eacute;crivit plus tard l&#8217;histoire des C&eacute;sars, l&#8217;a rapport&eacute;. Ovide
+                              lui-m&ecirc;me l&#8217;a souvent reconnu : il n&#8217;osait pas nier ce qu&#8217;avait d&eacute;clar&eacute; le prince, de peur
+                              que celui qu&#8217;il esp&eacute;rait apaiser en avouant ne f&ucirc;t, par un d&eacute;menti, enflamm&eacute; d&#8217;une col&egrave;re et
+                              d&#8217;une haine plus violentes encore. Mais en v&eacute;rit&eacute;, autant que je puis en juger par toute
+                              conjecture et par la raison, la cause d&#8217;exil ainsi all&eacute;gu&eacute;e et commun&eacute;ment admise ne fut
+                              nullement la v&eacute;ritable. Certes, Nason avait &eacute;crit des ouvrages amoureux et des trait&eacute;s sur
+                              l&#8217;Art d&#8217;aimer ; mais il les avait compos&eacute;s plus de vingt ans avant son exil, &agrave; une &eacute;poque o&ugrave;
+                              aucune loi n&#8217;interdisait de tels &eacute;crits. De plus, nul autre parmi tous ceux qui avaient
+                              cultiv&eacute; ce genre n&#8217;a &eacute;t&eacute; condamn&eacute; &agrave; l&#8217;exil ni frapp&eacute; d&#8217;aucune peine : il y avait eu et &eacute;tait
+                              encore pourtant nombre de po&egrave;tes, en Gr&egrave;ce comme en Italie, et jusque dans la ville de Rome
+                              elle-m&ecirc;me, d&#8217;un nom et d&#8217;une renomm&eacute;e &eacute;clatants qui avaient chant&eacute; et chantaient l&#8217;amour, la
+                              licence et les courtisanes, non seulement sans ch&acirc;timent, mais librement, et avec beaucoup
+                              d&#8217;&eacute;loge, d&#8217;honneur et de faveur, pour leur plaisir, leur pratique et leur art. Il est
+                              d&#8217;ailleurs peu vraisemblable qu&#8217;Auguste e&ucirc;t attendu si longtemps, si les &eacute;crits de Nason,
+                              connus de tous depuis longtemps, lui avaient &eacute;t&eacute; &agrave; ce point odieux. Il aurait en effet
+                              interdit par la loi que de tels ouvrages fussent &eacute;crits et aurait fait d&eacute;truire par le feu
+                              tous les &eacute;crits de nature &eacute;rotique, de m&ecirc;me qu&#8217;il fit br&ucirc;ler en un seul incendie plus de
+                              deux mille livres dits proph&eacute;tiques, r&eacute;dig&eacute;s tant en grec qu&#8217;en latin, parce qu&#8217;ils lui
+                              paraissaient superstitieux. Enfin, tout prouve qu&#8217;Auguste inventa faussement cette cause de
+                              l&#8217;exil. Ovide r&eacute;v&eacute;la cependant quelle avait &eacute;t&eacute; la v&eacute;ritable cause lorsqu&#8217;il &eacute;crivit, dans
+                              les Tristes, ces vers : &laquo; Pourquoi ai-je vu ce que j'ai vu ? Pourquoi ai-je rendu mes yeux
+                              coupables ? Pourquoi n'ai-je mesur&eacute; toute l'&eacute;tendue de ma faute qu'apr&egrave;s l'avoir &eacute;tourdiment
+                              commise ? Ce fut malgr&eacute; lui qu'Act&eacute;on surprit Diane nue, il n'en devint pas moins la proie
+                              de ses propres chiens. &raquo; Par cette comparaison, aussi ing&eacute;nieuse que magnifique, le po&egrave;te,
+                              n'osant ni nier ouvertement ce que le prince lui reprochait, ni r&eacute;v&eacute;ler ce qu&#8217;il avait vu,
+                              se bl&acirc;me lui-m&ecirc;me &agrave; mots couverts et explique qu&#8217;il subit la peine de l&#8217;exil pour avoir,
+                              comme Act&eacute;on vit Diane nue, aper&ccedil;u le prince alors que celui-ci ne voulait &ecirc;tre vu par
+                              personne. Quelle qu&#8217;ait &eacute;t&eacute; au reste la cause de l&#8217;exil, lorsque arriva le jour fix&eacute; pour
+                              son d&eacute;part, et qu&#8217;il ne subsistait plus aucun espoir de r&eacute;conciliation avec le prince, son
+                              &eacute;pouse et ses proches, tous accabl&eacute;s de douleur et en larmes, l&#8217;entouraient ; tandis qu&#8217;il
+                              r&eacute;p&eacute;tait sans cesse &laquo; adieu &raquo;, ils le retenaient pour prolonger son s&eacute;jour par de nombreux
+                              baisers et &eacute;treintes. Son &eacute;pouse s&#8217;appelait Pallas, femme noble issue de la famille des
+                              Fabii. Son gendre s&#8217;appelait Fidus Cornelius. Enfin, somm&eacute; de partir sans d&eacute;lai, il quitta
+                              sa maison et la ville, et gagna avec une extr&ecirc;me tristesse Tomes par la mer. C&#8217;est du nom de
+                              cette ville que ses habitants sont appel&eacute;s Tomitains ; quant au peuple tout entier, on les
+                              nomme les G&egrave;tes. Ce lieu se trouve aux confins de l&#8217;Europe, voisin des Bistones des Sarmates
+                              et des Bastarnes. L&agrave; r&egrave;gnent une neige et un hiver perp&eacute;tuels ; l&agrave; une brume &eacute;paisse et
+                              continue ; l&agrave; un manque extr&ecirc;me et une chert&eacute; de toutes les ressources ; l&agrave; une population
+                              farouche, compl&egrave;tement &eacute;trang&egrave;re aux m&#339;urs de la civilisation. Ce furent d&#8217;abord des
+                              Mil&eacute;siens, venus de Gr&egrave;ce par un hasard des &eacute;v&egrave;nements, qui y &eacute;tablirent des cabanes. Puis
+                              la ville, fond&eacute;e pour r&eacute;sister aux attaques des brigands, ils l'appel&egrave;rent Tomes. Ce nom
+                              grec signifie en latin &laquo; section &raquo;, parce que M&eacute;d&eacute;e, femme sanguinaire et magicienne,
+                              naviguant sur ces eaux, &eacute;gorgea son jeune fr&egrave;re qu&#8217;elle avait emmen&eacute;, le mit en pi&egrave;ces et en
+                              dispersa les membres afin de retarder son p&egrave;re. Quant &agrave; la calamit&eacute; de l&#8217;exil, Ovide la
+                              supporta fort difficilement. En effet, le souvenir de sa femme bien aim&eacute;e, de sa fille si
+                              douce, de son gendre si illustre, de ses amis c&eacute;l&egrave;bres, et de sa patrie tant regrett&eacute;e
+                              augmentait sa douleur ; le d&eacute;sespoir de retour, aucune pri&egrave;re ne fl&eacute;chissant le prince en
+                              col&egrave;re, augmentait sa douleur ; la pens&eacute;e du danger, la population du lieu, uniquement
+                              port&eacute;e au pillage, farouche et &eacute;trang&egrave;re &agrave; toute notion de paix, ravageant tour &agrave; tour par
+                              ses brigandages les peuples voisins, augmentait sa douleur ; la st&eacute;rilit&eacute; du pays, o&ugrave; rien
+                              ne pouvait s&#8217;obtenir ni par supplication ni par l&#8217;argent pour les besoins de la m&eacute;decine et
+                              de la survie, augmentait sa douleur ; la langue discordante, les rites &eacute;trangers, les m&#339;urs
+                              barbares, puisqu&#8217;il n&#8217;y avait personne avec qui il p&ucirc;t converser ou vivre dans une relation
+                              d&#8217;estime et de familiarit&eacute;, augmentait sa douleur. Au milieu de tant de maux, un seul rem&egrave;de
+                              subsistait : sa connaissance des lettres, sa qualit&eacute; de po&egrave;te, sa pratique des vers, et
+                              l&#8217;&eacute;criture incessante de lettres qu&#8217;il adressait &agrave; ses amis. Aux amis avec qui il avait
+                              coutume de vivre et de converser famili&egrave;rement &agrave; Rome, puisqu&#8217;il ne pouvait plus jouir de
+                              leur pr&eacute;sence ni leur parler de vive voix, il s&#8217;entretenait du moins comme il le pouvait,
+                              par la douce rem&eacute;moration de leurs paroles et de leurs actions communes, et par des lettres.
+                              Ainsi, il repoussait la tristesse de son &acirc;me ; ainsi, il adoucissait, du mieux qu&#8217;il le
+                              pouvait, sa douleur. Il &eacute;crivit ainsi de nombreux courriers, pleins de plainte et de
+                              compassion, adress&eacute;s &agrave; Rome, &agrave; Auguste lui-m&ecirc;me, &agrave; son &eacute;pouse et &agrave; ses amis. &Agrave; ce sujet, il
+                              &eacute;crivit les cinq livres des Tristes et autant de livres des Pontiques. Il fit aussi en exil
+                              un livre sur Ibis, dans lequel il adresse de vives et dures mal&eacute;dictions &agrave; celui qui
+                              tourmentait sa femme, une femme tr&egrave;s pudique. Il publia &eacute;galement un livre sur le triomphe
+                              de C&eacute;sar Auguste, qu&#8217;il mena sur les Germains vaincus par les auspices et la valeur de
+                              Drusus. Ces ouvrages furent &eacute;crits en vers latins chez les G&egrave;tes. Il composa &eacute;galement, dans
+                              la langue des G&egrave;tes, qu&#8217;une longue fr&eacute;quentation et la n&eacute;cessit&eacute; lui avaient apprise, un
+                              ouvrage &agrave; la gloire de Jules. Il en fit une lecture publique devant une foule tr&egrave;s
+                              nombreuse, avec toute la dignit&eacute;, la gestuelle et l&#8217;&eacute;loquence dont il &eacute;tait capable. Cette
+                              prestation parut admirable et stup&eacute;fiante &agrave; des peuples encore frustes, et elle fl&eacute;chit
+                              d&#8217;une mani&egrave;re remarquable les esprits barbares en faveur du po&egrave;te, les disposant &agrave; la
+                              bienveillance, &agrave; la g&eacute;n&eacute;rosit&eacute; et &agrave; la reconnaissance. Ils le combl&egrave;rent en effet d&#8217;une
+                              couronne de laurier solennelle, d&#8217;une large immunit&eacute; et de grandes richesses, et d&egrave;s lors
+                              l&#8217;estim&egrave;rent &agrave; tel point qu&#8217;il ne fut plus jamais regard&eacute; comme un homme m&eacute;prisable, un
+                              &eacute;tranger, un exil&eacute;, comme auparavant, mais comme un homme d&#8217;exception, un po&egrave;te &eacute;minent, et
+                              parmi eux l&#8217;un des premiers par l&#8217;honneur, l&#8217;autorit&eacute; et le respect. Entre-temps, Auguste
+                              mourut. C&#8217;&eacute;tait alors la sixi&egrave;me ann&eacute;e de l&#8217;exil d'Ovide. Mais m&ecirc;me sous Tib&egrave;re, qui succ&eacute;da
+                              &agrave; Octave, aucune gr&acirc;ce ne lui fut accord&eacute;e. Cependant, dans la quatri&egrave;me ann&eacute;e du r&egrave;gne de
+                              Tib&egrave;re, Nason, d&eacute;j&agrave; &acirc;g&eacute; et sexag&eacute;naire, mourut en exil chez les Tomitains. Voil&agrave; ce que l&#8217;on
+                              rapporte sur Ovide.
+                           </div>
+                        </td>
+                        <td>
+                           <div class="ab orig">Publius Ovidius Naso genitus est Sulmone
+                              patria, quod oppidum in Pelignis fuit. Natalem habuit Aprili mense diebus quinquatriis,
+                              quibus sacra Minervae celebrari mos fuit apud Romanos, Aulo Licinio et Lucio Pansa
+                              Consulibus, qui mutinensi pugna contra Antonium ceciderunt. Neque desunt qui referant eodem
+                              die natos fuisse Publium Ovidium et Albium Tibullum Poetam in scribendis elegis maxima
+                              elegantia. Maiores illi contigerunt nobili genere atque fatis honesto ; a quibus equestrem
+                              dignitatem acceptam perpetuo servavit. In ipso adolescentiae suae principio, magnopere
+                              probavit quantum praestaret ingenii facilitate ac praeclaris moribus. Quo circa Romae
+                              institutus est in Latinis litteris maxima diligentia parentis. Et cum in tenera aetate (ut
+                              constat) summa voluptate et gratia teneretur componendis carminibus, ab eo studio retractus
+                              est parentis monitionibus ; qui monere illum et assidue hortari non destitit ad oratoriam
+                              facultatem, ut qui ad quaestum et opes comparandas animum magis intendisset. Itaque factum
+                              est ut Publius Ovidius studium illud atque curam absoluendi carmina intermitteret animumque
+                              ad causas et forum converteret praeceptoribus Arellio Fusco et Portio Latrone, cuius
+                              eloquentiam atque eruditionem uehementer admiratus est. Neque in ea re tulit vulgarem laudem
+                              aut commendationem ingenii sui, ut refert Annaeus Seneca. Nam et in privatis et in
+                              centumviralibus causis praesedit, aliasque praeterea dignitates obiuit posteaquam virilem
+                              togam sumpsit. Et latum clavum adeptus est de quo habentur complura apud ipsum Ovidium
+                              diversis locis, quae sunt a nobis praetermittenda studio brevitatis. Ceterum cum nihil animo
+                              suo potius foret quam versari in otio litterato posthabita omni cura rerum publicarum ad
+                              institutum suum rediit ac totum se dicavit poeticae facultati, unde perpetuum sibi nomen et
+                              quiete singulare fore sperabat. Minime dubium est eundem habuisse tres uxores. Primam namque
+                              sub ipsas adolescentiam ut inutilem parumque se dignam repudiavit cumque ea more veterum
+                              divortium fecit. Alteram bonis parentibus ortam beneque moratam sed parum stabili connubio
+                              sibi coniunctam mature dimisit. Successit his Perilla : cuius egregiam formam atque
+                              probitatem pluribus locis extollit. Neque tantum dilexit eam maxima fide et benevolentia
+                              singulari, sed in poetica etiam erudivit, magnaque cura excoluit. Quo factum est ut Perilla
+                              exulanti marito fidem suam diligentissime servaverit. Amicos habuit per multos cum doctrina
+                              et generis nobilitate insignes, tum probitate ac moribus ornatissimos ut Albium Tibullum,
+                              Cornelium Severum, Sabinum, Sextum Pompeium, Grecinum et Flaccum viros consulares, quorum
+                              familiaritate intime usus est, Messalam praeterea Albinovanum, Aemilium Macrum, Maximum et
+                              alios complures cum quibus (ut ipse refert) coniunctissime vixit. Relatum est a Suetonio
+                              Tranquillo Iulium Higinium (qui Augusti libertus fuit summoque ingenio et doctrina
+                              praestitit) familiarissimum fuisse Ovidio Poetae. De ipsius operibus haud magnum operae
+                              pretium est pluribus agere, cum multi de hoc scripserint eaque vulgo satis nota sint ex
+                              commentariis nostrorum grammaticorum. Et sane hic unus praeter caeteros omnes videtur plura
+                              atque varia poematum genera descripsisse. In eo opere, cui titulum fecit Metamorphoseon,
+                              secutus est Parthenium Chium Poetam, qui graece scripsit praeclarum poema pari argumento et
+                              materia simili. Id Ovidii opus in tanto pretio habitum est Graecorum ingeniis ut illud
+                              converterint in suum sermonem. Est enim refertum varia atque multiplici eruditione, quamque
+                              ipse auctor inemendatum atque imperfectum reliquit, ut ipse testatur versiculis additis. Nam
+                              absente illo atque etiam nesciente editum est in vulgus ab amicis. Fastorum libros sex
+                              composuit eosque ad Germanicum Drusi filium misit ; reliquos per importunum obitum et
+                              adversam exilii fortunam (ut plerique putant) non potuit perficere. Is tamen alicubi asserit
+                              duodecim a se compositos. Opus quidem eruditum et plenum magna et copiosa rerum scientia. 
+                              <lg xmlns="http://www.tei-c.org/ns/1.0">
+                                 Sex ego fastorum scripsi totidemque libellos<br xmlns="">
+                                  Cumque suo finem mense libellus habet. <br xmlns="">
+                                 
+                              </lg> De amoribus libros tres, in quibus sub ficto nomine Corinnae maxime probavit ingenium
+                              suum, complures etiam epistolas, in quibus est usus mira elegantia et artificio singulari,
+                              ut Critici asserunt. In elegia habitus est paulo lascivior, ut qui nimium quandoque
+                              indulxerit ingenio suo. Praeterea libros artium amandi et remediorum, in Ibim, de obitu
+                              Drusi, epigrammata et poemata complura, quae ab eodem composita sunt, ut grammatici veteres
+                              testantur. Quaedam tamen falso atque improbe ad eum referuntur, ut carmen de vocibus avium
+                              et pulice, et alia indigna prorsus atque aliena ab ingenio et doctrina tanti Poetae. Volumen
+                              praeterea scripsit alieuticon, in quo complexus est varia et inaudita ad eam diem nomina
+                              piscium, quod amissum est (ut alia multa eiusdem auctoris) iniuria hominum et longa
+                              vetustate insequentium temporum. Idem Ovidius magnopere commendatus est in Medea tragedia
+                              propter ipsam elegantiam et sententiarum gravitatem, ut Cornelius Tacitus et Fabius
+                              Quintilianus referunt. In urbe secundum capitolium habitavit, hortosque habuit in colle
+                              positos, qua via appia coniungebatur cum flaminia. In his magna animi voluptate versari
+                              consuevit suumque otium mitioribus curis traducere. Relegatus est a Caesare Augusto in
+                              pontum ad oppidum Tomos : quo tempore Ovidius maiorem quietem atque otium dari sibi sperabat
+                              recolendis veteribus studiis, ut qui accessisset ad aetatem provectiorem. Causam vero tam
+                              saevi tamque incivilis exilii varie multi (ut in re ancipiti evenit) interpretantur. Alii
+                              hoc referunt ad eos libros, qui ab eo scripti sunt de amoribus, quod essent paulo
+                              lasciviores, ut est auctor Sextus Aurelius, qui de Romanis principibus scripsit. Plerique
+                              existimant provenisse hoc ex adulterio cum Iulia, Augusti filia. Qua in re etsi publice
+                              Ovidius nihil omnino aperte retulit, tamen alicubi videtur id ipsum insinuare velata proprii
+                              criminis causa. Itaque Sidonius Apollinaris videtur existimasse ob id fuisse illum relegatum
+                              ab Augusto, ut satis declaratur his versibus. 
+                              <lg xmlns="http://www.tei-c.org/ns/1.0">
+                                 Nec te carmina per libidinosa<br xmlns="">
+                                  Notum Naso tener tomosque missum<br xmlns="">
+                                  Quondam Caesareae nimis puellae<br xmlns="">
+                                  Ficto carmine subditum Corinnae. <br xmlns="">
+                                 
+                              </lg> Hoc idem innuit Ovidius cum refert : 
+                              <lg xmlns="http://www.tei-c.org/ns/1.0">
+                                 Lingua sile : non est ultra narrabile quicquam,<br xmlns="">
+                                 
+                              </lg> et alibi, servata ratione obstinati silentii : 
+                              <lg xmlns="http://www.tei-c.org/ns/1.0">
+                                 Nec breve nec tutum est peccati quae sit origo<br xmlns="">
+                                  Dicere ; tractari vulnera nostra timent. <br xmlns="">
+                                 
+                              </lg> Minime autem obscurum est Iuliam Augusti principis filiam deflagrasse magna libidine
+                              et infamem fuisse vulgatis per urbem adulteriis, ut ab antiquis scriptoribus refertur.
+                              Quapropter inclinat animus ut existimem haud satis potuisse Octavium sibi temperare, quo
+                              minus desaeviret in Poetam Ovidium conficta causa novi criminis : quod impudicis carminibus
+                              operam atque studium posuisset. In exilio supra septem annos versatus est ; cumque illi
+                              vivendum foret inter incultas atque barbaras nationes, tantum sibi promeruit gratiae atque
+                              studii bene praeclareque agendo ut in eius obitu Getae illi ac Tomitani populi tenere
+                              lacrimas non potuerint. Fuit enim Ovidius moribus apprime honestis et facilitate mirifica ad
+                              conciliandum sibi ingenia hominum. Quodque inprimis dignum est summa admiratione, cum
+                              geticum sermonem atque sarmaticum didicisset, poemata descripsit Getica lingua laudesque
+                              Caesarum decantavit. Obiisse traditur eodem anno quo Titus Livius, qui nobilissimus auctor
+                              habitus est in Romana historia describenda. Sepultusque fuit iuxta oppidum Tomos ut Eusebius
+                              testatur. Per multi scriptores cum veteres tum iuniores deplorarunt obitum illius ut
+                              indignum atque miserabilem habita detestatione tam saevae tamque calamitosae relegationis.
+                              Sed eleganter inprimis et copiose (ut ego existimo) Angelus Politianus id fecit his
+                              versibus. 
+                              <lg xmlns="http://www.tei-c.org/ns/1.0">
+                                 Et iacet euxinis vates Romanus in oris<br xmlns="">
+                                  Romanum vatem barbara terra tegit.<br xmlns="">
+                                  Terra tegit vatem, teneros qui lusit amores<br xmlns="">
+                                  Barbara, quam gelidis alluit Hister aquis<br xmlns="">
+                                  Nec te Roma pudet, quae tanto inmitis alumno<br xmlns="">
+                                  Pectora habes ipsis barbariora Getis ?<br xmlns="">
+                                  Et quis, io Musae, Scythicis in finibus aegro<br xmlns="">
+                                  Taedia qui morbi demeret ullus erat ?<br xmlns="">
+                                  Et quis frigidulos qui lecto imponeret artus,<br xmlns="">
+                                  Aut qui dulciloquo falleret ore diem,<br xmlns="">
+                                  Aut qui tentaret salientis tempora venae,<br xmlns="">
+                                  Aut fomenta manu qui properata daret,<br xmlns="">
+                                  Conderet aut oculos media iam morte natantes,<br xmlns="">
+                                  Aut legeret summam qui pius ore animam ?<br xmlns="">
+                                  Nullus erat, nullus ! Veteres tu dura sodales<br xmlns="">
+                                  Heu procul a ponto martia Roma tenes.<br xmlns="">
+                                  Nullus erat. Procul ah coniunx paruique nepotes<br xmlns="">
+                                  Nec fueras profugum nata sequuta patrem.<br xmlns="">
+                                  Scilicet inmanes bessi, flavique Coralli<br xmlns="">
+                                  Aut vos pelliti saxea corda Getae<br xmlns="">
+                                  Scilicet horribili dederit solamina vultu<br xmlns="">
+                                  Sarmata ab epoto saepe vehendus equo<br xmlns="">
+                                  Sarmata, cui rigidam demisso in lumina frontem<br xmlns="">
+                                  Mota pruinoso tempora crine sonant<br xmlns="">
+                                  Sed tamen et Bessi extinctum et flevere Coralli<br xmlns="">
+                                  Sarmataeque et durus contudit ora Gethes.<br xmlns="">
+                                  Extinctum et montes flebant et silva feraeque<br xmlns="">
+                                  Et fleuisse in mediis dicitur Ister aquis.<br xmlns="">
+                                  Quin etiam pigro concretum frigore pontum<br xmlns="">
+                                  Nereidum lacrimis intepuisse ferunt.<br xmlns="">
+                                  Accurrere leves Paphia cum matre volucres<br xmlns="">
+                                  Arsuroque faces supposuere rogo.<br xmlns="">
+                                  Quem simul assumpsit rapidae violentia flammae,<br xmlns="">
+                                  Reliquias tecto composuere cado.<br xmlns="">
+                                  Impositumque brevi signarunt carmine saxum :<br xmlns="">
+                                  Qui iacet hic teneri doctor amoris erat.<br xmlns="">
+                                  Ipsa locum late sancto cytherea liquore<br xmlns="">
+                                  Irrorat nivea terque quaterque manu<br xmlns="">
+                                  Vos quoque pierides vati libastis adempto<br xmlns="">
+                                  Carmina sed nostro non referenda sono. <br xmlns="">
+                                 
+                              </lg>
+                           </div>
+                           <div class="ab trad">Publius Ovidius Naso naquit &agrave; Sulmone, sa
+                              patrie, place forte situ&eacute;e en territoire p&eacute;lignien. Il vit le jour au mois d'avril, lors des
+                              jours des Quinquatries, durant lesquels la coutume chez les Romains &eacute;tait de c&eacute;l&eacute;brer les
+                              f&ecirc;tes sacr&eacute;es de Minerve, sous le consulat d'Aulus Licinius et de Lucius Pansa, qui p&eacute;rirent
+                              lors de la bataille de Mod&egrave;ne contre Antoine. Il ne manque pas de gens pour rapporter
+                              d'ailleurs que Publius Ovidius et le po&egrave;te Albius Tibulle, d'une immense &eacute;l&eacute;gance dans
+                              l'&eacute;criture de l'&eacute;l&eacute;gie, naquirent le m&ecirc;me jour. Ses anc&ecirc;tres furent de noble lign&eacute;e et d'une
+                              condition honorable ; il conserva d'eux, durant toute sa vie, la dignit&eacute; de l'ordre &eacute;questre
+                              re&ccedil;ue en h&eacute;ritage. D&egrave;s le d&eacute;but de son adolescence, il fit la preuve combien il l&#8217;emportait
+                              par la facilit&eacute; de son talent et par ses m&#339;urs remarquables. C'est pourquoi il fut instruit
+                              &agrave; Rome dans les lettres latines gr&acirc;ce &agrave; la tr&egrave;s grande diligence de son p&egrave;re. Tandis que,
+                              dans sa tendre jeunesse (comme il est &eacute;tabli), il &eacute;tait saisi d'un plaisir et d'un attrait
+                              supr&ecirc;mes pour la composition de po&egrave;mes, il fut d&eacute;tourn&eacute; de cette &eacute;tude par les remontrances
+                              de son p&egrave;re ; celui-ci ne cessait de l'avertir et de l'exhorter assid&ucirc;ment vers l'&eacute;loquence
+                              oratoire, comme quelqu'un qui aurait davantage port&eacute; son esprit vers le gain et
+                              l'acquisition de richesses. Il advint donc que Publius Ovidius interrompit cette &eacute;tude et ce
+                              soin d'achever ses po&egrave;mes et tourna son esprit vers les plaidoiries et le forum, sous la
+                              direction de ses ma&icirc;tres Arellius Fuscus et Portius Latro, dont il admira vivement
+                              l'&eacute;loquence et l'&eacute;rudition. Dans cette discipline, il ne recueillit pas une louange vulgaire
+                              ni une recommandation ordinaire pour son g&eacute;nie, comme le rapporte S&eacute;n&egrave;que l'Ancien. En
+                              effet, il pr&eacute;sida tant dans des causes priv&eacute;es que devant les tribunaux centumviraux, et il
+                              exer&ccedil;a en outre d'autres fonctions apr&egrave;s avoir pris la toge virile. Il obtint le laticlave,
+                              ce dont on trouve plusieurs t&eacute;moignages chez Ovide lui-m&ecirc;me en divers endroits que nous
+                              devons passer sous silence par souci de bri&egrave;vet&eacute;. Au reste, comme rien ne plaisait davantage
+                              &agrave; son esprit que de s'adonner au loisir litt&eacute;raire, il laissa de c&ocirc;t&eacute; tout soin des affaires
+                              publiques pour revenir &agrave; son inclination naturelle et se consacra tout entier &agrave; la po&eacute;sie,
+                              d&#8217;o&ugrave; il esp&eacute;rait tirer pour lui-m&ecirc;me un nom &eacute;ternel et une gloire unique dans la
+                              tranquillit&eacute;. Il n'y a pas le moindre doute qu'il eut trois &eacute;pouses. En effet, il r&eacute;pudia la
+                              premi&egrave;re, qu'il avait &eacute;pous&eacute;e au seuil m&ecirc;me de l'adolescence, comme lui &eacute;tant inutile et peu
+                              digne de lui et divor&ccedil;a d'avec elle selon la coutume des anciens. Il renvoya assez t&ocirc;t la
+                              seconde qui, bien qu'issue de bons parents et de m&#339;urs honn&ecirc;tes, ne lui &eacute;tait li&eacute;e que par
+                              une union peu stable. &Agrave; celles-ci succ&eacute;da Perilla : il loue en plusieurs endroits sa beaut&eacute;
+                              remarquable et sa vertu. Et il ne se contenta pas de l'aimer avec une fid&eacute;lit&eacute; absolue et
+                              une bienveillance singuli&egrave;re, mais il l'instruisit &eacute;galement dans l'art po&eacute;tique et cultiva
+                              son esprit avec un soin immense. C'est ainsi que Perilla conserva avec la plus grande
+                              diligence sa fid&eacute;lit&eacute; &agrave; son mari exil&eacute;. Il eut de nombreux amis, remarquables tant par leur
+                              savoir que par la noblesse de leur lign&eacute;e, mais aussi tr&egrave;s distingu&eacute;s par leur probit&eacute; et
+                              leurs m&#339;urs, tels qu'Albius Tibulle, Cornelius Severus, Sabinus, Sextus Pompeius, les
+                              consulaires Graecinus et Flaccus avec lesquels il entretint une intimit&eacute; &eacute;troite, Messala
+                              Albinovanus, Aemilius Macer, Maximus et plusieurs autres avec qui (comme il le rapporte
+                              lui-m&ecirc;me) il v&eacute;cut dans la plus grande proximit&eacute;. Su&eacute;tone rapporte que Julius Hyginus (qui
+                              fut un affranchi d'Auguste et brilla par son g&eacute;nie et son savoir extr&ecirc;mes) fut un ami tr&egrave;s
+                              intime du po&egrave;te Ovide. Quant aux &#339;uvres de ce dernier, il n'est gu&egrave;re utile d'en traiter
+                              longuement, puisque beaucoup ont &eacute;crit &agrave; ce sujet et qu'elles sont assez connues du public
+                              par les commentaires de nos grammairiens. Et de fait, il semble &ecirc;tre le seul, entre tous les
+                              autres, &agrave; avoir pratiqu&eacute; des genres de po&egrave;mes aussi nombreux et vari&eacute;s. Dans l'ouvrage qu'il
+                              a intitul&eacute; M&eacute;tamorphoses, il a suivi le po&egrave;te Parth&eacute;nios de Chios, qui &eacute;crivit en grec un
+                              po&egrave;me remarquable sur un sujet et une mati&egrave;re semblables. Cette &#339;uvre d'Ovide fut tenue en
+                              si grande estime par l'esprit des Grecs qu'ils la traduisirent dans leur propre langue. Elle
+                              est en effet remplie d'une &eacute;rudition vari&eacute;e et multiple, bien que l'auteur lui-m&ecirc;me l'ait
+                              laiss&eacute;e sans correction et imparfaite, comme il en t&eacute;moigne lui-m&ecirc;me dans des vers ajout&eacute;s.
+                              Car c'est en son absence, et m&ecirc;me &agrave; son insu, qu'elle fut publi&eacute;e par ses amis. Il composa
+                              six livres des Fastes et les envoya &agrave; Germanicus, fils de Drusus ; il ne put achever les
+                              autres &agrave; cause d'une mort pr&eacute;matur&eacute;e et du malheur de son exil (comme la plupart le
+                              pensent). Il affirme pourtant quelque part en avoir compos&eacute; douze. C'est une &#339;uvre
+                              assur&eacute;ment &eacute;rudite et pleine d'une grande et abondante connaissance des choses. &laquo; J'ai &eacute;crit
+                              six livres des Fastes et autant de livrets ; chaque livret finit avec son mois. &raquo; Il &eacute;crivit
+                              trois livres Des Amours, dans lesquels, sous le pseudonyme de Corinne, il fit surtout la
+                              preuve de son g&eacute;nie ; ainsi que plusieurs &Eacute;p&icirc;tres o&ugrave; il fit usage d'une &eacute;l&eacute;gance admirable
+                              et d'un artifice singulier, comme l'affirment les critiques. Dans l'&eacute;l&eacute;gie, il fut consid&eacute;r&eacute;
+                              comme un peu trop licencieux, tel un homme qui aurait parfois trop c&eacute;d&eacute; &agrave; son propre talent.
+                              En outre, il composa les livres de l'Art d'aimer et des Rem&egrave;des &agrave; l'amour, le Contre Ibis,
+                              la Consolation sur la mort de Drusus, des &eacute;pigrammes et plusieurs po&egrave;mes qui furent compos&eacute;s
+                              par lui, comme en t&eacute;moignent les anciens grammairiens. Cependant, certaines &#339;uvres lui sont
+                              attribu&eacute;es faussement et de mani&egrave;re malhonn&ecirc;te, comme le po&egrave;me sur le cri des oiseaux et
+                              celui sur la Puce, ainsi que d'autres &eacute;crits tout &agrave; fait indignes et &eacute;trangers au talent et
+                              au savoir d'un tel po&egrave;te. Il &eacute;crivit en outre un volume, les Halieutiques, dans lequel il
+                              embrassa des noms de poissons divers et inou&iuml;s jusqu'&agrave; ce jour, ouvrage qui a &eacute;t&eacute; perdu
+                              (comme beaucoup d'autres du m&ecirc;me auteur) par l'injustice des hommes et la longue usure des
+                              temps qui suivirent. Ce m&ecirc;me Ovide fut grandement lou&eacute; pour sa trag&eacute;die M&eacute;d&eacute;e, en raison de
+                              son &eacute;l&eacute;gance m&ecirc;me et de la gravit&eacute; de ses sentences, comme le rapportent Cornelius Tacite et
+                              Fabius Quintilien. Il habita en ville pr&egrave;s du Capitole et poss&eacute;da des jardins situ&eacute;s sur une
+                              colline, l&agrave; o&ugrave; la Voie Appienne rejoignait la Voie Flaminienne. Il avait coutume de s'y
+                              attarder avec un grand plaisir de l'esprit, et de consacrer son loisir &agrave; des occupations
+                              plus douces. Il fut rel&eacute;gu&eacute; par C&eacute;sar Auguste dans le Pont, vers la place forte de Tomes ; &agrave;
+                              cette &eacute;poque, Ovide esp&eacute;rait qu'un repos et un loisir plus grands lui seraient accord&eacute;s pour
+                              reprendre ses &eacute;tudes de jadis, lui qui &eacute;tait parvenu &agrave; un &acirc;ge plus avanc&eacute;. Quant &agrave; la cause
+                              d'un exil si cruel et si contraire aux devoirs civiques, beaucoup l'interpr&egrave;tent de diverses
+                              mani&egrave;res (comme il arrive dans une affaire incertaine). Certains rapportent cela aux livres
+                              qu'il &eacute;crivit sur les Amours, parce qu'ils &eacute;taient un peu trop licencieux, comme le dit
+                              l'auteur Sextus Aurelius qui &eacute;crivit sur les princes romains. La plupart pensent que cela
+                              provint d'un adult&egrave;re avec Julie, la fille d'Auguste. Sur ce point, bien qu'Ovide n'ait rien
+                              rapport&eacute; ouvertement en public, il semble n&eacute;anmoins insinuer ici ou l&agrave; la cause voil&eacute;e de
+                              son accusation. C'est pourquoi Sidoine Apollinaire semble avoir estim&eacute; que c'est pour cela
+                              qu'il fut rel&eacute;gu&eacute; par Auguste, comme cela est assez clairement expos&eacute; par ces vers : &laquo; Ce
+                              n'est pas pour tes po&egrave;mes licencieux, &Ocirc; tendre Nason, que tu fus connu et envoy&eacute; &agrave; Tomes,
+                              mais parce que tu fus jadis soumis &agrave; la trop c&eacute;l&egrave;bre fille de C&eacute;sar sous le pseudonyme de
+                              Corinne dans tes vers. &raquo; Ovide lui-m&ecirc;me l'indique quand il rapporte : &laquo; Langue, tais-toi :
+                              rien de plus ne peut &ecirc;tre racont&eacute; &raquo;, et ailleurs, observant la r&egrave;gle d'un silence obstin&eacute; :
+                              &laquo; Il n'est ni bref ni s&ucirc;r de dire quelle fut l'origine de ma faute ; mes blessures craignent
+                              d'&ecirc;tre touch&eacute;es. &raquo; Or, il n'est pas du tout obscur que Julie, la fille du prince Auguste,
+                              br&ucirc;la d'une grande luxure et fut inf&acirc;me pour ses adult&egrave;res connus par toute la ville, comme
+                              le rapportent les auteurs anciens. C'est pourquoi l&#8217;esprit incline &agrave; penser qu'Octave ne put
+                              assez se contenir pour ne pas s&eacute;vir contre le po&egrave;te Ovide, sous le pr&eacute;texte invent&eacute; d'un
+                              nouveau crime : il aurait consacr&eacute; son travail et son &eacute;tude &agrave; des po&egrave;mes impudiques. Il
+                              passa plus de sept ans en exil ; et alors qu'il lui fallait vivre parmi des nations incultes
+                              et barbares, il s'acquit tant de gr&acirc;ce et d'int&eacute;r&ecirc;t en agissant bien et noblement que, lors
+                              de son tr&eacute;pas, les fameux G&egrave;tes et le peuple de Tomes ne purent retenir leurs larmes. Car
+                              Ovide &eacute;tait d'une moralit&eacute; tout &agrave; fait honn&ecirc;te et d'une facilit&eacute; admirable pour se concilier
+                              l'esprit des hommes. Et ce qui est surtout digne d'une immense admiration, c'est qu'ayant
+                              appris la langue g&egrave;te et sarmate, il composa des po&egrave;mes en langue g&egrave;te et chanta les
+                              louanges des C&eacute;sars. On rapporte qu'il mourut la m&ecirc;me ann&eacute;e que Tite-Live, qui fut consid&eacute;r&eacute;
+                              comme l'auteur le plus noble pour d&eacute;crire l'histoire romaine. Il fut enterr&eacute; pr&egrave;s de la
+                              place forte de Tomes, comme en t&eacute;moigne Eus&egrave;be. De tr&egrave;s nombreux &eacute;crivains, tant anciens que
+                              modernes, d&eacute;plor&egrave;rent sa mort comme &eacute;tant indigne et mis&eacute;rable, vouant &agrave; la d&eacute;testation une
+                              rel&eacute;gation si cruelle et si d&eacute;sastreuse. Mais c'est Ange Politien qui le fit, selon moi,
+                              avec une &eacute;l&eacute;gance et une abondance toutes particuli&egrave;res dans les vers suivants. 
+                              <lg xmlns="http://www.tei-c.org/ns/1.0">
+                                 Et il g&icirc;t sur les rivages de l'Euxin, le po&egrave;te romain,<br xmlns="">
+                                  Une terre barbare recouvre le barde de Rome.<br xmlns="">
+                                  La terre recouvre le po&egrave;te qui chanta les tendres amours,<br xmlns="">
+                                  Terre barbare, que l'Ister baigne de ses eaux glac&eacute;es.<br xmlns="">
+                                  N'as-tu pas honte, Rome, toi qui, envers un tel fils,<br xmlns="">
+                                  As un c&#339;ur plus barbare que les G&egrave;tes eux-m&ecirc;mes ?<br xmlns="">
+                                  H&eacute;las, Muses ! Dans les confins de la Scythie, qui donc<br xmlns="">
+                                  &Eacute;tait l&agrave; pour &ocirc;ter au malade l'ennui de sa souffrance ?<br xmlns="">
+                                  Qui donc pour r&eacute;chauffer ses membres glac&eacute;s sur son lit,<br xmlns="">
+                                  Ou tromper la longueur du jour par de doux discours ?<br xmlns="">
+                                  Qui pour t&acirc;ter le pouls de sa veine battante,<br xmlns="">
+                                  Ou donner de sa main les rem&egrave;des pressants ?<br xmlns="">
+                                  Qui pour fermer ses yeux flottant d&eacute;j&agrave; au milieu de la mort,<br xmlns="">
+                                  Ou recueillir pieusement de sa bouche son dernier souffle ?<br xmlns="">
+                                  Il n'y avait personne, personne ! Toi, dure Rome,<br xmlns="">
+                                  Tu retiens ses vieux compagnons, h&eacute;las, loin du Pont.<br xmlns="">
+                                  Il n'y avait personne. Loin de lui, ah ! son &eacute;pouse et ses petits-enfants,<br xmlns="">
+                                  Et toi, sa fille, tu n'avais pas suivi ton p&egrave;re qui partait.<br xmlns="">
+                                  Assur&eacute;ment, ce sont les farouches Besses, les blonds Coralles,<br xmlns="">
+                                  Ou vous, G&egrave;tes v&ecirc;tus de peaux, aux c&#339;urs de pierre,<br xmlns="">
+                                  Assur&eacute;ment, c&#8217;est le Sarmate au visage horrible qui lui donna des soins,<br xmlns="">
+                                  Lui qu'il faut souvent porter sur son cheval apr&egrave;s qu'il a bu ;<br xmlns="">
+                                  Le Sarmate, dont le front est dur sous ses cheveux tombants,<br xmlns="">
+                                  Et dont les tempes r&eacute;sonnent sous sa chevelure givr&eacute;e.<br xmlns="">
+                                  Mais cependant, les Besses ont pleur&eacute; le mort ; les Coralles ont pleur&eacute; ;<br xmlns="">
+                                  Et les Sarmates, et le G&egrave;te au rude visage s'est frapp&eacute; la face.<br xmlns="">
+                                  Les montagnes pleuraient le d&eacute;funt, les for&ecirc;ts et les b&ecirc;tes sauvages,<br xmlns="">
+                                  Et l'on dit que l'Ister a vers&eacute; des larmes au milieu de ses eaux.<br xmlns="">
+                                  On rapporte m&ecirc;me que la mer, fig&eacute;e par un froid paresseux,<br xmlns="">
+                                  S'est atti&eacute;die sous les larmes des N&eacute;r&eacute;ides.<br xmlns="">
+                                  Les oiseaux l&eacute;gers accoururent avec leur m&egrave;re de Paphos,<br xmlns="">
+                                  Et plac&egrave;rent des flambeaux sous le b&ucirc;cher pr&ecirc;t &agrave; br&ucirc;ler.<br xmlns="">
+                                  D&egrave;s que la violence d'une flamme rapide l'eut consum&eacute;,<br xmlns="">
+                                  Ils plac&egrave;rent ses restes dans une urne close<br xmlns="">
+                                  Et ils marqu&egrave;rent la pierre qu'on y posa d'un bref po&egrave;me :<br xmlns="">
+                                  "Celui qui g&icirc;t ici fut le ma&icirc;tre des tendres amours". <br xmlns="">
+                                  Cyb&egrave;le elle-m&ecirc;me arrose au loin le lieu d'une liqueur sacr&eacute;e,<br xmlns="">
+                                  De sa main de neige, par trois et quatre fois.<br xmlns="">
+                                  Et vous aussi, Pi&eacute;rides, pour le po&egrave;te disparu,<br xmlns="">
+                                  Vous avez offert des chants, mais ma voix ne saurait les r&eacute;p&eacute;ter. <br xmlns="">
+                                 
+                              </lg>
+                           </div>
+                        </td>
+                        <td>
+                           <div class="ab orig">Publius vero Ovidius Naso patriam habuit
+                              Sulmonem, tertiam Pelignorum civitatem. Nam, ut ex Plinio colligimus, Peligni in
+                              Corsinienses, in Superaequanos et Sulmonenses distincti sunt, ut illud facilius ex ipsius
+                              poetae elegis percipiatis. 
+                              <lg xmlns="http://www.tei-c.org/ns/1.0">
+                                 Me pars Sulmo tenet, Peligni tertia ruris,<br xmlns="">
+                                  Parva, sed irriguis ora salubris aquis. <br xmlns="">
+                                 
+                              </lg> Ex ordine equestri fuit, ut idem pluribus locis ostendit. Ingenio fuit, ut mihi quidem
+                              videtur, parato facilique, sed qui nimium sibi aliquando indulgeret. De cuius vita quaedam
+                              tantum libabo, quae non iniucunda vobis futura arbitror. Fuit itaque Ovidius cum omni vita
+                              atque victu excultus atque expolitus, tum tenui et vesco corpore, nervisque compacto, qualis
+                              scilicet est Petrus Bembus, vir unus omnium elegantissimus. Id quod vel ex eius ipsius
+                              Ovidii carmine discere potestis, ait enim, 
+                              <lg xmlns="http://www.tei-c.org/ns/1.0">
+                                 Pondere, non nervis corpora nostra carent.<br xmlns="">
+                                 
+                              </lg> Item alibi : 
+                              <lg xmlns="http://www.tei-c.org/ns/1.0">
+                                 Aptaque subducto pondere membra dedit.<br xmlns="">
+                                 
+                              </lg> Suopte naturae instituto puer ad poeticam ferebatur, verum parentis monitionibus
+                              oratoriae facultati operam dare compulsus est. In qua, si Senecae credimus, egregie
+                              profecit, forensesque causas et centumviralia iudicia exercuit. Mox vita defuncto patre,
+                              totum se mansuetioribus Musis restituit, foro relicto. Fratrem uno anno natu maiorem habuit,
+                              forensi eloquentiae deditum, qui vigesimo annum agens diem obiit. Filias duas ipse habuit.
+                              Sunt, qui alteram privignam dicant. Altera certe aberat, cum ipse relegatus est. Tres vero
+                              subinduxit uxores, duas quidem, facto divortio, repudiavit, tertiam vero, quam singulari
+                              caritate ac dilectione prosecutus est, ad mortem usque retinuit. Hanc, ut puto, perperam
+                              Perillam vocitatam quidam existimant. Nam si Perilla uxor fuisset, id profecto in iis, quae
+                              ad uxorem multae scribuntur, elegiis alicubi significasset. Fuit autem Perilla, ut ipsemet
+                              ostendit poeta, puella valde docta atque in primis poetria, ad quam extat poetae ipsius
+                              nobilis elegia. Romae vero Ovidius secundum Capitolium habitavit, ut ipsemet testatur.
+                              Hortos habuit prope viam Flaminiam qua Cassiae iuncta fuit. Mortuus est in exilio, ut notat
+                              Eusebius, centesima nonagesima nona Olympiade, sepultusque est iuxta Tomos et ut Pontanus e
+                              Georgio Trapezontio, nec semel se audivisse scribit in eo, qui est de Magnificentia ad
+                              Attilium, Collata e publico pecunia, a Tomitanis civibus, tymbo, id est, monumento ante
+                              oppidi portam, in loco maxime celebri, magnifice structo, iis scilicet pluris facientibus
+                              peregrini poetae ingenii nobilitatem, quam Imperatoris Romani proscriptionem. Exilii vero
+                              ipsius varie causa traditur. Tametsi ipse non se exulem, sed relegatum ait, eam ipse certe
+                              triplicem innuit. Qua de re multi multa, illam ipse praetulit, qua et caeteras, ut opinor,
+                              praetexuit Augustus : quod suo scilicet carmine de amandi arte Romanam corrupisset
+                              iuventutem. Ego omnes quadam ex parte veras fuisse puto, eam tamen potissimum, quam et
+                              Sidonius Apollinaris de Corinna suis versibus attigit, quod videlicet, eo ficto nomine,
+                              Iuliam his versibus significaret. 
+                              <lg xmlns="http://www.tei-c.org/ns/1.0">
+                                 Nec te, inquit, carmina per libidinosa<br xmlns="">
+                                  Notum Naso tener, Tomosque missum,<br xmlns="">
+                                  Quondam Caesareae nimis puellae,<br xmlns="">
+                                  Ficto carmine, subditum Corinnae.<br xmlns="">
+                                 
+                              </lg> Quam opinionem cum alii, tum suo carmine in Nutritia Politianus sequutus est. Tradunt
+                              quidam, quod cum filia Augustum parum honeste iacentem vidisset, quod et illo ipsius poetae
+                              versiculo significari volunt, 
+                              <lg xmlns="http://www.tei-c.org/ns/1.0">
+                                 Cur aliquid vidi, cur conscia lumina feci ?<br xmlns="">
+                                 
+                              </lg> Nam et de C. Caligula Suetonius ita tradit, Caius Agrippae se nepotem neque credi
+                              neque dici, ob ignobilitatem eius volebat ; succensebatque, si qui vel oratione vel carmine
+                              imaginibus eum Caesarum infererent. Praedicabat autem matrem suam ex incesto, quod Augustus
+                              cum Iulia filia admisisset, procreatam. Haec Suetonius. Sunt qui rem hanc in puerum ineptius
+                              referant ; sed in re huiusmodi coniectura potius quam certa aliqua ratione ducuntur. Sunt
+                              et, qui de Maecenate nihil non suscipentur, quem quod nunquam nominavit, nescio quid, de
+                              Iulia confingunt. Haec ego cum dixissem, ad me conversus Piso, &laquo; Attende, inquit, quaeso
+                              Lili, quae ex communi amico his diebus audivi. Is enim se domi habere affirmabat queppiam
+                              Caecilii Minutiani Apuleii fragmenta, in quibus de Ovidio poeta haec fere inerant perscripta
+                              : eum scilicet calendis Ianuarii, qua die Titus quoque Livius decesserit, anno sui exilii
+                              septimo, hominem esse desiisse structumque illi tymbon &agrave; Barbaris, ante suarum edium ianuam.
+                              Idem Minutianus ait item, quem Ibin simulato nomine appellarat, Corvinum fuisse, qui
+                              exulantis poetae uxorem solicitasset, relegationis causam fuisse, quod Augusti incestum
+                              vidisset. Atque haec quidem ille, ex iis Minutiani Fragmentis. Tunc ego, &laquo; Istiusce, Piso,
+                              rei fides esto penes autorem adhuc mihi incognitum, et amicum tuum &raquo;, et simul ad puerum
+                              conversus, &laquo; Ea, Pice, inquam, quae nobis modo Piso retulit, parum comperta, non tamen
+                              indigna scitu. Verum quando illa ipsa nobis impertiuit, volo ego quoque iudicium referre,
+                              quod aliquando de tribus his poetis, cum una mecum et aliis nonnullis Iulius Sadoletus
+                              esset, fecit Luceus Ripa, paucis ant&egrave; diebus, qu&agrave;m e vita decederet. Affirmabat Senex ille
+                              bonus omnino palmam se Tibullo dare inter elegos, quod cultus sit et nitidus in primis, quod
+                              in sententiis mollis et iucundus, in elocutione facilis et candidus. Nonnulla tamen se in eo
+                              offendere dicebat, quae lectorem morentur. Haec tum ille. Sed enim ego non inficias ierim
+                              ita pleraque in Tibullo videri, ut senex Ripa dicebat, iis qui in mendosa exemplaria
+                              impegerint. Sed postquam pervetus tum codicem nactus sum amici opera, et emendatum satis, id
+                              ego totum pernego. Nam quae tum difficilia videbantur et duriora, ea partim fragmenta sunt
+                              et fenestrae, partim tralaticia et suppositicia adeo, ut aliqua etiam sint interiectae fere
+                              elegiae. Codicem vobis alias ostendam ; nunc ad reliqua. Propertium bonus senex aiebat
+                              Tibullo eruditiorem sibi videri, et perinde ut obscuriorem, fabulis historiisque refertum,
+                              incitatum magis et in movendis affectibus crebriorem, itaque plerunque insurgere, ut
+                              torofior ac robustior esse videatur quam ut puellaribus et mollioribus conveniat elegiae
+                              blanditiis. Ovidium vero ferri quadam ingenii volubilitate et impetu, non illi tamen
+                              quicquam, nisi frena defuisse et limae studium atque idcirco de illo recte dictum illum plus
+                              satis lascivire. Sed audite, quaeso, Annaeum Senecam, si plane nosse vultis Ovidio non
+                              ingenium defuisse, sed voluntatem et animum. &laquo; Declamabat, inquit, raro Naso controversias,
+                              sed non nisi ethicas, libentius dicebat suasorias, molesta illi erat omnis argumentatio,
+                              verbis minime licenter usus, nisi in carminibus, in quibus non ignoravit vitia sua, sed
+                              amavit. Manifestum potest esse, quod rogatus aliquando ab amicis suis, ut tolleret tres
+                              versus, invicem petiit, ut ipse tres exciperet, in quibus nihil illis liceret. Aequa lex
+                              visa est : scripserunt illi, quos tolli vellent, et Ovidius, quos tres exciperet. De
+                              utrisque codicillis iidem versus erant, in quibus primum fuisse narrabat Albinovanus rhetor,
+                              qui inter arbitros fuit, 
+                              <lg xmlns="http://www.tei-c.org/ns/1.0">
+                                 Semibovemque virum, semivirumque bovem,<br xmlns="">
+                                  Sed gelidum Borean, egelidumque Notum.<br xmlns="">
+                                 
+                              </lg> Ex quo apparet summi ingenii viro iudicium non defuisse ad compescendam suorum
+                              carminum licentiam, sed animum. Aiebat interim decentiorem faciem esse, in qua naevus
+                              aliquis fuisset. &raquo; Et haec quidem Seneca, qui et partem declamationis eius soluta oratione
+                              attulit, in ea controversia, cuius hoc est argumentum : &laquo; Vir et uxor iuraverunt, ut si quid
+                              alteri obtigisset, alter moreretur. Vir peregre profectus, misit nuntium ad uxorem, qui
+                              diceret, decessisse virum, uxor se praecipitavit. Recreata iubetur a Patre relinquere virum,
+                              non vult, abdicat &raquo;. Hanc certe controversiam, ait Seneca, ante Arellium Fuscum, magistrum
+                              suum, declamavit Ovidius, ut mihi videbatur longe ingeniosius, excepto eo, quod sine certo
+                              ordine per iocos discurrebat. Reliqua mitto, quoniam non ita ad rem, et vos in ea
+                              controversia, cum otium erit, ea apud Senecam legetis. Extat et Cestii, eius gratus viri
+                              doctissimi, de Ovidio testimonium. Cum enim Alfius Flavus in declamatione quapiam hanc
+                              sententiam dixisset, 
+                              <lg xmlns="http://www.tei-c.org/ns/1.0">
+                                 Ipse sui et alimentum erat et damnum,<br xmlns="">
+                                 
+                              </lg> Alfius obiurgavit : &laquo; Apparet, inquit, te poetas studiose legere. Iste sensus est
+                              eius, qui hoc seculum amatoriis non artibus tantum, sed sententiis implevit &raquo;. Ovidius enim
+                              in libris Metamorphoseon dixit, 
+                              <lg xmlns="http://www.tei-c.org/ns/1.0">
+                                 Ipse suos artus lacero divellere morsu<br xmlns="">
+                                  Coepit, et infelix minuendo corpus alebat.<br xmlns="">
+                                 
+                              </lg> Haec ille. Quae vero ingeniosissimi huius poetae opera supersint, scitis. Sunt enim
+                              haec, ut breviter colligam. Elegiae amorum, vel de sine titulo, de quibus sunt grammaticorum
+                              controversiae ; epistolae, quarum nonnullae tanta arte et elegantia conscriptae sunt ut in
+                              eo genere absolutius quiddam nihil fieri posse existiment ; tres libri de arte, duo de
+                              remedio amoris ; de Tristibus quinque ; de Ponto quatuor ; in Ibin ; de Nuce ; ad Liviam
+                              consolatio ; sex Fastorum, et praeclarissimum, ut ait Lactantius, Metamorphoseon opus. Quae
+                              vero perierint temporum iniuria, haec sunt : sex Fastorum ultimi, Medeae tragoedia, quae
+                              Fabio et Tacito, aliisque commendata plurimum (haec hoc tempore inuenta dicitur, sed falso,
+                              ut puto). Scripsit et alteram tragoediam ex Vergilio, de qua sic Tertullianus Septimius
+                              quodam suo libello : &laquo; Denique, inquit, Ovidius etiam Medeam tragoediam ex Vergilio
+                              plenissime expressit &raquo;, quo loco agit de his, qui ex aliis autoribus centones et noua opera
+                              concinnarunt. Reliquit item Ovidius inchoatum opusculum de piscibus, ex quo multos Plinius
+                              enumerat, quod tamen Actius Sincerus, po&euml;ta clarissimus, et alioqui certus homo, se
+                              invenisse fatetur, et se mihi ostensurum aliquando spopondit. Periere et Ovidii epigrammata,
+                              quae tum Prisciano grammatico, tum Martiano et Martiali citantur ; item Phaenomenon
+                              libellus, ut vobis alias, ex Lactantii et Probi sententia dixi ; item liber, quem in malos
+                              poetas ediderat, ut ex Fabio colligimus, et si noster amicus grammaticus constanter hoc
+                              perneget, verbaque Fabii transferat ad illud Priapeiorum epigramma, 
+                              <lg xmlns="http://www.tei-c.org/ns/1.0">
+                                 Quid frustra quereris colone mecum ?<br xmlns="">
+                                 
+                              </lg> Quod factum putat contra Macri po&euml;tae tetrastichon, parum lepidum. Verum hac de re
+                              satis, ne temporis usura abutamur. Perierunt et Vaticinia, quae uno libro complexus erat,
+                              item Triumphus Augusti Caesaris, et De gestis imperatoris lingua Getica, Bellum Actiacum,
+                              quod ad Tiberium Caesarem libris duobus inchoauerat. Atque ut haec quidem, quantum in
+                              praesentia recordor, deperdita, ita quae subiungam, suppositicia et adulterina, falsoque
+                              Ovidio ascripta : De vetula, in quo de magnis siderum coniunctionibus et de Christiana lege
+                              miranda leguntur ; item De Pulice ; De Philomela ; De medicamine faciei. Qua de re licet in
+                              arte se scripsisse assueret, id tamen, quod in manibus habetur, poema illegitimum et
+                              tralaticium ab aliquibus doctis viris putatur. Et haec quidem vobiscum, suum alias cuique
+                              iudicium, nam a plerisque et haec ipsa, ut legitima citata et interpretata comperi. Attente
+                              uero haec puer Picus et Piso audiebant, cum ego, Sed de his iam satis, nunc ad reliquos
+                              po&euml;tas descendam. 
+                           </div>
+                           <div class="ab trad">&laquo; Publius Ovidius Naso, quant &agrave; lui, eut pour
+                              patrie Sulmone, la troisi&egrave;me cit&eacute; des P&eacute;ligniens. Car, comme nous le recueillons chez Pline,
+                              les P&eacute;ligniens sont divis&eacute;s en Corsiniens, Sup&eacute;r&eacute;guains et Sulmoniens, afin que vous le
+                              compreniez plus facilement par les &eacute;l&eacute;gies du po&egrave;te lui-m&ecirc;me : &laquo; Sulmone me retient, la
+                              troisi&egrave;me partie du pays p&eacute;lignien, petite contr&eacute;e, mais saine par ses eaux d&#8217;irrigation. &raquo;
+                              Il fut de l&#8217;ordre &eacute;questre, comme il le montre lui-m&ecirc;me en plusieurs endroits. Son talent
+                              fut, me semble-t-il, prompt et facile, bien qu&#8217;il se soit parfois montr&eacute; trop indulgent
+                              envers lui-m&ecirc;me. Je ne go&ucirc;terai que certains traits de sa vie, que j&#8217;estime ne pas devoir
+                              vous &ecirc;tre d&eacute;sagr&eacute;ables. Ovide fut donc, dans toute sa vie et sa mani&egrave;re de vivre, cultiv&eacute; et
+                              raffin&eacute;, dot&eacute; d&#8217;un corps mince et menu, mais affermi par les muscles, tel qu&#8217;est assur&eacute;ment
+                              Petrus Bembus, l&#8217;homme le plus &eacute;l&eacute;gant entre tous. C&#8217;est ce que vous pouvez apprendre par le
+                              po&egrave;me d&#8217;Ovide lui-m&ecirc;me, car il dit : &laquo; C&#8217;est le poids, et non les muscles, qui manque &agrave; mon
+                              corps. &raquo; Et ailleurs : &laquo; Et il donna des membres agiles apr&egrave;s en avoir retir&eacute; le poids. &raquo;
+                              Par son inclination naturelle, il &eacute;tait port&eacute; d&egrave;s l&#8217;enfance vers la po&eacute;sie, mais par les
+                              avertissements de son p&egrave;re, il fut contraint de s&#8217;appliquer &agrave; l&#8217;&eacute;loquence oratoire. Il y
+                              fit, si nous en croyons S&eacute;n&egrave;que, des progr&egrave;s remarquables, et exer&ccedil;a dans les causes du
+                              forum et les jugements centumviraux. Bient&ocirc;t, son p&egrave;re &eacute;tant d&eacute;c&eacute;d&eacute;, il se rendit tout
+                              entier &agrave; des Muses plus douces, abandonnant le forum. Il eut un fr&egrave;re a&icirc;n&eacute; d&#8217;un an, d&eacute;vou&eacute; &agrave;
+                              l&#8217;&eacute;loquence judiciaire, qui mourut &agrave; l&#8217;&acirc;ge de vingt ans. Il eut lui-m&ecirc;me deux filles. Il y
+                              en a pour dire que l&#8217;une &eacute;tait sa belle-fille. L&#8217;autre, en tout cas, &eacute;tait absente lorsqu&#8217;il
+                              fut rel&eacute;gu&eacute;. Il &eacute;pousa successivement trois femmes : il r&eacute;pudia les deux premi&egrave;res par
+                              divorce, mais il garda jusqu&#8217;&agrave; la mort la troisi&egrave;me, qu&#8217;il poursuivit d&#8217;une g&eacute;n&eacute;rosit&eacute; et
+                              d&#8217;une affection singuli&egrave;res. Certains pensent, &agrave; tort selon moi, que celle-ci s&#8217;appelait
+                              Perilla. En effet, si Perilla avait &eacute;t&eacute; son &eacute;pouse, il l&#8217;aurait assur&eacute;ment indiqu&eacute; quelque
+                              part dans les nombreuses &eacute;l&eacute;gies &eacute;crites &agrave; sa femme. Or Perilla &eacute;tait, comme le po&egrave;te le
+                              montre lui-m&ecirc;me, une jeune fille tr&egrave;s savante et avant tout po&eacute;tesse, &agrave; qui est d&eacute;di&eacute;e une
+                              noble &eacute;l&eacute;gie du po&egrave;te lui-m&ecirc;me. &Agrave; Rome, Ovide habita pr&egrave;s du Capitole, comme il en t&eacute;moigne
+                              lui-m&ecirc;me. Il poss&eacute;da des jardins pr&egrave;s de la Voie Flaminienne, l&agrave; o&ugrave; elle rejoint la Voie
+                              Cassia. Il mourut en exil, comme le note Eus&egrave;be, lors de la cent quatre-vingt-dix-neuvi&egrave;me
+                              olympiade, et fut enterr&eacute; pr&egrave;s de Tomes, et comme Pontano, &eacute;crivant dans son trait&eacute; De la
+                              Magnificence adress&eacute; &agrave; Attilius, rapporte d&#8217;apr&egrave;s Georges de Tr&eacute;bizonde qu&#8217;il l&#8217;avait
+                              entendu dire plus d&#8217;une fois qu&#8217;une collecte d&#8217;argent public fut faite par les citoyens de
+                              Tomes pour lui &eacute;riger un tymbos, c&#8217;est-&agrave;-dire un monument, devant la porte de la place
+                              forte, dans le lieu le plus c&eacute;l&egrave;bre et magnifiquement construit ; ceux-ci faisaient
+                              manifestement plus de cas de la noblesse du talent du po&egrave;te &eacute;tranger que de la proscription
+                              de l&#8217;Empereur romain. Quant &agrave; la cause de son exil, elle est rapport&eacute;e de diverses mani&egrave;res.
+                              Bien qu&#8217;il dise lui-m&ecirc;me ne pas &ecirc;tre exil&eacute; mais rel&eacute;gu&eacute;, il en insinue assur&eacute;ment une triple
+                              origine. Sur ce sujet, beaucoup ont dit beaucoup de choses, mais lui-m&ecirc;me mit en avant celle
+                              dont Auguste se servit, je pense, comme pr&eacute;texte pour couvrir les autres : il aurait
+                              corrompu la jeunesse romaine par son po&egrave;me sur L&#8217;Art d&#8217;aimer. Pour ma part, je pense
+                              qu&#8217;elles furent toutes vraies dans une certaine mesure, mais plus particuli&egrave;rement celle que
+                              Sidoine Apollinaire a touch&eacute;e dans ses vers &agrave; propos de Corinne : &agrave; savoir que, sous ce
+                              pseudonyme, il d&eacute;signait en r&eacute;alit&eacute; Julie. Sidoine dit en effet : &laquo; Ce n&#8217;est pas pour tes
+                              po&egrave;mes licencieux, &Ocirc; tendre Naso, que tu fus connu et envoy&eacute; &agrave; Tomes, mais parce que tu fus
+                              jadis soumis &agrave; la trop c&eacute;l&egrave;bre fille de C&eacute;sar sous le pseudonyme de Corinne dans tes vers. &raquo;
+                              C&#8217;est cette opinion que Politien, parmi d&#8217;autres, a suivie dans son po&egrave;me Nutricia. Certains
+                              rapportent qu&#8217;il aurait vu Auguste allong&eacute; avec sa fille de mani&egrave;re peu honn&ecirc;te, ce qu&#8217;ils
+                              veulent voir signifi&eacute; dans ce petit vers du po&egrave;te lui-m&ecirc;me : &laquo; Pourquoi ai-je vu quelque
+                              chose ? Pourquoi ai-je rendu mes yeux complices ? &raquo; &Agrave; ce sujet, Su&eacute;tone rapporte &agrave; propos de
+                              Caligula que celui-ci ne voulait ni &ecirc;tre cru, ni &ecirc;tre dit petit-fils d&#8217;Agrippa &agrave; cause de la
+                              naissance obscure de ce dernier ; il s&#8217;emportait si quelqu&#8217;un, dans un discours ou un po&egrave;me,
+                              l&#8217;ins&eacute;rait parmi les portraits des C&eacute;sars. Il proclamait en revanche que sa propre m&egrave;re
+                              &eacute;tait n&eacute;e d&#8217;un inceste qu&#8217;Auguste aurait commis avec sa fille Julie. Voil&agrave; pour Su&eacute;tone. Il
+                              y en a pour rapporter cette affaire, de mani&egrave;re assez inepte, &agrave; un jeune gar&ccedil;on ; mais dans
+                              une telle question, ils sont guid&eacute;s par la conjecture plut&ocirc;t que par une raison certaine. Il
+                              y en a aussi pour soup&ccedil;onner tout de M&eacute;c&egrave;ne, et parce qu&#8217;Ovide ne l&#8217;a jamais nomm&eacute;, ils
+                              forgent je ne sais quelle histoire &agrave; propos de Julie. &raquo; Comme j&#8217;avais dit cela, Pison se
+                              tourna vers moi : &laquo; &Eacute;coute, je t&#8217;en prie, Lilio, ce que j&#8217;ai entendu ces jours-ci d&#8217;un ami
+                              commun ; il affirmait en effet avoir chez lui quelques fragments de Caecilius Minutianus
+                              Apuleius, dans lesquels se trouvaient &eacute;crit &agrave; peu pr&egrave;s ceci sur le po&egrave;te Ovide : il aurait
+                              cess&eacute; d&#8217;&ecirc;tre un homme aux calendes de janvier, le jour m&ecirc;me o&ugrave; Tite-Live mourut, la septi&egrave;me
+                              ann&eacute;e de son exil ; et un tymbos lui fut &eacute;rig&eacute; par les Barbares devant la porte de sa
+                              demeure. Ce m&ecirc;me Minutianus dit &eacute;galement que celui qu&#8217;Ovide avait appel&eacute; du nom simul&eacute;
+                              d&#8217;Ibis &eacute;tait Corvinus, qui avait sollicit&eacute; la femme du po&egrave;te pendant son exil, et que la
+                              cause de la rel&eacute;gation &eacute;tait qu&#8217;il avait vu l&#8217;inceste d&#8217;Auguste &raquo;. Voil&agrave; ce que Piso
+                              rapporta de ces fragments de Minutianus. &raquo; Alors je dis : &laquo; Pison, que la foi en cette
+                              affaire reste entre les mains de cet auteur qui m&#8217;est encore inconnu et de ton ami. &raquo; Puis,
+                              m&#8217;adressant au jeune gar&ccedil;on : &laquo; Picus, les choses que Pison vient de nous rapporter sont peu
+                              assur&eacute;es, mais non indignes d&#8217;&ecirc;tre connues. Cependant, puisqu&#8217;il nous les a partag&eacute;es, je
+                              veux moi aussi rapporter le jugement que Lucio Ripa rendit un jour sur ces trois po&egrave;tes,
+                              alors que Giulio Sadoleto se trouvait avec moi et quelques autres, peu de jours avant qu&#8217;il
+                              ne quitte la vie. Le vieil homme affirmait qu&#8217;il donnait absolument la palme &agrave; Tibulle parmi
+                              les &eacute;l&eacute;giaques, parce qu&#8217;il est avant tout raffin&eacute; et brillant, doux et plaisant dans ses
+                              pens&eacute;es, facile et pur dans son &eacute;locution. Il disait toutefois trouver en lui certaines
+                              choses qui le heurtaient et qui arr&ecirc;taient le lecteur : voil&agrave; ce qu&#8217;il disait alors. Pour ma
+                              part, je n&#8217;irais pas nier que la plupart des choses paraissent telles chez Tibulle, comme le
+                              disait le vieux Ripa, &agrave; ceux qui se sont heurt&eacute;s &agrave; des exemplaires fautifs. Mais depuis que
+                              j&#8217;ai obtenu, par l&#8217;entremise d&#8217;un ami, un manuscrit tr&egrave;s ancien et suffisamment corrig&eacute;, je
+                              nie cela totalement. Car ce qui paraissait alors difficile et un peu dur, ce sont pour
+                              partie des fragments et des lacunes, pour partie des textes transmis et suppos&eacute;s au point
+                              que certaines &eacute;l&eacute;gies y sont presque entrem&ecirc;l&eacute;es. Je vous montrerai ce manuscrit une autre
+                              fois ; passons maintenant au reste. Le bon vieillard disait que Properce lui semblait plus
+                              &eacute;rudit que Tibulle, et par cons&eacute;quent plus obscur, rempli de fables et d&#8217;histoires, plus
+                              fougueux et plus fr&eacute;quent dans le maniement des passions ; ainsi, il s&#8217;&eacute;l&egrave;ve souvent au
+                              point de para&icirc;tre trop muscl&eacute; et trop robuste pour convenir aux flatteries enfantines et
+                              douces de l&#8217;&eacute;l&eacute;gie. Quant &agrave; Ovide, il disait qu&#8217;il &eacute;tait emport&eacute; par une sorte de volubilit&eacute;
+                              et d&#8217;&eacute;lan du g&eacute;nie, mais qu&#8217;il ne lui avait manqu&eacute; qu&#8217;une chose : des freins et le soin de
+                              la lime ; et que c&#8217;est pour cette raison que l&#8217;on a dit avec justesse &agrave; son sujet qu&#8217;il
+                              &eacute;tait plus que de raison licencieux. Mais &eacute;coutez, je vous prie, Annaeus S&eacute;n&egrave;que, si vous
+                              voulez savoir clairement qu&#8217;il n&#8217;a pas manqu&eacute; &agrave; Ovide le g&eacute;nie, mais la volont&eacute; et
+                              l&#8217;intention : &laquo; Nason, dit-il, d&eacute;clamait rarement des controverses, et seulement celles
+                              portant sur l&#8217;&eacute;thique ; il pronon&ccedil;ait plus volontiers des suasories ; toute argumentation
+                              lui &eacute;tait p&eacute;nible. Il n&#8217;utilisa jamais les mots avec licence, sauf dans ses po&egrave;mes, dans
+                              lesquels il n&#8217;ignora pas ses propres d&eacute;fauts, mais les aima. &raquo; Cela peut &ecirc;tre manifeste par
+                              le fait qu&#8217;ayant &eacute;t&eacute; pri&eacute; un jour par ses amis de supprimer trois vers, il demanda en retour
+                              de pouvoir lui-m&ecirc;me en prendre trois pour lesquels rien ne leur serait permis. La loi parut
+                              &eacute;quitable : ils &eacute;crivirent les vers qu&#8217;ils voulaient voir supprim&eacute;s, et Ovide ceux qu&#8217;il
+                              voulait prendre. Sur les deux tablettes se trouvaient les m&ecirc;mes vers ! Le rh&eacute;teur
+                              Albinovanus, qui fut parmi les arbitres, racontait que le premier de ces vers &eacute;tait : &laquo;
+                              L&#8217;homme &agrave; moiti&eacute; b&#339;uf, et le b&#339;uf &agrave; moiti&eacute; homme, mais le Bor&eacute;e glac&eacute;, et le Notus d&eacute;glac&eacute;
+                              &raquo;. Il appert de cela qu&#8217;il ne manquait pas &agrave; cet homme d&#8217;un g&eacute;nie souverain le jugement
+                              n&eacute;cessaire pour r&eacute;primer la licence de ses po&egrave;mes, mais bien la volont&eacute;. Il disait
+                              d&#8217;ailleurs qu&#8217;un visage &eacute;tait plus d&eacute;cent lorsqu&#8217;il s&#8217;y trouvait quelque grain de beaut&eacute;. &raquo;
+                              Tels sont les propos de S&eacute;n&egrave;que, qui a m&ecirc;me rapport&eacute; un fragment d&#8217;une de ses d&eacute;clamations
+                              en prose, dans cette controverse dont voici l&#8217;argument : &laquo; Un mari et sa femme jur&egrave;rent que
+                              si l&#8217;un d&#8217;eux venait &agrave; mourir, l&#8217;autre mourrait aussi. Le mari, parti en voyage, envoya un
+                              messager &agrave; sa femme pour lui dire qu&#8217;il &eacute;tait d&eacute;c&eacute;d&eacute; ; la femme se pr&eacute;cipita dans le vide.
+                              Revenue &agrave; la vie, son p&egrave;re lui ordonne de quitter son mari ; elle refuse ; il la d&eacute;sh&eacute;rite.
+                              &raquo; S&eacute;n&egrave;que affirme qu&#8217;Ovide d&eacute;clama pr&eacute;cis&eacute;ment cette controverse devant Arellius Fuscus, son
+                              ma&icirc;tre, et qu&#8217;il lui sembla le faire avec bien plus de g&eacute;nie, &agrave; l&#8217;exception du fait qu&#8217;il
+                              s&#8217;&eacute;parpillait sans ordre pr&eacute;cis au gr&eacute; de ses plaisanteries. Je passe sur le reste, car cela
+                              n&#8217;est pas tout &agrave; fait notre sujet, et vous lirez vous-m&ecirc;mes cette controverse chez S&eacute;n&egrave;que
+                              quand vous en aurez le loisir. Il subsiste &eacute;galement sur Ovide un t&eacute;moignage de Cestius, cet
+                              homme tr&egrave;s savant qui lui fut cher. Alors qu&#8217;Alfius Flavus, dans je ne sais quelle
+                              d&eacute;clamation, avait prononc&eacute; cette sentence : &laquo; Il &eacute;tait lui-m&ecirc;me &agrave; la fois son aliment et sa
+                              perte &raquo; Cestius le r&eacute;primanda en disant : &laquo; Il est manifeste que tu lis les po&egrave;tes avec
+                              passion. Cette pens&eacute;e appartient &agrave; celui qui a rempli ce si&egrave;cle non seulement d&#8217;arts
+                              amoureux, mais de sentences po&eacute;tiques. &raquo; Ovide a dit en effet dans ses livres des
+                              M&eacute;tamorphoses : &laquo; Il commen&ccedil;a par d&eacute;chirer ses propres membres de sa morsure, et le
+                              malheureux nourrissait son corps en le diminuant &raquo; Voil&agrave; pour ce t&eacute;moignage. Quant aux
+                              &#339;uvres qui subsistent de ce po&egrave;te au g&eacute;nie si f&eacute;cond, vous les connaissez. Les voici, pour
+                              les r&eacute;sumer bri&egrave;vement : Les &Eacute;l&eacute;gies des Amours (ou Sans titre, sujet sur lequel les
+                              grammairiens se disputent) ; les &Eacute;p&icirc;tres, dont certaines sont &eacute;crites avec tant d&#8217;art et
+                              d&#8217;&eacute;l&eacute;gance que l&#8217;on estime que rien de plus parfait ne peut &ecirc;tre fait en ce genre ; trois
+                              livres de L&#8217;Art, deux des Rem&egrave;des &agrave; l&#8217;amour ; cinq livres des Tristes ; les quatre des
+                              Pontiques ; Contre Ibis, le Noyer ; la Consolation &agrave; Livia ; six livres des Fastes et
+                              l&#8217;&#339;uvre des M&eacute;tamorphoses, la plus c&eacute;l&egrave;bre de toutes selon Lactance. Quant aux &#339;uvres qui
+                              ont p&eacute;ri par l&#8217;injure du temps, les voici : les six derniers livres des Fastes ; la trag&eacute;die
+                              M&eacute;d&eacute;e, si hautement recommand&eacute;e par Fabius, Tacite et d&#8217;autres (on dit qu&#8217;elle a &eacute;t&eacute;
+                              retrouv&eacute;e &agrave; notre &eacute;poque, mais je pense que c&#8217;est faux). Il &eacute;crivit aussi une deuxi&egrave;me
+                              trag&eacute;die d&#8217;apr&egrave;s Virgile, dont Tertullien parle ainsi dans l&#8217;un de ses livres : &laquo; Enfin,
+                              dit-il, Ovide a exprim&eacute; tr&egrave;s pleinement une M&eacute;d&eacute;e tragique d&#8217;apr&egrave;s Virgile &raquo;, &agrave; l&#8217;endroit o&ugrave;
+                              il traite de ceux qui composent des centons et des &#339;uvres nouvelles &agrave; partir d&#8217;autres
+                              auteurs. Ovide a &eacute;galement laiss&eacute; un petit ouvrage inachev&eacute; sur les poissons, dont Pline
+                              &eacute;num&egrave;re de nombreux passages ; Actius Sincerus, po&egrave;te tr&egrave;s c&eacute;l&egrave;bre et par ailleurs homme
+                              digne de foi, affirme l&#8217;avoir trouv&eacute; et m&#8217;a promis de me le montrer un jour. Ont p&eacute;ri
+                              &eacute;galement les &eacute;pigrammes d&#8217;Ovide, cit&eacute;es tant par le grammairien Priscien que par Martianus
+                              et Martial, de m&ecirc;me le livret des Ph&eacute;nom&egrave;nes, comme je vous l&#8217;ai dit ailleurs d&#8217;apr&egrave;s le
+                              sentiment de Lactance et de Probus ; de m&ecirc;me le livre qu&#8217;il avait publi&eacute; Contre les mauvais
+                              po&egrave;tes, comme nous le recueillons chez Fabius, m&ecirc;me si notre ami grammairien le nie avec
+                              constance et rapporte les paroles de Fabius &agrave; cette &eacute;pigramme des Priap&eacute;es : &laquo; Pourquoi te
+                              plains-tu en vain avec moi, colon ? &raquo; Il pense que cela a &eacute;t&eacute; fait &agrave; l&#8217;encontre d&#8217;un
+                              quatrain du po&egrave;te Macer, lequel manque de finesse. Mais en voil&agrave; assez sur ce sujet, afin de
+                              ne pas abuser du temps qui nous est imparti. Sont &eacute;galement perdus : les Vaticinations qu&#8217;il
+                              avait r&eacute;unies en un seul livre ; de m&ecirc;me, le Triomphe d&#8217;Auguste C&eacute;sar ; l&#8217;ouvrage sur les
+                              hauts faits de l&#8217;empereur en langue g&eacute;tique ; et la Guerre d&#8217;Actium, qu&#8217;il avait commenc&eacute;e
+                              en deux livres pour Tib&egrave;re C&eacute;sar. Et si ces &#339;uvres-l&agrave; sont perdues, pour autant que je m&#8217;en
+                              souvienne pour l&#8217;instant, celles que je vais ajouter sont suppos&eacute;es, frelat&eacute;es et faussement
+                              attribu&eacute;es &agrave; Ovide : le De Vetula, dans lequel on lit des choses admirables sur les grandes
+                              conjonctions d&#8217;astres et sur la loi chr&eacute;tienne ; de m&ecirc;me le De la Puce, Du Rossignol et Du
+                              Soin du Visage. Sur ce dernier point, bien qu&#8217;il assure dans son Art d&#8217;aimer l&#8217;avoir &eacute;crit,
+                              le po&egrave;me que l&#8217;on a entre les mains est pourtant consid&eacute;r&eacute; par certains hommes savants comme
+                              ill&eacute;gitime et de seconde main. Je partage ces r&eacute;flexions avec vous, chacun restant libre de
+                              son jugement ; car j&#8217;ai constat&eacute; que la plupart des auteurs citent et interpr&egrave;tent ces
+                              &#339;uvres m&ecirc;mes comme authentiques. &raquo; Le jeune Picus et Pison &eacute;coutaient ces paroles avec
+                              attention, quand je dis : &laquo; Mais en voil&agrave; assez sur ce point, passons maintenant aux autres
+                              po&egrave;tes. &raquo; 
+                           </div>
+                        </td>
+                     </tr>
+                  </tbody>
+               </table>
+            </div>
+         </div>
+      </div>
+   </body>
+</html>
